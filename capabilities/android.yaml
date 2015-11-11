@@ -1,0 +1,8 @@
+capabilities: "android"
+appiumVersion: "1.4.13"
+deviceName: "Samsung Galaxy S4 Emulator"
+deviceOrientation:  "portrait"
+browserName:  ""
+platformVersion: "4.4"
+platformName: "Android"
+app: "sauce-storage:ContactManager.apk"

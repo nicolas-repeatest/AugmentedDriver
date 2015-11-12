@@ -1,6 +1,7 @@
 package augmenteddriver.testcases;
 
 import augmenteddriver.asserts.AugmentedAssert;
+import augmenteddriver.guice.GuiceModules;
 import augmenteddriver.integrations.IntegrationFactory;
 import augmenteddriver.modules.AugmentedWebDriverModule;
 import augmenteddriver.modules.PropertiesModule;
@@ -14,7 +15,6 @@ import augmenteddriver.web.pageobjects.*;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.jukito.UseModules;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 /**
  * Base test class for all Web tests.
  */
-@UseModules({PropertiesModule.class, AugmentedWebDriverModule.class})
+@GuiceModules({PropertiesModule.class, AugmentedWebDriverModule.class})
 public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(AugmentedWebTestCase.class);
 

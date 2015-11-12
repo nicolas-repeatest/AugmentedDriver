@@ -1,6 +1,7 @@
 package augmenteddriver.testcases;
 
 import augmenteddriver.asserts.AugmentedAssertInterface;
+import augmenteddriver.guice.GuiceTestRunner;
 import augmenteddriver.integrations.IntegrationFactory;
 import augmenteddriver.modules.PropertiesModule;
 import augmenteddriver.util.CommandLineArguments;
@@ -9,7 +10,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.jukito.JukitoRunner;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
@@ -24,7 +24,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  *     No one should extend from this, AugmentedWebTestCase or the like should be used.
  * </p>
  */
-@RunWith(JukitoRunner.class)
+@RunWith(GuiceTestRunner.class)
 public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface {
 
     @Rule

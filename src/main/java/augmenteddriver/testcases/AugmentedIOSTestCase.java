@@ -1,6 +1,7 @@
 package augmenteddriver.testcases;
 
 import augmenteddriver.asserts.AugmentedAssert;
+import augmenteddriver.guice.GuiceModules;
 import augmenteddriver.integrations.IntegrationFactory;
 import augmenteddriver.mobile.ios.AugmentedIOSDriver;
 import augmenteddriver.mobile.ios.AugmentedIOSDriverProvider;
@@ -14,7 +15,6 @@ import augmenteddriver.util.Util;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import org.jukito.UseModules;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 
 import java.net.MalformedURLException;
 
-@UseModules({PropertiesModule.class, AugmentedIOSDriverModule.class})
+@GuiceModules({PropertiesModule.class, AugmentedIOSDriverModule.class})
 public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(AugmentedIOSTestCase.class);
 

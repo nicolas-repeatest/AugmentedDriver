@@ -5,6 +5,7 @@ import org.openqa.selenium.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -163,14 +164,34 @@ public class WebDriverUtil {
             wait.until((SearchContext element) -> {
                 List<WebElement> children = element.findElements(by);
                 if (children.isEmpty()) {
-                    return null;
+                    return children;
                 }
-                throw new NotFoundException(String.format("Element %s still displayed yet", by));
+                throw new NotFoundException(String.format("Element %s still present yet", by));
             });
         } catch (TimeoutException e) {
             throw new TimeoutException(String.format("Element %s is still present after %s seconds", by, waitInSeconds), e);
         }
     }
+
+    public static void waitElementToNotBeVisible(SearchContext parent, By by, int waitInSeconds) {
+        try {
+            WebElementWait wait = new WebElementWait(parent, waitInSeconds);
+            wait.until((SearchContext element) -> {
+                List<WebElement> children = element.findElements(by);
+                Optional<WebElement> isAny = children
+                        .stream()
+                        .filter(elementVisible -> isElementVisible(elementVisible))
+                        .findAny();
+                if (!isAny.isPresent()) {
+                    return children;
+                }
+                throw new NotFoundException(String.format("Element %s still visbile yet", by));
+            });
+        } catch (TimeoutException e) {
+            throw new TimeoutException(String.format("Element %s is still visible after %s seconds", by, waitInSeconds), e);
+        }
+    }
+
 
     private static boolean isElementVisible(WebElement element) {
         Preconditions.checkNotNull(element);

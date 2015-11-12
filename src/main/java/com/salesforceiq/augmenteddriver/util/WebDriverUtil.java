@@ -2,6 +2,8 @@ package com.salesforceiq.augmenteddriver.util;
 
 import com.google.common.base.Preconditions;
 import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.remote.RemoteWebDriver;
 
 import java.util.List;
 import java.util.Optional;
@@ -191,6 +193,26 @@ public class WebDriverUtil {
         }
     }
 
+    public static void moveToAndClick(RemoteWebDriver parent, By moveTo, By click, int waitInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(moveTo);
+        Preconditions.checkNotNull(click);
+        WebElement moveToElement = findElementVisibleAfter(parent, moveTo, waitInSeconds);
+        new Actions(parent)
+                .moveToElement(moveToElement)
+                .click(findElementClickableAfter(parent, click, waitInSeconds))
+                .perform();
+    }
+
+    public static WebElement moveTo(RemoteWebDriver parent, By moveTo, int waitInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(moveTo);
+        WebElement moveToElement = findElementVisibleAfter(parent, moveTo, waitInSeconds);
+        new Actions(parent)
+                .moveToElement(moveToElement)
+                .perform();
+        return moveToElement;
+    }
 
     private static boolean isElementVisible(WebElement element) {
         Preconditions.checkNotNull(element);
@@ -200,5 +222,20 @@ public class WebDriverUtil {
     private static boolean isElementClickable(WebElement element) {
         Preconditions.checkNotNull(element);
         return element.isDisplayed() && element.isEnabled();
+    }
+
+    public static boolean isChrome(RemoteWebDriver driver) {
+        Capabilities capabilities = driver.getCapabilities();
+        return "CHROME".equals(capabilities.getBrowserName().toUpperCase());
+    }
+
+    public static boolean isFirefox(RemoteWebDriver driver) {
+        Capabilities capabilities = driver.getCapabilities();
+        return "FIREFOX".equals(capabilities.getBrowserName().toUpperCase());
+    }
+
+    public static boolean isAndroid4 (RemoteWebDriver driver) {
+        String capabilities = driver.getCapabilities().getCapability("platformVersion").toString();
+        return capabilities.contains("4");
     }
 }

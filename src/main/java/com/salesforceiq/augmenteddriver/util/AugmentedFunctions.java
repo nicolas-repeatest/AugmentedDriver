@@ -173,4 +173,12 @@ public interface AugmentedFunctions<T extends WebElement> {
      * waitInSeconds until the element wait is present.
      */
     T clickAndPresentAfter(By click, By wait, int waitInSeconds);
+
+    void  moveToAndClick(By moveTo, By click);
+
+    void  moveToAndClickAfter(By moveTo, By click, int waitInSeconds);
+
+    T moveTo(By moveTo);
+
+    T moveToAfter(By moveTo, int waitInSeconds);
 }

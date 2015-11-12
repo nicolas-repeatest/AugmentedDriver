@@ -251,6 +251,26 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     }
 
     @Override
+    public void moveToAndClick(By moveTo, By click) {
+        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitTimeInSeconds);
+    }
+
+    @Override
+    public void moveToAndClickAfter(By moveTo, By click, int waitInSeconds) {
+        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitInSeconds);
+    }
+
+    @Override
+    public AugmentedIOSElement moveTo(By moveTo) {
+        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitTimeInSeconds));
+    }
+
+    @Override
+    public AugmentedIOSElement moveToAfter(By moveTo, int waitInSeconds) {
+        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitInSeconds));
+    }
+
+    @Override
     public void clickAnSendKeys(By by, String keys) {
         clickAnSendKeysAfter(by, keys, waitTimeInSeconds);
     }

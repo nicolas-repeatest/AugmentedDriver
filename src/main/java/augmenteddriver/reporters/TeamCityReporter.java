@@ -22,6 +22,16 @@ public class TeamCityReporter extends RunListener {
         this.out = new PrintStream(out);
     }
 
+    public void suiteStarted(String suiteName) {
+        String newName = adapt(suiteName);
+        out.println(String.format("##teamcity[testSuiteStarted name='%s']", newName));
+    }
+
+    public void suiteFinished(String suiteName) {
+        String newName = adapt(suiteName);
+        out.println(String.format("##teamcity[testSuiteFinished name='%s']", newName));
+    }
+
     @Override
     public void testStarted(Description description) {
         final String testName = getTestName(description, testNameAppender);
@@ -62,5 +72,9 @@ public class TeamCityReporter extends RunListener {
     
     private String getTestName(final Description description, String testNameAppender) {
         return description.getMethodName() + ((Strings.isNullOrEmpty(testNameAppender)) ? "" : "-" + testNameAppender);
+    }
+
+    private String adapt(String name) {
+        return name.replaceAll("\\.", "-");
     }
 }

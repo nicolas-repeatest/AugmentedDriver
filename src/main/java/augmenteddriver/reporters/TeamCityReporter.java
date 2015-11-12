@@ -17,10 +17,10 @@ public class TeamCityReporter extends RunListener {
     private String currentTestClassName = null;
     private long startInMilliseconds;
 
-    public TeamCityReporter(final PrintStream out, String testNameAppender) {
+    public TeamCityReporter(final OutputStream out, String testNameAppender) {
         checkArgument(out != null, "out must not be null");
         this.testNameAppender = testNameAppender;
-        this.out = out;
+        this.out = new PrintStream(out);
         this.currentTestClassName = null;
     }
 

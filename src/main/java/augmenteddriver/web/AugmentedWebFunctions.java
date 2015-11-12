@@ -220,6 +220,17 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     }
 
     @Override
+    public void waitElementToNotBeVisible(By by) {
+        waitElementToNotBeVisibleAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public void waitElementToNotBeVisibleAfter(By by, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebDriverUtil.waitElementToNotBeVisible(driverProvider.get(), by, waitInSeconds);
+    }
+
+    @Override
     public AugmentedWebElement clickAndPresent(By click, By wait) {
         return clickAndPresentAfter(click, wait, waitTimeInSeconds);
     }

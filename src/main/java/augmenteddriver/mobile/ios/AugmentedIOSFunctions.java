@@ -227,6 +227,17 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     }
 
     @Override
+    public void waitElementToNotBeVisible(By by) {
+        waitElementToNotBeVisibleAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public void waitElementToNotBeVisibleAfter(By by, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebDriverUtil.waitElementToNotBeVisible(driverProvider.get(), by, waitInSeconds);
+    }
+
+    @Override
     public AugmentedIOSElement clickAndPresent(By click, By wait) {
         return clickAndPresentAfter(click, wait, waitTimeInSeconds);
     }

@@ -152,6 +152,17 @@ public interface AugmentedFunctions<T extends WebElement> {
     void waitElementToNotBePresentAfter(By by, int waitInSeconds);
 
     /**
+     * Waits up to the default time until no element identified by by is visible
+     */
+    void waitElementToNotBeVisible(By by);
+
+    /**
+     * Waits up to waitInSeconds time until no element identified by by is visible
+     */
+    void waitElementToNotBeVisibleAfter(By by, int waitInSeconds);
+
+
+    /**
      * Waits up to the default time until click is clickable, then clicks it and finally waits up to
      * the default time until the element wait is present.
      */

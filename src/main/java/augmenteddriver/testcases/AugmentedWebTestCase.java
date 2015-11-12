@@ -107,6 +107,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }
+
         augmentedWebDriverProvider.set(driver);
         LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
 

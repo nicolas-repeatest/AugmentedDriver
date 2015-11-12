@@ -20,16 +20,18 @@ import java.net.URL;
  */
 public class AugmentedWebDriver extends RemoteWebDriver {
 
-    private final AugmentedWebFunctions augmentedFunctions;
+    private AugmentedWebFunctions augmentedFunctions;
 
     public AugmentedWebDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,
-                              DesiredCapabilities capabilities,
-                              AugmentedWebFunctions augmentedFunctions) throws MalformedURLException {
+                              DesiredCapabilities capabilities) throws MalformedURLException {
         super(new URL(remoteAddress), capabilities);
-        this.augmentedFunctions = augmentedFunctions;
     }
 
     public AugmentedWebFunctions augmented() {
         return augmentedFunctions;
+    }
+
+    public void setAugmentedFunctions(AugmentedWebFunctions augmentedFunctions) {
+        this.augmentedFunctions = augmentedFunctions;
     }
 }

@@ -1,0 +1,4 @@
+capabilities: "chrome"
+platform: "OS X 10.10"
+version: "46.0"
+screenResolution: "1280x1024"

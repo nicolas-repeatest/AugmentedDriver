@@ -17,9 +17,9 @@ public class AugmentedWebElement implements WebElement {
 
     @Inject
     public AugmentedWebElement(@Assisted WebElement webElement,
-                               AugmentedWebFunctions augmentedFunctions) {
+                               AugmentedWebFunctionsFactory augmentedFunctions) {
         this.webElement = Preconditions.checkNotNull(webElement);
-        this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions);
+        this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions.create(webElement));
     }
 
     public AugmentedWebFunctions augmented() {

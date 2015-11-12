@@ -8,15 +8,13 @@ import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
-import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
-import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebElement> {
+public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebElement>, AugmentedWebOnlyFunctions {
 
     private final SearchContext searchContext;
     private final int waitTimeInSeconds;
@@ -261,5 +259,18 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement moveToAfter(By moveTo, int waitInSeconds) {
         return augmentedWebElementFactory.create(WebDriverUtil.moveTo(augmentedWebDriverProvider.get(), moveTo, waitInSeconds));
+    }
+
+    @Override
+    public void scrollToBottom() {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) augmentedWebDriverProvider.get();
+        javascriptExecutor.executeScript("scroll(0, document.body.scrollHeight);");
+    }
+
+    @Override
+    public void scrollToElement(By by) {
+        JavascriptExecutor javascriptExecutor = (JavascriptExecutor) augmentedWebDriverProvider.get();
+        AugmentedWebElement elementPresent = findElementPresent(by);
+        javascriptExecutor.executeScript("arguments[0].scrollIntoView(true);", elementPresent.webElement());
     }
 }

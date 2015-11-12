@@ -167,5 +167,35 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     public void assertElementContains(By by, String text) {
         AugmentedAssert.assertElementContainsAfter(augmented(), by, text, waitTimeInSeconds());
     }
+
+    @Override
+    public void assertElementIsNotClickableAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotClickable(By by) {
+        AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, waitTimeInSeconds());
+    }
+
+    @Override
+    public void assertElementIsNotVisibleAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotVisible(By by) {
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, waitTimeInSeconds());
+    }
+
+    @Override
+    public void assertElementIsNotPresentAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotPresent(By by) {
+        AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
+    }
 }
 

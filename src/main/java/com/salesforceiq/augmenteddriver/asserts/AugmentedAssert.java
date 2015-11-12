@@ -63,4 +63,31 @@ public class AugmentedAssert {
             throw new AssertionError(String.format("Element %s is not clickable safter %s seconds", by, timeoutInSeconds), e);
         }
     }
+
+    public static void assertElementIsNotVisibleAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        try {
+            driver.findElementsVisibleAfter(by, timeoutInSeconds);
+            org.junit.Assert.fail(String.format("Element %s is visible", by));
+        } catch (TimeoutException e) {
+            // Element was not visible.
+        }
+    }
+
+    public static void assertElementIsNotClickableAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        try {
+            driver.findElementClickableAfter(by, timeoutInSeconds);
+            org.junit.Assert.fail(String.format("Element %s is clickable", by));
+        } catch (TimeoutException e) {
+            // Element was not visible.
+        }
+    }
+
+    public static void assertElementIsNotPresentAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        try {
+            driver.findElementPresentAfter(by, timeoutInSeconds);
+            org.junit.Assert.fail(String.format("Element %s is present", by));
+        } catch (TimeoutException e) {
+            // Element was not visible.
+        }
+    }
 }

@@ -165,4 +165,34 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     public void assertElementContains(By by, String text) {
         AugmentedAssert.assertElementContainsAfter(augmentedWebFunctions, by, text, waitTimeInSeconds());
     }
+
+    @Override
+    public void assertElementIsNotClickableAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotClickableAfter(augmentedWebFunctions, by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotClickable(By by) {
+        AugmentedAssert.assertElementIsNotClickableAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+    }
+
+    @Override
+    public void assertElementIsNotVisibleAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmentedWebFunctions, by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotVisible(By by) {
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+    }
+
+    @Override
+    public void assertElementIsNotPresentAfter(By by, int timeoutInSeconds) {
+        AugmentedAssert.assertElementIsNotPresentAfter(augmentedWebFunctions, by, timeoutInSeconds);
+    }
+
+    @Override
+    public void assertElementIsNotPresent(By by) {
+        AugmentedAssert.assertElementIsNotPresentAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+    }
 }

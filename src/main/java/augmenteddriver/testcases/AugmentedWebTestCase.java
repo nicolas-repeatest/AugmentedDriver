@@ -7,10 +7,7 @@ import augmenteddriver.modules.AugmentedWebDriverModule;
 import augmenteddriver.modules.PropertiesModule;
 import augmenteddriver.util.CommandLineArguments;
 import augmenteddriver.util.Util;
-import augmenteddriver.web.AugmentedWebDriver;
-import augmenteddriver.web.AugmentedWebDriverProvider;
-import augmenteddriver.web.AugmentedWebElement;
-import augmenteddriver.web.AugmentedWebFunctions;
+import augmenteddriver.web.*;
 import augmenteddriver.web.pageobjects.*;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
@@ -37,6 +34,8 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     private AugmentedWebDriverProvider augmentedWebDriverProvider;
 
     @Inject
+    private AugmentedWebFunctionsFactory augmentedWebFunctionsFactory;
+
     private AugmentedWebFunctions augmentedWebFunctions;
 
     @Inject
@@ -93,7 +92,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     @Before
     public void setUp() {
         Preconditions.checkNotNull(augmentedWebDriverProvider);
-        Preconditions.checkNotNull(augmentedWebFunctions);
+        Preconditions.checkNotNull(augmentedWebFunctionsFactory);
         Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(webPageObjectActions);
@@ -103,11 +102,12 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedWebDriver");
         try {
-            driver = new AugmentedWebDriver(remoteAddress, capabilities, augmentedWebFunctions);
+            driver = new AugmentedWebDriver(remoteAddress, capabilities);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }
-
+        augmentedWebFunctions = augmentedWebFunctionsFactory.create(driver);
+        driver.setAugmentedFunctions(augmentedWebFunctions);
         augmentedWebDriverProvider.set(driver);
         LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
 

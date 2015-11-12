@@ -5,31 +5,28 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import augmenteddriver.util.AugmentedFunctions;
 import augmenteddriver.util.WebDriverUtil;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TimeoutException;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Singleton
 public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebElement> {
 
-    /**
-     * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
-     * not at creation time, like Guice wants.
-     */
-    private final Provider<AugmentedWebDriver> driverProvider;
+    private final SearchContext searchContext;
     private final int waitTimeInSeconds;
     private final AugmentedWebElementFactory augmentedWebElementFactory;
 
     @Inject
-    public AugmentedWebFunctions(Provider<AugmentedWebDriver> driverProvider,
+    public AugmentedWebFunctions(@Assisted SearchContext searchContext,
                                  @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
                                  AugmentedWebElementFactory augmentedWebElementFactory) {
-        this.driverProvider = Preconditions.checkNotNull(driverProvider);
+        this.searchContext = Preconditions.checkNotNull(searchContext);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
         this.augmentedWebElementFactory = Preconditions.checkNotNull(augmentedWebElementFactory);
     }
@@ -112,7 +109,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement findElementPresentAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedWebElementFactory.create(WebDriverUtil.findElementPresentAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedWebElementFactory.create(WebDriverUtil.findElementPresentAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -124,7 +121,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement findElementVisibleAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedWebElementFactory.create(WebDriverUtil.findElementVisibleAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedWebElementFactory.create(WebDriverUtil.findElementVisibleAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -136,7 +133,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement findElementClickableAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedWebElementFactory.create(WebDriverUtil.findElementClickableAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedWebElementFactory.create(WebDriverUtil.findElementClickableAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -148,7 +145,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement findElementNotMovingAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedWebElementFactory.create(WebDriverUtil.findElementNotMovingAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedWebElementFactory.create(WebDriverUtil.findElementNotMovingAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -160,7 +157,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     public AugmentedWebElement findElementContainAfter(By by, String text, int waitInSeconds) {
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
-        return augmentedWebElementFactory.create(WebDriverUtil.findElementContainAfter(driverProvider.get(), by, text, waitInSeconds));
+        return augmentedWebElementFactory.create(WebDriverUtil.findElementContainAfter(searchContext, by, text, waitInSeconds));
     }
 
     @Override
@@ -172,7 +169,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public List<AugmentedWebElement> findElementsVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsVisibleAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedWebElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -187,7 +184,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public List<AugmentedWebElement> findElementsPresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsPresentAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsPresentAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedWebElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -202,7 +199,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public List<AugmentedWebElement> findElementsClickableAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsClickableAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsClickableAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedWebElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -216,7 +213,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public void waitElementToNotBePresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        WebDriverUtil.waitElementToNotBePresent(driverProvider.get(), by, waitInSeconds);
+        WebDriverUtil.waitElementToNotBePresent(searchContext, by, waitInSeconds);
     }
 
     @Override
@@ -227,7 +224,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public void waitElementToNotBeVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        WebDriverUtil.waitElementToNotBeVisible(driverProvider.get(), by, waitInSeconds);
+        WebDriverUtil.waitElementToNotBeVisible(searchContext, by, waitInSeconds);
     }
 
     @Override

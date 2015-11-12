@@ -14,28 +14,28 @@ import static com.google.common.base.Preconditions.checkArgument;
 public class TeamCityReporter extends RunListener {
     private final PrintStream out;
     private final String testNameAppender;
+    private String currentTestClassName = null;
     private long startInMilliseconds;
 
-    public TeamCityReporter(OutputStream out, String testNameAppender) {
+    public TeamCityReporter(final PrintStream out, String testNameAppender) {
         checkArgument(out != null, "out must not be null");
         this.testNameAppender = testNameAppender;
-        this.out = new PrintStream(out);
-    }
-
-    public void suiteStarted(String suiteName) {
-        String newName = adapt(suiteName);
-        out.println(String.format("##teamcity[testSuiteStarted name='%s']", newName));
-    }
-
-    public void suiteFinished(String suiteName) {
-        String newName = adapt(suiteName);
-        out.println(String.format("##teamcity[testSuiteFinished name='%s']", newName));
+        this.out = out;
+        this.currentTestClassName = null;
     }
 
     @Override
     public void testStarted(Description description) {
+        final String testClassName = getTestClassName(description);
         final String testName = getTestName(description, testNameAppender);
 
+        if (currentTestClassName == null || !currentTestClassName.equals(testClassName)) {
+            if (currentTestClassName != null) {
+                out.println(String.format("##teamcity[testSuiteFinished name='%s']", currentTestClassName));
+            }
+            this.out.println(String.format("##teamcity[testSuiteStarted name='%s']", testClassName));
+            currentTestClassName = testClassName;
+        }
         this.startInMilliseconds = System.currentTimeMillis();
         out.println(String.format("##teamcity[testStarted name='%s' captureStandardOutput='true']", testName));
     }
@@ -46,7 +46,6 @@ public class TeamCityReporter extends RunListener {
 
         out.println(String.format("##teamcity[testFinished name='%s' duration='%s']",
                 testName, String.valueOf(System.currentTimeMillis() - startInMilliseconds)));
-        out.close();
     }
 
     @Override
@@ -68,13 +67,17 @@ public class TeamCityReporter extends RunListener {
 
     @Override
     public void testRunFinished(Result result) {
+        if (currentTestClassName != null) {
+            out.println(String.format("##teamcity[testSuiteFinished name='%s']", currentTestClassName));
+        }
     }
-    
-    private String getTestName(final Description description, String testNameAppender) {
+
+    protected String getTestClassName(final Description description) {
+        return description.getTestClass().getName();
+    }
+
+    protected String getTestName(final Description description, String testNameAppender) {
         return description.getMethodName() + ((Strings.isNullOrEmpty(testNameAppender)) ? "" : "-" + testNameAppender);
     }
 
-    private String adapt(String name) {
-        return name.replaceAll("\\.", "-");
-    }
 }

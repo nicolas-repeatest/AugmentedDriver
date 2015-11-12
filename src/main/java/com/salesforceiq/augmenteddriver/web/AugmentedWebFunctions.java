@@ -11,6 +11,7 @@ import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,14 +21,17 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     private final SearchContext searchContext;
     private final int waitTimeInSeconds;
     private final AugmentedWebElementFactory augmentedWebElementFactory;
+    private final AugmentedWebDriverProvider augmentedWebDriverProvider;
 
     @Inject
     public AugmentedWebFunctions(@Assisted SearchContext searchContext,
                                  @Named(PropertiesModule.WAIT_IN_SECONDS) String waitTimeInSeconds,
+                                 AugmentedWebDriverProvider augmentedWebDriverProvider,
                                  AugmentedWebElementFactory augmentedWebElementFactory) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
         this.augmentedWebElementFactory = Preconditions.checkNotNull(augmentedWebElementFactory);
+        this.augmentedWebDriverProvider = Preconditions.checkNotNull(augmentedWebDriverProvider);
     }
 
     @Override
@@ -237,5 +241,25 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
         Preconditions.checkNotNull(wait);
         findElementClickableAfter(click, waitInSeconds).click();
         return findElementPresentAfter(wait, waitInSeconds);
+    }
+
+    @Override
+    public void moveToAndClick(By moveTo, By click) {
+        WebDriverUtil.moveToAndClick(augmentedWebDriverProvider.get(), moveTo, click, waitTimeInSeconds);
+    }
+
+    @Override
+    public void moveToAndClickAfter(By moveTo, By click, int waitInSeconds) {
+        WebDriverUtil.moveToAndClick(augmentedWebDriverProvider.get(), moveTo, click, waitInSeconds);
+    }
+
+    @Override
+    public AugmentedWebElement moveTo(By moveTo) {
+        return augmentedWebElementFactory.create(WebDriverUtil.moveTo(augmentedWebDriverProvider.get(), moveTo, waitTimeInSeconds));
+    }
+
+    @Override
+    public AugmentedWebElement moveToAfter(By moveTo, int waitInSeconds) {
+        return augmentedWebElementFactory.create(WebDriverUtil.moveTo(augmentedWebDriverProvider.get(), moveTo, waitInSeconds));
     }
 }

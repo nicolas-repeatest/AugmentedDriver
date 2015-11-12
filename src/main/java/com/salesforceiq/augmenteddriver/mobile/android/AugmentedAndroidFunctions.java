@@ -1,15 +1,15 @@
 package com.salesforceiq.augmenteddriver.mobile.android;
 
-import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
-import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
-import com.salesforceiq.augmenteddriver.util.MobileUtil;
-import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
+import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
+import com.salesforceiq.augmenteddriver.util.MobileUtil;
+import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
@@ -249,6 +249,26 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
         Preconditions.checkNotNull(wait);
         findElementClickableAfter(click, waitInSeconds).click();
         return findElementPresentAfter(wait, waitInSeconds);
+    }
+
+    @Override
+    public void moveToAndClick(By moveTo, By click) {
+        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitTimeInSeconds);
+    }
+
+    @Override
+    public void moveToAndClickAfter(By moveTo, By click, int waitInSeconds) {
+        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitInSeconds);
+    }
+
+    @Override
+    public AugmentedAndroidElement moveTo(By moveTo) {
+        return augmentedAndroidElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitTimeInSeconds));
+    }
+
+    @Override
+    public AugmentedAndroidElement moveToAfter(By moveTo, int waitInSeconds) {
+        return augmentedAndroidElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitInSeconds));
     }
 
     @Override

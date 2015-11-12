@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import org.openqa.selenium.By;
@@ -22,7 +23,7 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
 
     @Inject
     public AugmentedWebFunctions(@Assisted SearchContext searchContext,
-                                 @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
+                                 @Named(PropertiesModule.WAIT_IN_SECONDS) String waitTimeInSeconds,
                                  AugmentedWebElementFactory augmentedWebElementFactory) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));

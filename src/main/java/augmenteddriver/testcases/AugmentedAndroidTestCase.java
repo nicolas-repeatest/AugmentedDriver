@@ -1,6 +1,7 @@
 package augmenteddriver.testcases;
 
 import augmenteddriver.asserts.AugmentedAssert;
+import augmenteddriver.guice.GuiceModules;
 import augmenteddriver.integrations.IntegrationFactory;
 import augmenteddriver.mobile.android.AugmentedAndroidDriver;
 import augmenteddriver.mobile.android.AugmentedAndroidDriverProvider;
@@ -15,7 +16,6 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.name.Named;
-import org.jukito.UseModules;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -28,7 +28,7 @@ import java.net.MalformedURLException;
 /**
  * Base test class for all Android tests.
  */
-@UseModules({PropertiesModule.class, AugmentedAndroidDriverModule.class})
+@GuiceModules({PropertiesModule.class, AugmentedAndroidDriverModule.class})
 public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements AndroidPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(AugmentedAndroidTestCase.class);
 

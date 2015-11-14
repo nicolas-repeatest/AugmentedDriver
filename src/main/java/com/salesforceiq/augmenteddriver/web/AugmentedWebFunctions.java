@@ -5,6 +5,7 @@ import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
@@ -259,6 +260,21 @@ public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebEle
     @Override
     public AugmentedWebElement moveToAfter(By moveTo, int waitInSeconds) {
         return augmentedWebElementFactory.create(WebDriverUtil.moveTo(augmentedWebDriverProvider.get(), moveTo, waitInSeconds));
+    }
+
+    @Override
+    public void clearAndSendKeys(By by, String text) {
+        clearAndSendKeysAfter(by, text, waitTimeInSeconds);
+    }
+
+    @Override
+    public void clearAndSendKeysAfter(By by, String text, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+        AugmentedWebElement element = findElementClickableAfter(by, waitInSeconds);
+        element.clear();
+        element.sendKeys(text);
+
     }
 
     @Override

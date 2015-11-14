@@ -181,4 +181,8 @@ public interface AugmentedFunctions<T extends WebElement> {
     T moveTo(By moveTo);
 
     T moveToAfter(By moveTo, int waitInSeconds);
+
+    void clearAndSendKeys(By by, String text);
+
+    void clearAndSendKeysAfter(By by, String text, int waitInSeconds);
 }

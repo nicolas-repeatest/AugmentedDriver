@@ -271,6 +271,20 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     }
 
     @Override
+    public void clearAndSendKeys(By by, String text) {
+        clearAndSendKeysAfter(by, text, waitTimeInSeconds);
+    }
+
+    @Override
+    public void clearAndSendKeysAfter(By by, String text, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+        AugmentedIOSElement element = findElementClickableAfter(by, waitInSeconds);
+        element.clear();
+        element.sendKeys(text);
+    }
+
+    @Override
     public void clickAnSendKeys(By by, String keys) {
         clickAnSendKeysAfter(by, keys, waitTimeInSeconds);
     }

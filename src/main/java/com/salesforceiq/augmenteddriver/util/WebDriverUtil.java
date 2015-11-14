@@ -200,8 +200,8 @@ public class WebDriverUtil {
         WebElement moveToElement = findElementVisibleAfter(parent, moveTo, waitInSeconds);
         new Actions(parent)
                 .moveToElement(moveToElement)
-                .click(findElementClickableAfter(parent, click, waitInSeconds))
                 .perform();
+        findElementClickableAfter(parent, click, waitInSeconds).click();
     }
 
     public static WebElement moveTo(RemoteWebDriver parent, By moveTo, int waitInSeconds) {

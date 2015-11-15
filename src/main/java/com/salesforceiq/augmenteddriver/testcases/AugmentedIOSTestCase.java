@@ -83,6 +83,9 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
             integrations.sauceLabs().jobName(getFullTestName(), sessionId);
             integrations.sauceLabs().buildName(getUniqueId(), sessionId);
         }
+        if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
+            integrations.teamCity().printSessionId(getFullTestName(), sessionId);
+        }
     }
 
     @After

@@ -20,7 +20,6 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
      *
      * @param klass The in test.
      * @throws InitializationError If something goes wrong.
-     * @checkstyle ThrowsCountCheck
      */
     public GuiceTestRunner(final Class<?> klass)
             throws InitializationError {

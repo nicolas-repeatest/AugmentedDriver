@@ -3,17 +3,21 @@ package com.salesforceiq.augmenteddriver.util;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.esotericsoftware.yamlbeans.YamlReader;
 import com.google.common.base.Preconditions;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.zip.CRC32;
 
 public class YamlCapabilitiesConverter {
 
     private static final String CAPABILITIES = "capabilities";
+    private static final String CHROME_EXTENSION = "chromeExtension";
 
     @SuppressWarnings("unchecked")
     public static DesiredCapabilities convert(Path yamlFile) throws YamlException {
@@ -29,6 +33,12 @@ public class YamlCapabilitiesConverter {
             properties.entrySet()
                     .stream()
                     .forEach(pair -> capabilities.setCapability(pair.getKey(), pair.getValue()));
+
+            if (properties.containsKey(CHROME_EXTENSION)) {
+                ChromeOptions options = new ChromeOptions();
+                options.addExtensions(new File(properties.get(CHROME_EXTENSION)));
+                capabilities.setCapability(ChromeOptions.CAPABILITY, options);
+            }
             return capabilities;
         } catch (FileNotFoundException e) {
             // Thsi should never happen

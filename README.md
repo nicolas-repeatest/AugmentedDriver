@@ -5,6 +5,7 @@ The whole framework aims to simplify 3 aspects of writing JAVA E2E tests using W
 * Design so you are encourage to follow the [Page Object Model](https://code.google.com/p/selenium/wiki/PageObjects), and to encourage separation of concerns for modularizing your suite.
 * A think layer on top of WebDriver/Appium with handy functionality that helps the development of tests, both in speed of development and also reliability of the tests.  
 
-Check [our 5 Minute Tutorial](www.google.com) on how to use the tool.
+Check [our 5 Minute Tutorial](www.google.com) on how to use the tool.  
+
 Also, for more detailed information, the [Wiki](www.google.com) is available
 

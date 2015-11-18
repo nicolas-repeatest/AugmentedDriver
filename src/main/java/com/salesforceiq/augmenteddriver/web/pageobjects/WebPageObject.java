@@ -39,7 +39,7 @@ public abstract class WebPageObject implements WebPageObjectActionsInterface, Pa
     @Override
     public void assertPresent() {
         if (visibleBy().isPresent()) {
-            augmented().findElementsVisible(visibleBy().get());
+            augmented().findElementVisible(visibleBy().get());
         }
     }
 

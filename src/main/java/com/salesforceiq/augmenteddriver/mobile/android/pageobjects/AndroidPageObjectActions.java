@@ -65,23 +65,4 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
         Preconditions.checkNotNull(driverProvider.get());
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
-
-    @Override
-    public <T extends AndroidPageObject> T action(Action action, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute(driver());
-        return get(landingPageObject);
-    }
-
-    @Override
-    public <T extends AndroidPageContainerObject> T action(ActionContainer action, AugmentedAndroidElement container, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(container);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute(driver(), container);
-        return get(landingPageObject, container);
-    }
 }

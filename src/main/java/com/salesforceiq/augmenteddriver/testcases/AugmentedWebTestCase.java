@@ -65,16 +65,6 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     }
 
     @Override
-    public <T extends WebPageObject> T action(Action action, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends WebPageContainerObject> T action(Action action, AugmentedWebElement container, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, container, landingPageObject);
-    }
-
-    @Override
     public <T extends WebPageObject> T get(Class<T> clazz) {
         return webPageObjectActions.get(clazz);
     }

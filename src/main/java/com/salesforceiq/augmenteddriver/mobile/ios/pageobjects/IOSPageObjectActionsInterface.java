@@ -28,14 +28,4 @@ public interface IOSPageObjectActionsInterface {
      * @return the Augmented IOS Functions to use.
      */
     AugmentedIOSFunctions augmented();
-
-    /**
-     * Executes an action and returns the landing Page Object
-     */
-    <T extends IOSPageObject> T action(Action action, Class<T> landingPageObject);
-
-    /**
-     * Executes an action in a container and returns the landing Page Object
-     */
-    <T extends IOSPageContainerObject> T action(ActionContainer action, AugmentedIOSElement container, Class<T> landingPageObject);
 }

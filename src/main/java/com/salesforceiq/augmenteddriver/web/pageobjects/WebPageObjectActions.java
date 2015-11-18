@@ -64,23 +64,4 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
         Preconditions.checkNotNull(driverProvider.get());
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
-
-    @Override
-    public <T extends WebPageObject> T action(Action action, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute();
-        return get(landingPageObject);
-    }
-
-    @Override
-    public <T extends WebPageContainerObject> T action(Action action, AugmentedWebElement container, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(container);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute();
-        return get(landingPageObject, container);
-    }
 }

@@ -122,16 +122,6 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     }
 
     @Override
-    public <T extends AndroidPageObject> T action(Action action, Class<T> landingPageObject) {
-        return androidPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends AndroidPageContainerObject> T action(ActionContainer action, AugmentedAndroidElement container, Class<T> landingPageObject) {
-        return action(action, container, landingPageObject);
-    }
-
-    @Override
     public void assertElementIsPresentAfter(By by, int timeoutInSeconds) {
         AugmentedAssert.assertElementIsPresentAfter(augmented(), by, timeoutInSeconds);
     }

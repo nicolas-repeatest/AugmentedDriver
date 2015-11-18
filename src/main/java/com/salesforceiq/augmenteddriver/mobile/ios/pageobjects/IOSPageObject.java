@@ -36,16 +36,6 @@ public abstract class IOSPageObject implements IOSPageObjectActionsInterface, Pa
     }
 
     @Override
-    public <T extends IOSPageObject> T action(Action action, Class<T> landingPageObject) {
-        return IOSPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends IOSPageContainerObject> T action(ActionContainer action, AugmentedIOSElement container, Class<T> landingPageObject) {
-        return IOSPageObjectActions.action(action, container, landingPageObject);
-    }
-
-    @Override
     public void assertPresent() {
         if (visibleBy().isPresent()) {
             augmented().findElementVisible(visibleBy().get());

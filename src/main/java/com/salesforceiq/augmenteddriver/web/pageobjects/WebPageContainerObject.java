@@ -39,16 +39,6 @@ public abstract class WebPageContainerObject implements  WebPageObjectActionsInt
     }
 
     @Override
-    public <T extends WebPageObject> T action(Action action, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends WebPageContainerObject> T action(Action action, AugmentedWebElement container, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, container, landingPageObject);
-    }
-
-    @Override
     public void assertPresent() {
         if (visibleBy().isPresent()) {
             container().augmented().findElementsVisible(visibleBy().get());

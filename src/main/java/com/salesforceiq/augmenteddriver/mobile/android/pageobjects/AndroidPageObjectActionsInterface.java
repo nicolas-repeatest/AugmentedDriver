@@ -27,14 +27,4 @@ public interface AndroidPageObjectActionsInterface {
      * @return the Augmented Android Functions to use.
      */
     AugmentedAndroidFunctions augmented();
-
-    /**
-     * Executes an action and returns the landing Page Object
-     */
-    <T extends AndroidPageObject> T action(Action action, Class<T> landingPageObject);
-
-    /**
-     * Executes an action in a container and returns the landing Page Object
-     */
-    <T extends AndroidPageContainerObject> T action(ActionContainer action, AugmentedAndroidElement container, Class<T> landingPageObject);
 }

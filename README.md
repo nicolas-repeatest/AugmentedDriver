@@ -13,5 +13,5 @@ With this framework, At SalesforceIQ we were able to run 250+ (and adding every 
 
 Check [our 5 Minute Tutorial](www.google.com) on how to use the tool.  
 
-Also, for more detailed information, the [Wiki](www.google.com) is available
+Also, for more detailed information, the [Wiki](https://github.com/relateiq/AugmentedDriver/wiki/The-Basics) is available
 

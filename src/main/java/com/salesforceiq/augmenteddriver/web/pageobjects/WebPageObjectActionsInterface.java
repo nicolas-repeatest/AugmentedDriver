@@ -27,14 +27,4 @@ public interface WebPageObjectActionsInterface {
      * @return the Augmented Web Functions to use.
      */
     AugmentedWebFunctions augmented();
-
-    /**
-     * Executes an action and returns the landing Page Object
-     */
-    <T extends WebPageObject> T action(Action action, Class<T> landingPageObject);
-
-    /**
-     * Executes an action in a container and returns the landing Page Object
-     */
-    <T extends WebPageContainerObject> T action(Action action, AugmentedWebElement container, Class<T> landingPageObject);
 }

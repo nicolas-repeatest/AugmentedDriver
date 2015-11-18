@@ -37,16 +37,6 @@ public abstract class WebPageObject implements WebPageObjectActionsInterface, Pa
     }
 
     @Override
-    public <T extends WebPageObject> T action(Action action, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends WebPageContainerObject> T action(Action action, AugmentedWebElement container, Class<T> landingPageObject) {
-        return webPageObjectActions.action(action, container, landingPageObject);
-    }
-
-    @Override
     public void assertPresent() {
         if (visibleBy().isPresent()) {
             augmented().findElementsVisible(visibleBy().get());

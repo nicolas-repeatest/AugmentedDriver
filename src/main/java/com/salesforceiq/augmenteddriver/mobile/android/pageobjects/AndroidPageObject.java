@@ -32,16 +32,6 @@ public abstract class AndroidPageObject implements AndroidPageObjectActionsInter
     }
 
     @Override
-    public <T extends AndroidPageObject> T action(Action action, Class<T> landingPageObject) {
-        return androidPageObjectActions.action(action, landingPageObject);
-    }
-
-    @Override
-    public <T extends AndroidPageContainerObject> T action(ActionContainer action, AugmentedAndroidElement container, Class<T> landingPageObject) {
-        return androidPageObjectActions.action(action, container, landingPageObject);
-    }
-
-    @Override
     public void assertPresent() {
         if (visibleBy().isPresent()) {
             augmented().findElementVisible(visibleBy().get());

@@ -65,23 +65,4 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
         Preconditions.checkNotNull(driverProvider.get());
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
-
-    @Override
-    public <T extends IOSPageObject> T action(Action action, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute(driver());
-        return get(landingPageObject);
-    }
-
-    @Override
-    public <T extends IOSPageContainerObject> T action(ActionContainer action, AugmentedIOSElement container, Class<T> landingPageObject) {
-        Preconditions.checkNotNull(action);
-        Preconditions.checkNotNull(container);
-        Preconditions.checkNotNull(landingPageObject);
-
-        action.execute(driver(), container);
-        return get(landingPageObject, container);
-    }
 }

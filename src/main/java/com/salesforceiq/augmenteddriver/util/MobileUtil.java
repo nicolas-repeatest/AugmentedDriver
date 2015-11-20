@@ -11,7 +11,7 @@ public class MobileUtil {
     private static final int VERTICAL_OFFSET = 10;
     private static final int BIG_NUMBER = 9999999;
     private static final int DEFAULT_DURATION = 1000;
-    private static final int DEFAULT_TAP_DURATION = 100;
+    private static final int DEFAULT_TAP_DURATION = 500;
 
     public static WebElement swipeUpWaitVisible(AppiumDriver driver,
                                                 AugmentedFunctions<?> augmentedFunctions,
@@ -106,8 +106,8 @@ public class MobileUtil {
         Preconditions.checkNotNull(augmentedFunctions);
         Preconditions.checkNotNull(element);
         Dimension size = driver.manage().window().getSize();
-        int from = size.getWidth() * 25 / 100;
-        int to = size.getWidth() * 75 / 100;
+        int from = size.getWidth() * 85 / 100;
+        int to = size.getWidth() * 15 / 100;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
         driver.swipe(from, y, to, y, DEFAULT_DURATION);
     }
@@ -126,8 +126,8 @@ public class MobileUtil {
         Preconditions.checkNotNull(augmentedFunctions);
         Preconditions.checkNotNull(element);
         Dimension size = driver.manage().window().getSize();
-        int from = size.getWidth() * 75 / 100;
-        int to = size.getWidth() * 25 / 100;
+        int from = size.getWidth() * 85 / 100;
+        int to = size.getWidth() * 15 / 100;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
         driver.swipe(from, y, to, y, DEFAULT_DURATION);
     }

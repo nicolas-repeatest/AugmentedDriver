@@ -3,6 +3,7 @@ package com.salesforceiq.augmenteddriver.util;
 import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumDriver;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
 public class MobileUtil {
@@ -48,7 +49,7 @@ public class MobileUtil {
     public static void swipeUp(AppiumDriver driver,
                                AugmentedFunctions<?> augmentedFunctions,
                                By swipeBy) {
-        swipeVertical(driver, augmentedFunctions, swipeBy, - BIG_NUMBER, DEFAULT_DURATION);
+        swipeVertical(driver, augmentedFunctions, swipeBy, -BIG_NUMBER, DEFAULT_DURATION);
     }
 
     public static void swipeDown(AppiumDriver driver,
@@ -97,6 +98,46 @@ public class MobileUtil {
         }
         throw new AssertionError(String.format("Swiped %s with an offest of %s times but element %s not found",
                         quantity, offset, elementVisible));
+    }
+
+    public static void swipeFullRightAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, WebElement element,
+                                           int waitTimeInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        Preconditions.checkNotNull(element);
+        Dimension size = driver.manage().window().getSize();
+        int from = size.getWidth() * 25 / 100;
+        int to = size.getWidth() * 75 / 100;
+        int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+        driver.swipe(from, y, to, y, DEFAULT_DURATION);
+    }
+
+    public static void swipeFullRightAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
+        swipeFullRightAfter(driver, augmentedFunctions, element, waitTimeInSeconds);
+    }
+
+    public static void swipeFullLeftAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, WebElement element,
+                                           int waitTimeInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        Preconditions.checkNotNull(element);
+        Dimension size = driver.manage().window().getSize();
+        int from = size.getWidth() * 75 / 100;
+        int to = size.getWidth() * 25 / 100;
+        int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
+        driver.swipe(from, y, to, y, DEFAULT_DURATION);
+    }
+
+    public static void swipeFullLeftAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
+        swipeFullRightAfter(driver, augmentedFunctions, element, waitTimeInSeconds);
     }
 
     private static int getVerticalOffset(AppiumDriver driver, int y, int offset) {

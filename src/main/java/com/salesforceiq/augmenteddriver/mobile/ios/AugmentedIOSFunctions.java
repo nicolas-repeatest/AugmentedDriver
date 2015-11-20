@@ -361,4 +361,46 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     public void swipeVertical(By swipeBy, int offset, int duration) {
         MobileUtil.swipeVertical(driverProvider.get(), driverProvider.get().augmented(), swipeBy, offset, duration);
     }
+
+    @Override
+    public void swipeFullRight(WebElement element) {
+        swipeFullRightAfter(element, waitTimeInSeconds);
+    }
+
+    @Override
+    public void swipeFullRight(By by) {
+        swipeFullRightAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public void swipeFullRightAfter(WebElement element, int waitInSeconds) {
+        MobileUtil.swipeFullRightAfter(driverProvider.get(), driverProvider.get().augmented(), element, waitInSeconds);
+    }
+
+    @Override
+    public void swipeFullRightAfter(By by, int waitInSeconds) {
+        MobileUtil.swipeFullRightAfter(driverProvider.get(), driverProvider.get().augmented(), by, waitInSeconds);
+    }
+
+    @Override
+    public void swipeFullLeft(WebElement element) {
+        swipeFullLeftAfter(element, waitTimeInSeconds);
+
+    }
+
+    @Override
+    public void swipeFullLeft(By by) {
+        swipeFullLeftAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public void swipeFullLeftAfter(WebElement element, int waitInSeconds) {
+        MobileUtil.swipeFullLeftAfter(driverProvider.get(), driverProvider.get().augmented(), element, waitInSeconds);
+
+    }
+
+    @Override
+    public void swipeFullLeftAfter(By by, int waitInSeconds) {
+        MobileUtil.swipeFullLeftAfter(driverProvider.get(), driverProvider.get().augmented(), by, waitInSeconds);
+    }
 }

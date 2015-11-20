@@ -92,4 +92,20 @@ public interface AugmentedMobileFunctions<T> {
      * Swipes vertical on an element (negative offset up, positive offset down).
      */
     void swipeVertical(By swipeBy, int offset, int duration);
+
+    void swipeFullRight(WebElement element);
+
+    void swipeFullRight(By by);
+
+    void swipeFullRightAfter(WebElement element, int waitInSeconds);
+
+    void swipeFullRightAfter(By by, int waitInSeconds);
+
+    void swipeFullLeft(WebElement element);
+
+    void swipeFullLeft(By by);
+
+    void swipeFullLeftAfter(WebElement element, int waitInSeconds);
+
+    void swipeFullLeftAfter(By by, int waitInSeconds);
 }

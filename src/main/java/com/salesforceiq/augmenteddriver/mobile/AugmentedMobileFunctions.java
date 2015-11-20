@@ -49,12 +49,12 @@ public interface AugmentedMobileFunctions<T> {
     /**
      * Clicks on an element (waiting default time to show up), types and then hides the keyboard.
      */
-    void clickAnSendKeys(By by, String keys);
+    void clickAndSendKeys(By by, String keys);
 
     /**
      * Clicks on an element (waiting waitInSeconds time), types and then hides the keyboard.
      */
-    void clickAnSendKeysAfter(By by, String keys, int waitInSeconds);
+    void clickAndSendKeysAfter(By by, String keys, int waitInSeconds);
 
     /**
      * Swipes up on an element until the other is visible.

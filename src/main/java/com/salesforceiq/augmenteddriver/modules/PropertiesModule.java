@@ -47,7 +47,7 @@ public class PropertiesModule extends AbstractModule {
             put(SAUCE_ADDRESS, "http://ondemand.saucelabs.com:80/wd/hub");
             put(WAIT_IN_SECONDS, "30");
             put(TEAM_CITY_INTEGRATION, "false");
-            put(REPORTING, "true");
+            put(REPORTING, "false");
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");
             put(MAX_RETRIES, "2");

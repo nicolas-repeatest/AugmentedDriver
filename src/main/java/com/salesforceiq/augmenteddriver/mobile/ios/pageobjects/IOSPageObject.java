@@ -2,6 +2,8 @@ package com.salesforceiq.augmenteddriver.mobile.ios.pageobjects;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriver;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
@@ -45,5 +47,10 @@ public abstract class IOSPageObject implements IOSPageObjectActionsInterface, Pa
     @Override
     public AugmentedIOSDriver driver() {
         return driverProvider.get();
+    }
+
+    @Override
+    public AugmentedIOSFunctions augmented() {
+        return driverProvider.get().augmented();
     }
 }

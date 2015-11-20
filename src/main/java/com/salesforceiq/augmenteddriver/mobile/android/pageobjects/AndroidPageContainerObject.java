@@ -2,6 +2,7 @@ package com.salesforceiq.augmenteddriver.mobile.android.pageobjects;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
@@ -47,6 +48,11 @@ public abstract class AndroidPageContainerObject implements AndroidPageObjectAct
     @Override
     public AugmentedAndroidDriver driver() {
         return driverProvider.get();
+    }
+
+    @Override
+    public AugmentedAndroidFunctions augmented() {
+        return driverProvider.get().augmented();
     }
 
     /**

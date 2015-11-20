@@ -1,14 +1,14 @@
 package com.salesforceiq.augmenteddriver.mobile.ios;
 
-import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
-import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
-import com.salesforceiq.augmenteddriver.util.MobileUtil;
-import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
+import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
+import com.salesforceiq.augmenteddriver.util.MobileUtil;
+import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -282,6 +282,39 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
         AugmentedIOSElement element = findElementClickableAfter(by, waitInSeconds);
         element.clear();
         element.sendKeys(text);
+    }
+
+    @Override
+    public AugmentedIOSElement tap(By by) {
+        Preconditions.checkNotNull(by);
+        return tapAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedIOSElement tapAfter(By by, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(), by, waitTimeInSeconds);
+        return augmentedIOSElementFactory.create(element);
+    }
+
+    @Override
+    public AugmentedIOSElement tap(By by, int offsetX, int offsetY) {
+        Preconditions.checkNotNull(by);
+        return tapAfter(by, offsetX, offsetY, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedIOSElement tapAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(),
+                by, offsetX, offsetY, waitTimeInSeconds);
+        return augmentedIOSElementFactory.create(element);
+    }
+
+    @Override
+    public void tap(WebElement element, int pressInMilliSeconds) {
+        Preconditions.checkNotNull(element);
+        MobileUtil.tap(driverProvider.get(), element, pressInMilliSeconds);
     }
 
     @Override

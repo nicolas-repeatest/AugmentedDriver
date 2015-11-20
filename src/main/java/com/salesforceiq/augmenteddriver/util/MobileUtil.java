@@ -10,6 +10,7 @@ public class MobileUtil {
     private static final int VERTICAL_OFFSET = 10;
     private static final int BIG_NUMBER = 9999999;
     private static final int DEFAULT_DURATION = 1000;
+    private static final int DEFAULT_TAP_DURATION = 100;
 
     public static WebElement swipeUpWaitVisible(AppiumDriver driver,
                                                 AugmentedFunctions<?> augmentedFunctions,
@@ -17,6 +18,23 @@ public class MobileUtil {
                                                 By elementVisible) {
         return swipeVerticalWaitVisible(driver, augmentedFunctions, swipeElement,
                 elementVisible, - BIG_NUMBER, 5, DEFAULT_DURATION);
+    }
+
+    public static WebElement tap(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by, int waitTimeInSeconds) {
+        WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
+        tap(driver, element, DEFAULT_TAP_DURATION);
+        return  element;
+    }
+
+    public static WebElement tap(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions,
+                                 By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
+        driver.tap(1, element.getLocation().getX() + offsetX, element.getLocation().getY() + offsetY, DEFAULT_TAP_DURATION);
+        return element;
+    }
+
+    public static void tap(AppiumDriver driver, WebElement element, int pressInMilliSeconds) {
+        driver.tap(1, element.getLocation().getX(), element.getLocation().getY(), pressInMilliSeconds);
     }
 
     public static WebElement swipeDownWaitVisible(AppiumDriver driver,

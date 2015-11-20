@@ -286,6 +286,39 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     }
 
     @Override
+    public AugmentedAndroidElement tap(By by) {
+        Preconditions.checkNotNull(by);
+        return tapAfter(by, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapAfter(By by, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(), by, waitTimeInSeconds);
+        return augmentedAndroidElementFactory.create(element);
+    }
+
+    @Override
+    public AugmentedAndroidElement tap(By by, int offsetX, int offsetY) {
+        Preconditions.checkNotNull(by);
+        return tapAfter(by, offsetX, offsetY, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(),
+                by, offsetX, offsetY, waitTimeInSeconds);
+        return augmentedAndroidElementFactory.create(element);
+    }
+
+    @Override
+    public void tap(WebElement element, int pressInMilliSeconds) {
+        Preconditions.checkNotNull(element);
+        MobileUtil.tap(driverProvider.get(), element, pressInMilliSeconds);
+    }
+
+    @Override
     public void clickAnSendKeys(By by, String keys) {
         clickAnSendKeysAfter(by, keys, waitTimeInSeconds);
     }

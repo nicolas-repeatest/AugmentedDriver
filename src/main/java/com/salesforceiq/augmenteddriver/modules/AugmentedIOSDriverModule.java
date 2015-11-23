@@ -13,8 +13,6 @@ import org.openqa.selenium.WebDriver;
 public class AugmentedIOSDriverModule extends AbstractModule {
     @Override
     protected void configure() {
-        bind(new TypeLiteral<AugmentedMobileFunctions<AugmentedIOSElement>>() {})
-                .to(new TypeLiteral<AugmentedIOSFunctions>() {});
         bind(WebDriver.class).to(AugmentedIOSDriver.class);
         bind(AugmentedIOSDriver.class).toProvider(AugmentedIOSDriverProvider.class);
 

@@ -3,7 +3,6 @@ package com.salesforceiq.augmenteddriver.mobile.android;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
@@ -23,7 +22,6 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
         AugmentedAndroidOnlyFunctions {
 
     private final int waitTimeInSeconds;
-    private final AugmentedMobileFunctions<AugmentedAndroidElement> mobileFunctions;
     private final AugmentedAndroidElementFactory augmentedAndroidElementFactory;
     private final SearchContext searchContext;
     private final AugmentedAndroidDriverProvider augmentedAndroidDriveProvider;
@@ -31,13 +29,11 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Inject
     public AugmentedAndroidFunctions(@Assisted SearchContext searchContext,
                                      @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
-                                     AugmentedMobileFunctions<AugmentedAndroidElement> mobileFunctions,
                                      AugmentedAndroidElementFactory augmentedAndroidElementFactory,
                                      AugmentedAndroidDriverProvider augmentedAndroidDriverProvider) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.augmentedAndroidDriveProvider = Preconditions.checkNotNull(augmentedAndroidDriverProvider);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
-        this.mobileFunctions = Preconditions.checkNotNull(mobileFunctions);
         this.augmentedAndroidElementFactory = Preconditions.checkNotNull(augmentedAndroidElementFactory);
     }
 

@@ -66,7 +66,6 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     @Before
     public void setUp() throws MalformedURLException {
         Preconditions.checkNotNull(augmentedAndroidDriverProvider);
-        Preconditions.checkNotNull(augmentedAndroidFunctions);
         Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(androidPageObjectActions);

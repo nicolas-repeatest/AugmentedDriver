@@ -63,7 +63,6 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
     @Before
     public void setUp() {
         Preconditions.checkNotNull(augmentedIOSDriverProvider);
-        Preconditions.checkNotNull(augmentedIOSFunctions);
         Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(iosPageObjectActions);

@@ -327,7 +327,6 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     public void clickAndSendKeysAfter(By by, String keys, int waitInSeconds) {
         findElementClickableAfter(by, waitInSeconds).click();
         findElementClickableAfter(by, waitInSeconds).sendKeys(keys);
-        driverProvider.get().hideKeyboard();
     }
 
     @Override

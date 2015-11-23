@@ -18,7 +18,6 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Singleton
 public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAndroidElement>,
         AugmentedMobileFunctions<AugmentedAndroidElement>,
         AugmentedAndroidOnlyFunctions {

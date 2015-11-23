@@ -1,7 +1,8 @@
 package com.salesforceiq.augmenteddriver.mobile.android;
 
-/**
- * Created by fernando.martin on 11/23/15.
- */
-public class AugmentedAndroidFunctionsFactory {
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
+import org.openqa.selenium.SearchContext;
+
+public interface AugmentedAndroidFunctionsFactory {
+    AugmentedAndroidFunctions create(SearchContext context);
 }

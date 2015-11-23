@@ -3,10 +3,7 @@ package com.salesforceiq.augmenteddriver.testcases;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriverProvider;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
+import com.salesforceiq.augmenteddriver.mobile.android.*;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.*;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
@@ -38,6 +35,8 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     private AugmentedAndroidDriverProvider augmentedAndroidDriverProvider;
 
     @Inject
+    private AugmentedAndroidFunctionsFactory augmentedAndroidFunctionsFactory;
+
     private AugmentedAndroidFunctions augmentedAndroidFunctions;
 
     @Named(PropertiesModule.REMOTE_ADDRESS)
@@ -81,6 +80,9 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }
+        augmentedAndroidFunctions= augmentedAndroidFunctionsFactory.create(driver);
+        driver.setAugmentedFunctions(augmentedAndroidFunctions);
+
         augmentedAndroidDriverProvider.set(driver);
         LOG.info("AugmentedAndroidDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
 

@@ -3,6 +3,7 @@ package com.salesforceiq.augmenteddriver.mobile.ios;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctionsFactory;
 import org.openqa.selenium.*;
 
 import java.util.List;
@@ -13,9 +14,9 @@ public class AugmentedIOSElement implements WebElement {
 
     @Inject
     public AugmentedIOSElement(@Assisted WebElement webElement,
-                               AugmentedIOSFunctions augmentedFunctions) {
+                               AugmentedIOSFunctionsFactory augmentedFunctions) {
         this.webElement = Preconditions.checkNotNull(webElement);
-        this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions);
+        this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions.create(webElement));
     }
 
     public AugmentedIOSFunctions augmented() {

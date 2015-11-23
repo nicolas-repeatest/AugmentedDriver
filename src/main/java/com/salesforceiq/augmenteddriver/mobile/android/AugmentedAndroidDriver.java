@@ -2,6 +2,7 @@ package com.salesforceiq.augmenteddriver.mobile.android;
 
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
 import io.appium.java_client.android.AndroidDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -19,7 +20,7 @@ import java.net.URL;
  * </p>
  */
 public class AugmentedAndroidDriver extends AndroidDriver {
-    private final AugmentedAndroidFunctions augmentedFunctions;
+    private AugmentedAndroidFunctions augmentedFunctions;
 
     public AugmentedAndroidDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,
                                   DesiredCapabilities capabilities,
@@ -30,5 +31,9 @@ public class AugmentedAndroidDriver extends AndroidDriver {
 
     public AugmentedAndroidFunctions augmented() {
         return augmentedFunctions;
+    }
+
+    public void setAugmentedFunctions(AugmentedAndroidFunctions augmentedFunctions) {
+        this.augmentedFunctions = augmentedFunctions;
     }
 }

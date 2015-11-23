@@ -1,20 +1,20 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
+import com.google.common.base.Preconditions;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriver;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriverProvider;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
-import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.*;
+import com.salesforceiq.augmenteddriver.mobile.ios.*;
+import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageContainerObject;
+import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObject;
+import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActions;
+import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedIOSDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
 import com.salesforceiq.augmenteddriver.util.Util;
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -31,6 +31,8 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
     private AugmentedIOSDriver driver;
 
     @Inject
+    private AugmentedIOSFunctionsFactory augmentedIOSFunctionsFactory;
+
     private AugmentedIOSFunctions augmentedIOSFunctions;
 
     @Inject
@@ -75,6 +77,8 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }
+        augmentedIOSFunctions = augmentedIOSFunctionsFactory.create(driver);
+        driver.setAugmentedFunctions(augmentedIOSFunctions);
         augmentedIOSDriverProvider.set(driver);
         LOG.info("AugmentedIOSDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
 

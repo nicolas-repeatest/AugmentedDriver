@@ -4,13 +4,16 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriverProvider;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.MobileUtil;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
 import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.openqa.selenium.By;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 
@@ -21,21 +24,20 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
                                              AugmentedMobileFunctions<AugmentedIOSElement>,
         AugmentedIOSOnlyFunctions {
 
-    /**
-     * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
-     * not at creation time, like Guice wants.
-     */
-    private final Provider<AugmentedIOSDriver> driverProvider;
     private final int waitTimeInSeconds;
     private final AugmentedMobileFunctions<AugmentedIOSElement> mobileFunctions;
     private final AugmentedIOSElementFactory augmentedIOSElementFactory;
+    private final AugmentedIOSDriverProvider augmentedIOSDriverProvider;
+    private final SearchContext searchContext;
 
     @Inject
-    public AugmentedIOSFunctions(Provider<AugmentedIOSDriver> driverProvider,
+    public AugmentedIOSFunctions(@Assisted SearchContext searchContext,
                                  @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
                                  AugmentedMobileFunctions<AugmentedIOSElement> mobileFunctions,
-                                 AugmentedIOSElementFactory augmentedIOSElementFactory) {
-        this.driverProvider = Preconditions.checkNotNull(driverProvider);
+                                 AugmentedIOSElementFactory augmentedIOSElementFactory,
+                                 AugmentedIOSDriverProvider augmentedIOSDriverProvider) {
+        this.searchContext = Preconditions.checkNotNull(searchContext);
+        this.augmentedIOSDriverProvider = Preconditions.checkNotNull(augmentedIOSDriverProvider);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
         this.mobileFunctions = Preconditions.checkNotNull(mobileFunctions);
         this.augmentedIOSElementFactory = Preconditions.checkNotNull(augmentedIOSElementFactory);
@@ -119,7 +121,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement findElementPresentAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedIOSElementFactory.create(WebDriverUtil.findElementPresentAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.findElementPresentAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -131,7 +133,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement findElementVisibleAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedIOSElementFactory.create(WebDriverUtil.findElementVisibleAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.findElementVisibleAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -143,7 +145,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement findElementClickableAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedIOSElementFactory.create(WebDriverUtil.findElementClickableAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.findElementClickableAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -155,7 +157,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement findElementNotMovingAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
-        return augmentedIOSElementFactory.create(WebDriverUtil.findElementNotMovingAfter(driverProvider.get(), by, waitSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.findElementNotMovingAfter(searchContext, by, waitSeconds));
     }
 
     @Override
@@ -167,7 +169,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     public AugmentedIOSElement findElementContainAfter(By by, String text, int waitInSeconds) {
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
-        return augmentedIOSElementFactory.create(WebDriverUtil.findElementContainAfter(driverProvider.get(), by, text, waitInSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.findElementContainAfter(searchContext, by, text, waitInSeconds));
     }
 
     @Override
@@ -179,7 +181,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public List<AugmentedIOSElement> findElementsVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsVisibleAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedIOSElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -194,7 +196,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public List<AugmentedIOSElement> findElementsPresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsPresentAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsPresentAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedIOSElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -209,7 +211,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public List<AugmentedIOSElement> findElementsClickableAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        return WebDriverUtil.findElementsClickableAfter(driverProvider.get(), by, waitInSeconds)
+        return WebDriverUtil.findElementsClickableAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(webElement -> augmentedIOSElementFactory.create(webElement))
                 .collect(Collectors.toList());
@@ -223,7 +225,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public void waitElementToNotBePresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        WebDriverUtil.waitElementToNotBePresent(driverProvider.get(), by, waitInSeconds);
+        WebDriverUtil.waitElementToNotBePresent(searchContext, by, waitInSeconds);
     }
 
     @Override
@@ -234,7 +236,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public void waitElementToNotBeVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
-        WebDriverUtil.waitElementToNotBeVisible(driverProvider.get(), by, waitInSeconds);
+        WebDriverUtil.waitElementToNotBeVisible(searchContext, by, waitInSeconds);
     }
 
     @Override
@@ -252,22 +254,22 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
 
     @Override
     public void moveToAndClick(By moveTo, By click) {
-        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitTimeInSeconds);
+        WebDriverUtil.moveToAndClick(augmentedIOSDriverProvider.get(), moveTo, click, waitTimeInSeconds);
     }
 
     @Override
     public void moveToAndClickAfter(By moveTo, By click, int waitInSeconds) {
-        WebDriverUtil.moveToAndClick(driverProvider.get(), moveTo, click, waitInSeconds);
+        WebDriverUtil.moveToAndClick(augmentedIOSDriverProvider.get(), moveTo, click, waitInSeconds);
     }
 
     @Override
     public AugmentedIOSElement moveTo(By moveTo) {
-        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitTimeInSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(augmentedIOSDriverProvider.get(), moveTo, waitTimeInSeconds));
     }
 
     @Override
     public AugmentedIOSElement moveToAfter(By moveTo, int waitInSeconds) {
-        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(driverProvider.get(), moveTo, waitInSeconds));
+        return augmentedIOSElementFactory.create(WebDriverUtil.moveTo(augmentedIOSDriverProvider.get(), moveTo, waitInSeconds));
     }
 
     @Override
@@ -293,7 +295,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement tapAfter(By by, int waitTimeInSeconds) {
         Preconditions.checkNotNull(by);
-        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(), by, waitTimeInSeconds);
+        WebElement element = MobileUtil.tap(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), by, waitTimeInSeconds);
         return augmentedIOSElementFactory.create(element);
     }
 
@@ -306,7 +308,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public AugmentedIOSElement tapAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
         Preconditions.checkNotNull(by);
-        WebElement element = MobileUtil.tap(driverProvider.get(), driverProvider.get().augmented(),
+        WebElement element = MobileUtil.tap(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(),
                 by, offsetX, offsetY, waitTimeInSeconds);
         return augmentedIOSElementFactory.create(element);
     }
@@ -314,7 +316,7 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Override
     public void tap(WebElement element, int pressInMilliSeconds) {
         Preconditions.checkNotNull(element);
-        MobileUtil.tap(driverProvider.get(), element, pressInMilliSeconds);
+        MobileUtil.tap(augmentedIOSDriverProvider.get(), element, pressInMilliSeconds);
     }
 
     @Override
@@ -326,40 +328,40 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     public void clickAndSendKeysAfter(By by, String keys, int waitInSeconds) {
         findElementClickableAfter(by, waitInSeconds).click();
         findElementClickableAfter(by, waitInSeconds).sendKeys(keys);
-        driverProvider.get().hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
+        augmentedIOSDriverProvider.get().hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
     }
 
     @Override
     public AugmentedIOSElement swipeUpWaitElementVisible(By swipeUpElement, By elementPresent) {
-        WebElement element = MobileUtil.swipeUpWaitVisible(driverProvider.get(), driverProvider.get().augmented(), swipeUpElement, elementPresent);
+        WebElement element = MobileUtil.swipeUpWaitVisible(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeUpElement, elementPresent);
         return augmentedIOSElementFactory.create(element);
     }
 
     @Override
     public AugmentedIOSElement swipeDownWaitElementVisible(By swipeUpElement, By elementPresent) {
-        WebElement element = MobileUtil.swipeDownWaitVisible(driverProvider.get(), driverProvider.get().augmented(), swipeUpElement, elementPresent);
+        WebElement element = MobileUtil.swipeDownWaitVisible(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeUpElement, elementPresent);
         return augmentedIOSElementFactory.create(element);
     }
 
     @Override
     public AugmentedIOSElement swipeVerticalWaitVisible(By swipeElement, By elementVisible, int offset, int quantity, int duration) {
-        WebElement element = MobileUtil.swipeVerticalWaitVisible(driverProvider.get(), driverProvider.get().augmented(), swipeElement, elementVisible, offset, quantity, duration);
+        WebElement element = MobileUtil.swipeVerticalWaitVisible(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeElement, elementVisible, offset, quantity, duration);
         return augmentedIOSElementFactory.create(element);
     }
 
     @Override
     public void swipeUp(By swipeBy) {
-        MobileUtil.swipeUp(driverProvider.get(), driverProvider.get().augmented(), swipeBy);
+        MobileUtil.swipeUp(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeBy);
     }
 
     @Override
     public void swipeDown(By swipeBy) {
-        MobileUtil.swipeDown(driverProvider.get(), driverProvider.get().augmented(), swipeBy);
+        MobileUtil.swipeDown(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeBy);
     }
 
     @Override
     public void swipeVertical(By swipeBy, int offset, int duration) {
-        MobileUtil.swipeVertical(driverProvider.get(), driverProvider.get().augmented(), swipeBy, offset, duration);
+        MobileUtil.swipeVertical(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), swipeBy, offset, duration);
     }
 
     @Override
@@ -374,12 +376,12 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
 
     @Override
     public void swipeFullRightAfter(WebElement element, int waitInSeconds) {
-        MobileUtil.swipeFullRightAfter(driverProvider.get(), driverProvider.get().augmented(), element, waitInSeconds);
+        MobileUtil.swipeFullRightAfter(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), element, waitInSeconds);
     }
 
     @Override
     public void swipeFullRightAfter(By by, int waitInSeconds) {
-        MobileUtil.swipeFullRightAfter(driverProvider.get(), driverProvider.get().augmented(), by, waitInSeconds);
+        MobileUtil.swipeFullRightAfter(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), by, waitInSeconds);
     }
 
     @Override
@@ -395,12 +397,12 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
 
     @Override
     public void swipeFullLeftAfter(WebElement element, int waitInSeconds) {
-        MobileUtil.swipeFullLeftAfter(driverProvider.get(), driverProvider.get().augmented(), element, waitInSeconds);
+        MobileUtil.swipeFullLeftAfter(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), element, waitInSeconds);
 
     }
 
     @Override
     public void swipeFullLeftAfter(By by, int waitInSeconds) {
-        MobileUtil.swipeFullLeftAfter(driverProvider.get(), driverProvider.get().augmented(), by, waitInSeconds);
+        MobileUtil.swipeFullLeftAfter(augmentedIOSDriverProvider.get(), augmentedIOSDriverProvider.get().augmented(), by, waitInSeconds);
     }
 }

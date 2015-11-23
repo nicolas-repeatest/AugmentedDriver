@@ -25,7 +25,7 @@ signing {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.0.12"
+version = "1.0.13"
 
 artifacts {
     archives javadocJar, sourcesJar

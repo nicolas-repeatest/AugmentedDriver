@@ -3,11 +3,9 @@ package com.salesforceiq.augmenteddriver.mobile.ios;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriverProvider;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.MobileUtil;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
@@ -25,7 +23,6 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
         AugmentedIOSOnlyFunctions {
 
     private final int waitTimeInSeconds;
-    private final AugmentedMobileFunctions<AugmentedIOSElement> mobileFunctions;
     private final AugmentedIOSElementFactory augmentedIOSElementFactory;
     private final AugmentedIOSDriverProvider augmentedIOSDriverProvider;
     private final SearchContext searchContext;
@@ -33,13 +30,11 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     @Inject
     public AugmentedIOSFunctions(@Assisted SearchContext searchContext,
                                  @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
-                                 AugmentedMobileFunctions<AugmentedIOSElement> mobileFunctions,
                                  AugmentedIOSElementFactory augmentedIOSElementFactory,
                                  AugmentedIOSDriverProvider augmentedIOSDriverProvider) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.augmentedIOSDriverProvider = Preconditions.checkNotNull(augmentedIOSDriverProvider);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
-        this.mobileFunctions = Preconditions.checkNotNull(mobileFunctions);
         this.augmentedIOSElementFactory = Preconditions.checkNotNull(augmentedIOSElementFactory);
     }
 

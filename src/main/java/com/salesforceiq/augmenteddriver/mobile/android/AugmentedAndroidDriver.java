@@ -1,9 +1,9 @@
 package com.salesforceiq.augmenteddriver.mobile.android;
 
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import io.appium.java_client.android.AndroidDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
@@ -19,7 +19,7 @@ import java.net.URL;
  *     to create a new one.
  * </p>
  */
-public class AugmentedAndroidDriver extends AndroidDriver {
+public class AugmentedAndroidDriver extends AndroidDriver<WebElement> {
     private AugmentedAndroidFunctions augmentedFunctions;
 
     public AugmentedAndroidDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,

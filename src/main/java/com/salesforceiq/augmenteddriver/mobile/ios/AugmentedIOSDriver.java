@@ -28,7 +28,7 @@ public class AugmentedIOSDriver extends IOSDriver<WebElement> {
                               DesiredCapabilities capabilities,
                               AugmentedIOSFunctions augmentedFunctions) throws MalformedURLException {
         super(new URL(remoteAddress), capabilities);
-        this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions);
+        this.augmentedFunctions = augmentedFunctions;
     }
 
     public AugmentedIOSFunctions augmented() {

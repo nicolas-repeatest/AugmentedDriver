@@ -5,6 +5,7 @@ import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import io.appium.java_client.ios.IOSDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
@@ -20,7 +21,7 @@ import java.net.URL;
  *     to create a new one.
  * </p>
  */
-public class AugmentedIOSDriver extends IOSDriver {
+public class AugmentedIOSDriver extends IOSDriver<WebElement> {
     private AugmentedIOSFunctions augmentedFunctions;
 
     public AugmentedIOSDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,

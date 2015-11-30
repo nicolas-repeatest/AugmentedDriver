@@ -9,7 +9,6 @@ import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.MobileUtil;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
-import io.appium.java_client.remote.HideKeyboardStrategy;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.TimeoutException;
@@ -323,7 +322,6 @@ public class AugmentedIOSFunctions implements AugmentedFunctions<AugmentedIOSEle
     public void clickAndSendKeysAfter(By by, String keys, int waitInSeconds) {
         findElementClickableAfter(by, waitInSeconds).click();
         findElementClickableAfter(by, waitInSeconds).sendKeys(keys);
-        augmentedIOSDriverProvider.get().hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "Done");
     }
 
     @Override

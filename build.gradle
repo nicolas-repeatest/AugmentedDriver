@@ -31,51 +31,6 @@ artifacts {
     archives javadocJar, sourcesJar
 }
 
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        name 'Augmented Driver'
-        packaging 'jar'
-        // optionally artifactId can be defined here 
-        description 'Framework on top of Appium/WebDriver for E2E tests for Web, IOS and Android'
-        url 'https://github.com/relateiq/AugmentedDriver'
-
-        scm {
-          connection 'scm:git:git@github.com:/relateiq/AugmentedDriver.git'
-          developerConnection 'scm:git:git@github.com:/relateiq/AugmentedDriver.git'
-          url 'git@github.com:/relateiq/AugmentedDriver.git'
-        }
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          }
-        }
-
-        developers {
-          developer {
-            id 'SenhorCastor'
-            name 'Fernando Martin'
-            email 'fernando.a.martin@gmail.com'
-          }
-        }
-      }
-    }
-  }
-}
-
 dependencies {
     compile 'com.google.guava:guava:18.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0-beta5'

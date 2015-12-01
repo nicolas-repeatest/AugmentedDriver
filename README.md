@@ -1,6 +1,6 @@
 # Augmented Driver
 
-Check [our 5 Minute Tutorial](www.google.com) on how to use the tool.  
+Check [our 5 Minute Tutorial](http://augmenteddriver.salesforceiq.com/#what-is-augmented-driver) on how to use the tool.
 
 Also, for more detailed information, the [Wiki](https://github.com/relateiq/AugmentedDriver/wiki/The-Basics) is available  
 

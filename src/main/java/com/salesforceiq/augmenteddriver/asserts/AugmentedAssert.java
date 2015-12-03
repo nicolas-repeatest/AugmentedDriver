@@ -33,7 +33,7 @@ public class AugmentedAssert {
         try {
             driver.findElementsVisibleAfter(by, timeoutInSeconds);
         } catch (TimeoutException e) {
-            throw new AssertionError(String.format("Element %s is not visible safter %s seconds", by, timeoutInSeconds), e);
+            throw new AssertionError(String.format("Element %s is not visible after %s seconds", by, timeoutInSeconds), e);
         }
     }
 
@@ -46,7 +46,7 @@ public class AugmentedAssert {
         try {
             driver.findElementClickableAfter(by, timeoutInSeconds);
         } catch (TimeoutException e) {
-            throw new AssertionError(String.format("Element %s is not clickable safter %s seconds", by, timeoutInSeconds), e);
+            throw new AssertionError(String.format("Element %s is not clickable after %s seconds", by, timeoutInSeconds), e);
         }
     }
 
@@ -60,7 +60,7 @@ public class AugmentedAssert {
         try {
             driver.findElementContainAfter(by, text, timeoutInSeconds);
         } catch (TimeoutException e) {
-            throw new AssertionError(String.format("Element %s is not clickable safter %s seconds", by, timeoutInSeconds), e);
+            throw new AssertionError(String.format("Element %s does not contain %s after %s seconds", by, text, timeoutInSeconds), e);
         }
     }
 

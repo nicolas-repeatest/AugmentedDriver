@@ -137,7 +137,7 @@ public class MobileUtil {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(augmentedFunctions);
         WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
-        swipeFullRightAfter(driver, augmentedFunctions, element, waitTimeInSeconds);
+        swipeFullLeftAfter(driver, augmentedFunctions, element, waitTimeInSeconds);
     }
 
     private static int getVerticalOffset(AppiumDriver driver, int y, int offset) {

@@ -106,8 +106,8 @@ public class MobileUtil {
         Preconditions.checkNotNull(augmentedFunctions);
         Preconditions.checkNotNull(element);
         Dimension size = driver.manage().window().getSize();
-        int from = size.getWidth() * 85 / 100;
-        int to = size.getWidth() * 15 / 100;
+        int to = size.getWidth() * 85 / 100;
+        int from = size.getWidth() * 15 / 100;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
         driver.swipe(from, y, to, y, DEFAULT_DURATION);
     }

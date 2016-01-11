@@ -13,7 +13,7 @@ import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActi
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedIOSDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
 import org.junit.Before;
@@ -45,7 +45,7 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
     private IntegrationFactory integrations;
 
     @Inject
-    private CommandLineArguments arguments;
+    private TestRunnerConfig arguments;
 
     @Named(PropertiesModule.REMOTE_ADDRESS)
     @Inject

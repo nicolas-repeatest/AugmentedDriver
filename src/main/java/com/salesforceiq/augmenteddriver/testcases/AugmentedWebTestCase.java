@@ -5,7 +5,7 @@ import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.AugmentedWebDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import com.salesforceiq.augmenteddriver.web.*;
 import com.salesforceiq.augmenteddriver.web.pageobjects.*;
@@ -45,7 +45,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     private IntegrationFactory integrations;
 
     @Inject
-    private CommandLineArguments arguments;
+    private TestRunnerConfig arguments;
 
     @Named(PropertiesModule.REMOTE_ADDRESS)
     @Inject

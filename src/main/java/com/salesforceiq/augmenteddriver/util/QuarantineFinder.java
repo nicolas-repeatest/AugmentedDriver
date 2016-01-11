@@ -26,12 +26,12 @@ public class QuarantineFinder {
         }
 
         private List<String> suites() {
-            Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+            Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
             return Arrays.asList(ARGUMENTS.suites.split(","));
         }
 
         private String suitesPackage() {
-            Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+            Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
             return ARGUMENTS.suitesPackage;
         }
 

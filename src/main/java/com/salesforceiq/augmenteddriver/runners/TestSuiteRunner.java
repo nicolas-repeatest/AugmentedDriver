@@ -9,7 +9,7 @@ import com.google.common.collect.Multiset;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
@@ -52,7 +52,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
     private final Multiset<Method> countTests;
 
     @Inject
-    public TestSuiteRunner(CommandLineArguments arguments,
+    public TestSuiteRunner(TestRunnerConfig arguments,
                            TestRunnerFactory testRunnerFactory,
                            @Named(PropertiesModule.MAX_RETRIES) String maxRetries) {
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
@@ -154,7 +154,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                 .collect(Collectors.toList());
     }
 
-    private static void checkArguments(CommandLineArguments arguments) {
+    private static void checkArguments(TestRunnerConfig arguments) {
         Preconditions.checkNotNull(arguments.suites(), "There should be at least one suite passed in the -suites argument");
         Preconditions.checkArgument(!arguments.suites().isEmpty(), "There should be at least one suite passed in the -suites argument");
         Preconditions.checkArgument(!Strings.isNullOrEmpty(arguments.suitesPackage()), "-suitesPackage should be defined");
@@ -162,7 +162,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
     }
 
     public static void main(String[] args) throws Exception {
-        CommandLineArguments arguments = CommandLineArguments.initialize(args);
+        TestRunnerConfig arguments = TestRunnerConfig.initialize(args);
         checkArguments(arguments);
         List<Module> modules = com.google.common.collect.Lists.newArrayList(
                 new CommandLineArgumentsModule(),

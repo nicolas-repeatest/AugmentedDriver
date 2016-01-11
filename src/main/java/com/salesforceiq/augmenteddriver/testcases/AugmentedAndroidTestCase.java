@@ -7,7 +7,7 @@ import com.salesforceiq.augmenteddriver.mobile.android.*;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.*;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
@@ -53,7 +53,7 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     private IntegrationFactory integrations;
 
     @Inject
-    private CommandLineArguments arguments;
+    private TestRunnerConfig arguments;
 
     @Inject
     private Injector injector;

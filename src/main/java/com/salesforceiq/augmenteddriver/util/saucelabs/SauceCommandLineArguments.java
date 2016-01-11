@@ -22,17 +22,17 @@ public class SauceCommandLineArguments {
     }
 
     public Path file() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.fileToUpload;
     }
 
     public boolean overwrite() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.overwrite;
     }
 
     public String conf() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.conf;
     }
 

@@ -36,6 +36,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String LOCAL_ADDRESS = "LOCAL_ADDRESS";
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
     public static final String CAPABILITIES = "CAPABILITIES";
+    public static final String SAUCE = "SAUCE";
 
     private static final String ID = Util.getRandomAsString();
 
@@ -75,7 +76,7 @@ public class PropertiesModule extends AbstractModule {
             throw new IllegalArgumentException("Properties file does not exist " + propertiesPath);
         }
 
-        if (properties.get(CAPABILITIES) != null) {
+        if (CommandLineArguments.ARGUMENTS == null && properties.get(CAPABILITIES) != null) {
             CommandLineArguments.initialize(properties);
         }
 
@@ -88,6 +89,7 @@ public class PropertiesModule extends AbstractModule {
         } else {
             properties.setProperty(PropertiesModule.REMOTE_ADDRESS, properties.getProperty(PropertiesModule.LOCAL_ADDRESS));
         }
+
         Names.bindProperties(binder(), properties);
 
         bind(DesiredCapabilities.class).toInstance(CommandLineArguments.ARGUMENTS.capabilities());

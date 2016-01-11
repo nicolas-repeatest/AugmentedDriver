@@ -6,6 +6,7 @@ import com.beust.jcommander.Parameter;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.lang.reflect.Method;
@@ -25,11 +26,6 @@ import java.util.Properties;
  */
 public class CommandLineArguments {
 
-    static class ParserProperties {
-        public static final String CAPABILITIES = "CAPABILITIES";
-        public static final String SAUCE = "SAUCE";
-    }
-
     private static Class<?> hackClass;
 
     public static final String DEFAULT_CONFIG = "conf/augmented.properties";
@@ -48,12 +44,12 @@ public class CommandLineArguments {
     public static CommandLineArguments initialize(Properties properties) {
         CommandLineArguments result = new CommandLineArguments();
 
-        if (properties.get(ParserProperties.CAPABILITIES) != null) {
-            result.capabilities = new CapabilitiesConverter().convert((String) properties.get(ParserProperties.CAPABILITIES));
+        if (properties.get(PropertiesModule.CAPABILITIES) != null) {
+            result.capabilities = new CapabilitiesConverter().convert((String) properties.get(PropertiesModule.CAPABILITIES));
         }
 
-        if (properties.get(ParserProperties.SAUCE) != null) {
-            result.sauce = Boolean.valueOf((String) properties.get(ParserProperties.SAUCE));
+        if (properties.get(PropertiesModule.SAUCE) != null) {
+            result.sauce = Boolean.valueOf((String) properties.get(PropertiesModule.SAUCE));
         }
 
         ARGUMENTS = result;
@@ -197,4 +193,5 @@ public class CommandLineArguments {
             }
         }
     }
+
 }

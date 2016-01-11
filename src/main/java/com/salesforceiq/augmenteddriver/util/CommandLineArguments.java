@@ -27,8 +27,6 @@ import java.util.Properties;
 public class CommandLineArguments {
 
     private static Class<?> hackClass;
-
-    public static final String DEFAULT_CONFIG = "conf/augmented.properties";
     public static CommandLineArguments ARGUMENTS;
 
     public static CommandLineArguments initialize(String[] args) {
@@ -148,7 +146,7 @@ public class CommandLineArguments {
     private DesiredCapabilities capabilities;
 
     @Parameter(names = "-conf", description = "Path to the properties file, conf/augmented.properties by default")
-    private String conf = DEFAULT_CONFIG;
+    private String conf = PropertiesModule.DEFAULT_CONFIG;
 
     @Parameter(names = "-app", description = "Path to file to use as app (IOS) or apk (Android)")
     private String app = "";

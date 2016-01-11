@@ -35,6 +35,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String SAUCE_KEY = "SAUCE_KEY";
     public static final String LOCAL_ADDRESS = "LOCAL_ADDRESS";
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
+    public static final String CAPABILITIES = "CAPABILITIES";
 
     private static final String ID = Util.getRandomAsString();
 
@@ -60,7 +61,10 @@ public class PropertiesModule extends AbstractModule {
         defaultProperties.entrySet()
                 .stream()
                 .forEach(entry -> properties.setProperty(entry.getKey(), entry.getValue()));
-        Path propertiesPath = Paths.get(CommandLineArguments.ARGUMENTS.conf());
+
+        String path = CommandLineArguments.ARGUMENTS == null ? CommandLineArguments.DEFAULT_CONFIG : CommandLineArguments.ARGUMENTS.conf();
+        Path propertiesPath = Paths.get(path);
+
         if (Files.exists(propertiesPath)) {
             try {
                 properties.load(new FileInputStream(propertiesPath.toFile()));
@@ -69,6 +73,14 @@ public class PropertiesModule extends AbstractModule {
             }
         } else {
             throw new IllegalArgumentException("Properties file does not exist " + propertiesPath);
+        }
+
+        if (properties.get(CAPABILITIES) != null) {
+            CommandLineArguments.initialize(properties);
+        }
+
+        if (CommandLineArguments.ARGUMENTS == null) {
+            throw new IllegalStateException("Capabilities were not loaded. Please set on properties file or command line args.");
         }
 
         if (CommandLineArguments.ARGUMENTS.sauce()) {
@@ -106,4 +118,5 @@ public class PropertiesModule extends AbstractModule {
         CommandLineArguments.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(PropertiesModule.SAUCE_USER));
         CommandLineArguments.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(PropertiesModule.SAUCE_KEY));
     }
+
 }

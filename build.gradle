@@ -19,10 +19,6 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-signing {
-    sign configurations.archives
-}
-
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
 version = "1.0.19"

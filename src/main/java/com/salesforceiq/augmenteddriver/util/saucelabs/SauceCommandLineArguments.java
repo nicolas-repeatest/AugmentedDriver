@@ -22,17 +22,17 @@ public class SauceCommandLineArguments {
     }
 
     public Path file() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
         return ARGUMENTS.fileToUpload;
     }
 
     public boolean overwrite() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
         return ARGUMENTS.overwrite;
     }
 
     public String conf() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#initialize first");
         return ARGUMENTS.conf;
     }
 
@@ -42,6 +42,7 @@ public class SauceCommandLineArguments {
     @Parameter(names = "-overwrite", description = "Whether to overwrite or not the file in case it exists in SauceLabs")
     private boolean overwrite = true;
 
-    @Parameter(names = "-conf", description = "Path to the properties file, conf/tesyui.properties by default")
+    @Parameter(names = "-conf", description = "Path to the properties file, conf/augmented.properties by default")
     private String conf = "conf/augmented.properties";
+
 }

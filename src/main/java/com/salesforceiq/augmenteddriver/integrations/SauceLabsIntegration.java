@@ -1,6 +1,6 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.Maps;
@@ -20,10 +20,10 @@ import java.util.Map;
 public class SauceLabsIntegration implements Integration {
 
     private final SauceREST sauceRest;
-    private final CommandLineArguments arguments;
+    private final TestRunnerConfig arguments;
 
     @Inject
-    public SauceLabsIntegration(SauceREST sauceREST, CommandLineArguments arguments) {
+    public SauceLabsIntegration(SauceREST sauceREST, TestRunnerConfig arguments) {
         this.sauceRest = Preconditions.checkNotNull(sauceREST);
         this.arguments = Preconditions.checkNotNull(arguments);
     }

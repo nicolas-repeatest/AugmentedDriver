@@ -4,7 +4,7 @@ import com.salesforceiq.augmenteddriver.asserts.AugmentedAssertInterface;
 import com.salesforceiq.augmenteddriver.guice.GuiceTestRunner;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -72,7 +72,7 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
     private IntegrationFactory integrations;
 
     @Inject
-    private CommandLineArguments arguments;
+    private TestRunnerConfig arguments;
 
     /**
      * Hack, but there is no way to get the session Id in other way.

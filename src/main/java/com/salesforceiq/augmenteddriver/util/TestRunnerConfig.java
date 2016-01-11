@@ -6,6 +6,7 @@ import com.beust.jcommander.Parameter;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.lang.reflect.Method;
@@ -14,6 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * For parsing command line arguments.
@@ -22,78 +24,94 @@ import java.util.List;
  *     All the command line arguments should be here.
  * </p>
  */
-public class CommandLineArguments {
+public class TestRunnerConfig {
 
     private static Class<?> hackClass;
-    public static CommandLineArguments ARGUMENTS;
+    public static TestRunnerConfig ARGUMENTS;
 
-    public static CommandLineArguments initialize(String[] args) {
-        CommandLineArguments result = new CommandLineArguments();
+    public static TestRunnerConfig initialize(String[] commandLineArgs) {
+        TestRunnerConfig result = new TestRunnerConfig();
         JCommander jCommander = new JCommander();
         jCommander.setAcceptUnknownOptions(true);
         jCommander.addObject(result);
-        jCommander.parse(args);
+        jCommander.parse(commandLineArgs);
         ARGUMENTS = result;
         return ARGUMENTS;
     }
 
+    public static TestRunnerConfig initialize(Properties properties) {
+        TestRunnerConfig result = new TestRunnerConfig();
+
+        if (properties.get(PropertiesModule.CAPABILITIES) != null) {
+            result.capabilities = new CapabilitiesConverter().convert((String) properties.get(PropertiesModule.CAPABILITIES));
+        }
+
+        if (properties.get(PropertiesModule.SAUCE) != null) {
+            result.sauce = Boolean.valueOf((String) properties.get(PropertiesModule.SAUCE));
+        }
+
+        ARGUMENTS = result;
+        return ARGUMENTS;
+    }
+
+
     public Class<?> clazz() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.clazz;
     }
 
     public Method test() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.test;
     }
 
     public List<String> suites() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return Arrays.asList(ARGUMENTS.suites.split(","));
     }
 
     public String suitesPackage() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.suitesPackage;
     }
 
     public int quantity() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quantity;
     }
 
     public int parallel() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.parallel;
     }
 
     public int timeoutInMinutes() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.timeoutInMinutes;
     }
 
     public boolean sauce() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.sauce;
     }
 
     public boolean quarantine() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quarantine;
     }
 
     public DesiredCapabilities capabilities() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.capabilities;
     }
 
     public String conf() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.conf;
     }
 
     public String app() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.app;
     }
 
@@ -128,7 +146,7 @@ public class CommandLineArguments {
     private DesiredCapabilities capabilities;
 
     @Parameter(names = "-conf", description = "Path to the properties file, conf/augmented.properties by default")
-    private String conf = "conf/augmented.properties";
+    private String conf = PropertiesModule.DEFAULT_CONFIG;
 
     @Parameter(names = "-app", description = "Path to file to use as app (IOS) or apk (Android)")
     private String app = "";
@@ -138,7 +156,7 @@ public class CommandLineArguments {
         public Class<?> convert(String value) {
             try {
                 Class<?> theClass = Class.forName(value);
-                CommandLineArguments.hackClass = theClass;
+                TestRunnerConfig.hackClass = theClass;
                 return theClass;
             } catch (ClassNotFoundException e) {
                 throw new IllegalArgumentException(String.format("Parameter -clazz should be a class, got : %s", value));
@@ -173,4 +191,5 @@ public class CommandLineArguments {
             }
         }
     }
+
 }

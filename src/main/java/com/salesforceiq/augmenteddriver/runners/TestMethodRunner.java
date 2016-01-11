@@ -5,7 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
@@ -40,7 +40,7 @@ public class TestMethodRunner implements Callable<List<Result>> {
     private final int parallel;
 
     @Inject
-    public TestMethodRunner(CommandLineArguments arguments,
+    public TestMethodRunner(TestRunnerConfig arguments,
                             TestRunnerFactory testRunnerFactory) {
         this.method = Preconditions.checkNotNull(arguments.test());
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
@@ -112,14 +112,14 @@ public class TestMethodRunner implements Callable<List<Result>> {
                 .collect(Collectors.toList());
     }
 
-    private static void checkArguments(CommandLineArguments arguments) {
+    private static void checkArguments(TestRunnerConfig arguments) {
         Preconditions.checkNotNull(arguments.clazz(), "You should specify a class with -clazz parameter");
         Preconditions.checkNotNull(arguments.test(), "You should specify a test with -test parameter");
         Preconditions.checkNotNull(arguments.capabilities(), "You should specify capabilites with -capabilities parameter");
     }
 
     public static void main(String[] args) throws Exception {
-        CommandLineArguments arguments = CommandLineArguments.initialize(args);
+        TestRunnerConfig arguments = TestRunnerConfig.initialize(args);
         checkArguments(arguments);
         List<Module> modules = Lists.newArrayList(
                 new CommandLineArgumentsModule(),

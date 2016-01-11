@@ -3,8 +3,8 @@ package com.salesforceiq.augmenteddriver.modules;
 import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.saucelabs.saucerest.SauceREST;
-import com.salesforceiq.augmenteddriver.util.CommandLineArguments;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -35,6 +35,9 @@ public class PropertiesModule extends AbstractModule {
     public static final String SAUCE_KEY = "SAUCE_KEY";
     public static final String LOCAL_ADDRESS = "LOCAL_ADDRESS";
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
+    public static final String CAPABILITIES = "CAPABILITIES";
+    public static final String SAUCE = "SAUCE";
+    public static final String DEFAULT_CONFIG = "conf/augmented.properties";
 
     private static final String ID = Util.getRandomAsString();
 
@@ -60,7 +63,10 @@ public class PropertiesModule extends AbstractModule {
         defaultProperties.entrySet()
                 .stream()
                 .forEach(entry -> properties.setProperty(entry.getKey(), entry.getValue()));
-        Path propertiesPath = Paths.get(CommandLineArguments.ARGUMENTS.conf());
+
+        String path = TestRunnerConfig.ARGUMENTS == null ? DEFAULT_CONFIG : TestRunnerConfig.ARGUMENTS.conf();
+        Path propertiesPath = Paths.get(path);
+
         if (Files.exists(propertiesPath)) {
             try {
                 properties.load(new FileInputStream(propertiesPath.toFile()));
@@ -71,14 +77,23 @@ public class PropertiesModule extends AbstractModule {
             throw new IllegalArgumentException("Properties file does not exist " + propertiesPath);
         }
 
-        if (CommandLineArguments.ARGUMENTS.sauce()) {
+        if (TestRunnerConfig.ARGUMENTS == null && properties.get(CAPABILITIES) != null) {
+            TestRunnerConfig.initialize(properties);
+        }
+
+        if (TestRunnerConfig.ARGUMENTS == null) {
+            throw new IllegalStateException("Capabilities were not loaded. Please set on properties file or command line args.");
+        }
+
+        if (TestRunnerConfig.ARGUMENTS.sauce()) {
             setSauceProperties(properties);
         } else {
             properties.setProperty(PropertiesModule.REMOTE_ADDRESS, properties.getProperty(PropertiesModule.LOCAL_ADDRESS));
         }
+
         Names.bindProperties(binder(), properties);
 
-        bind(DesiredCapabilities.class).toInstance(CommandLineArguments.ARGUMENTS.capabilities());
+        bind(DesiredCapabilities.class).toInstance(TestRunnerConfig.ARGUMENTS.capabilities());
         bind(String.class)
                 .annotatedWith(Names.named(PropertiesModule.UNIQUE_ID))
                 .toInstance(ID);
@@ -100,10 +115,11 @@ public class PropertiesModule extends AbstractModule {
         }
 
         // To override the app in the yaml.
-        if (!Strings.isNullOrEmpty(CommandLineArguments.ARGUMENTS.app())) {
-            CommandLineArguments.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + CommandLineArguments.ARGUMENTS.app());
+        if (!Strings.isNullOrEmpty(TestRunnerConfig.ARGUMENTS.app())) {
+            TestRunnerConfig.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + TestRunnerConfig.ARGUMENTS.app());
         }
-        CommandLineArguments.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(PropertiesModule.SAUCE_USER));
-        CommandLineArguments.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(PropertiesModule.SAUCE_KEY));
+        TestRunnerConfig.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(PropertiesModule.SAUCE_USER));
+        TestRunnerConfig.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(PropertiesModule.SAUCE_KEY));
     }
+
 }

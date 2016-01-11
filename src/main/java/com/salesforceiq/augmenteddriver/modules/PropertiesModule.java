@@ -37,6 +37,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
     public static final String CAPABILITIES = "CAPABILITIES";
     public static final String SAUCE = "SAUCE";
+    public static final String DEFAULT_CONFIG = "conf/augmented.properties";
 
     private static final String ID = Util.getRandomAsString();
 
@@ -63,7 +64,7 @@ public class PropertiesModule extends AbstractModule {
                 .stream()
                 .forEach(entry -> properties.setProperty(entry.getKey(), entry.getValue()));
 
-        String path = CommandLineArguments.ARGUMENTS == null ? CommandLineArguments.DEFAULT_CONFIG : CommandLineArguments.ARGUMENTS.conf();
+        String path = CommandLineArguments.ARGUMENTS == null ? DEFAULT_CONFIG : CommandLineArguments.ARGUMENTS.conf();
         Path propertiesPath = Paths.get(path);
 
         if (Files.exists(propertiesPath)) {

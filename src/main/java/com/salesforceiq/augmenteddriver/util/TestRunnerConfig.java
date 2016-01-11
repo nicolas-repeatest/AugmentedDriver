@@ -24,23 +24,23 @@ import java.util.Properties;
  *     All the command line arguments should be here.
  * </p>
  */
-public class CommandLineArguments {
+public class TestRunnerConfig {
 
     private static Class<?> hackClass;
-    public static CommandLineArguments ARGUMENTS;
+    public static TestRunnerConfig ARGUMENTS;
 
-    public static CommandLineArguments initialize(String[] args) {
-        CommandLineArguments result = new CommandLineArguments();
+    public static TestRunnerConfig initialize(String[] commandLineArgs) {
+        TestRunnerConfig result = new TestRunnerConfig();
         JCommander jCommander = new JCommander();
         jCommander.setAcceptUnknownOptions(true);
         jCommander.addObject(result);
-        jCommander.parse(args);
+        jCommander.parse(commandLineArgs);
         ARGUMENTS = result;
         return ARGUMENTS;
     }
 
-    public static CommandLineArguments initialize(Properties properties) {
-        CommandLineArguments result = new CommandLineArguments();
+    public static TestRunnerConfig initialize(Properties properties) {
+        TestRunnerConfig result = new TestRunnerConfig();
 
         if (properties.get(PropertiesModule.CAPABILITIES) != null) {
             result.capabilities = new CapabilitiesConverter().convert((String) properties.get(PropertiesModule.CAPABILITIES));
@@ -56,62 +56,62 @@ public class CommandLineArguments {
 
 
     public Class<?> clazz() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.clazz;
     }
 
     public Method test() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.test;
     }
 
     public List<String> suites() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return Arrays.asList(ARGUMENTS.suites.split(","));
     }
 
     public String suitesPackage() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.suitesPackage;
     }
 
     public int quantity() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quantity;
     }
 
     public int parallel() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.parallel;
     }
 
     public int timeoutInMinutes() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.timeoutInMinutes;
     }
 
     public boolean sauce() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.sauce;
     }
 
     public boolean quarantine() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quarantine;
     }
 
     public DesiredCapabilities capabilities() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.capabilities;
     }
 
     public String conf() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.conf;
     }
 
     public String app() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call CommandLineArguments#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.app;
     }
 
@@ -156,7 +156,7 @@ public class CommandLineArguments {
         public Class<?> convert(String value) {
             try {
                 Class<?> theClass = Class.forName(value);
-                CommandLineArguments.hackClass = theClass;
+                TestRunnerConfig.hackClass = theClass;
                 return theClass;
             } catch (ClassNotFoundException e) {
                 throw new IllegalArgumentException(String.format("Parameter -clazz should be a class, got : %s", value));

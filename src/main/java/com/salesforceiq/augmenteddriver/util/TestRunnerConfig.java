@@ -5,9 +5,7 @@ import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
 import com.esotericsoftware.yamlbeans.YamlException;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
@@ -17,9 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 /**
  * For parsing command line arguments.
@@ -119,11 +115,6 @@ public class TestRunnerConfig {
         return ARGUMENTS.app;
     }
 
-    public Map<String, String> extra() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
-        return ARGUMENTS.extra;
-    }
-
     @Parameter(names = "-clazz", description = "Class to run", converter = ClassConverter.class)
     private Class<?> clazz;
 
@@ -159,9 +150,6 @@ public class TestRunnerConfig {
 
     @Parameter(names = "-app", description = "Path to file to use as app (IOS) or apk (Android)")
     private String app = "";
-
-    @Parameter(names = "-extra", description = "Extra parameters that are going to be injected (comma delimited)", converter = ExtraArgumentsConverter.class)
-    private Map<String, String> extra = Maps.newHashMap();
 
     public static class ClassConverter implements IStringConverter<Class<?>> {
         @Override
@@ -204,36 +192,4 @@ public class TestRunnerConfig {
         }
     }
 
-    public static class ExtraArgumentsConverter implements  IStringConverter<Map<String, String>> {
-        @Override
-        public Map<String, String> convert(String extraArguments) {
-            if (Strings.isNullOrEmpty(extraArguments)) {
-                throw new IllegalArgumentException("Parameter -extra cannot be empty");
-            }
-            Map<String, String> result = Maps.newHashMap();
-            Iterable<String> arguments = Splitter
-                    // Split by comma, but ignoring commas that come between quotes.
-                    // http://stackoverflow.com/questions/1757065/java-splitting-a-comma-separated-string-but-ignoring-commas-in-quotes
-                    .on(Pattern.compile(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)"))
-                    .split(extraArguments);
-            arguments.forEach(argument -> {
-                // Extra checks just to make sure there is key value.
-                String[] splitted = argument.split("=", 2);
-                if (splitted.length != 2) {
-                    throw new IllegalArgumentException(String.format("Argument %s is not well formatted", argument));
-                }
-                if (Strings.isNullOrEmpty(splitted[0])) {
-                    throw new IllegalArgumentException(String.format("Key of argument %s is empty", argument));
-                }
-                if (Strings.isNullOrEmpty(splitted[1])) {
-                    throw new IllegalArgumentException(String.format("Value of argument %s is empty", argument));
-                }
-                //Remove the quote at the beginning and the end if there is one.
-                String key = splitted[0].replaceAll("^\"|\"$", "");
-                String value = splitted[1].replaceAll("^\"|\"$", "");
-                result.put(key, value);
-            });
-            return result;
-        }
-    }
 }

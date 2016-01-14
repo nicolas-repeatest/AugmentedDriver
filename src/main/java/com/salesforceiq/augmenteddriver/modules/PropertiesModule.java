@@ -93,12 +93,6 @@ public class PropertiesModule extends AbstractModule {
 
         Names.bindProperties(binder(), properties);
 
-        // This will override the properties set in the property file, with the properties sent in the extra parameters.
-        if (TestRunnerConfig.ARGUMENTS.extra() != null
-                && !TestRunnerConfig.ARGUMENTS.extra().isEmpty()) {
-            Names.bindProperties(binder(), TestRunnerConfig.ARGUMENTS.extra());
-        }
-
         bind(DesiredCapabilities.class).toInstance(TestRunnerConfig.ARGUMENTS.capabilities());
         bind(String.class)
                 .annotatedWith(Names.named(PropertiesModule.UNIQUE_ID))

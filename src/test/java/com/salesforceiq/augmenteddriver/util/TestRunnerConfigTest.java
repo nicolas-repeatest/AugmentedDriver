@@ -13,9 +13,9 @@ public class TestRunnerConfigTest {
 
     @Test
     public void testEmptyArgsIsNotAccepted() {
-        thrown.expect(IllegalArgumentException.class);
         TestRunnerConfig.ExtraArgumentsConverter converter = new TestRunnerConfig.ExtraArgumentsConverter();
-        converter.convert("");
+        Map<String, String> convert = converter.convert("");
+        Assert.assertEquals(0, convert.size());
     }
 
     @Test

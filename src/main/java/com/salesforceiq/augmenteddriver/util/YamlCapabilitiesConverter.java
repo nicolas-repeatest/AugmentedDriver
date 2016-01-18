@@ -40,6 +40,9 @@ public class YamlCapabilitiesConverter {
         try {
             YamlReader yamlReader = new YamlReader(new FileReader(yamlFile.toFile()));
             Map<String, String> properties = (Map<String, String>) yamlReader.read();
+            if (properties == null || properties.isEmpty()) {
+                throw new IllegalArgumentException(String.format("File %s is empty", yamlFile));
+            }
             if (!properties.containsKey(CAPABILITIES)) {
                 throw new IllegalArgumentException(String.format("File %s should have property capabilities, got %s", yamlFile, properties));
             }

@@ -1,15 +1,24 @@
 package com.salesforceiq.augmenteddriver.util;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+import org.junit.rules.TemporaryFolder;
+import org.openqa.selenium.Platform;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.Properties;
 
 public class TestRunnerConfigTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public TemporaryFolder folder = new TemporaryFolder();
 
     @Test
     public void testEmptyArgsIsNotAccepted() {
@@ -47,5 +56,37 @@ public class TestRunnerConfigTest {
         Assert.assertTrue(convert.containsKey("TEST3"));
         Assert.assertEquals(" Third , argument", convert.get("TEST3"));
         Assert.assertEquals(3, convert.size());
+    }
+
+    @Test
+    public void testInitializeSauceFromProperties() {
+        Properties example = new Properties();
+        example.setProperty("SAUCE", "true");
+        TestRunnerConfig config = TestRunnerConfig.initialize(example);
+        Assert.assertTrue(config.sauce());
+        example = new Properties();
+        example.setProperty("SAUCE", "false");
+        config = TestRunnerConfig.initialize(example);
+        Assert.assertFalse(config.sauce());
+        example = new Properties();
+        config = TestRunnerConfig.initialize(example);
+        Assert.assertFalse(config.sauce());
+    }
+
+    @Test
+    public void testInitializeCapabilitiesFromProperties() throws IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        File origin = new File(classLoader.getResource("converttest.yaml").getFile());
+        File dest = folder.newFile();
+        FileUtils.copyFile(origin, dest);
+
+        Properties example = new Properties();
+        example.setProperty("CAPABILITIES", dest.getCanonicalPath());
+        TestRunnerConfig config = TestRunnerConfig.initialize(example);
+        Assert.assertEquals("chrome", config.capabilities().getBrowserName());
+        Assert.assertEquals("1280x1024", config.capabilities().getCapability("screenResolution"));
+        Assert.assertEquals("47.0", config.capabilities().getVersion());
+        Assert.assertEquals(Platform.fromString("OS X 10.10"), config.capabilities().getPlatform());
+
     }
 }

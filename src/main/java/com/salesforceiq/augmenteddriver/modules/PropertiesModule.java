@@ -91,13 +91,13 @@ public class PropertiesModule extends AbstractModule {
             properties.setProperty(PropertiesModule.REMOTE_ADDRESS, properties.getProperty(PropertiesModule.LOCAL_ADDRESS));
         }
 
-        Names.bindProperties(binder(), properties);
 
         // This will override the properties set in the property file, with the properties sent in the extra parameters.
         if (TestRunnerConfig.ARGUMENTS.extra() != null
                 && !TestRunnerConfig.ARGUMENTS.extra().isEmpty()) {
-            Names.bindProperties(binder(), TestRunnerConfig.ARGUMENTS.extra());
+            properties.putAll(TestRunnerConfig.ARGUMENTS.extra());
         }
+        Names.bindProperties(binder(), properties);
 
         bind(DesiredCapabilities.class).toInstance(TestRunnerConfig.ARGUMENTS.capabilities());
         bind(String.class)

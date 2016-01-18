@@ -16,19 +16,17 @@ import java.util.Map;
 /**
  * Converts a Yaml file into a DesiredCapabilities.
  *
- * <p>
- *     Two properties are handled in particular:
- *     <ul>
- *         <li>
- *             capabilities: That property is a mandatory. Should contain the path to the properties file where the
- *             capabilities are defined
- *         </li>
- *         <li>
- *             chromeExtension: Used to load Chrome Extensions. Right now it allows only one. It should contain the path
- *             to the crx file.
- *         </li>
- *     </ul>
- * </p>
+ * Two properties are handled in particular:
+ * <ul>
+ *   <li>
+ *     capabilities: That property is a mandatory. Should contain the path to the properties file where the
+ *     capabilities are defined
+ *   </li>
+ *   <li>
+ *     chromeExtension: Used to load Chrome Extensions. Right now it allows only one. It should contain the path
+ *     to the crx file.
+ *   </li>
+ * </ul>
  */
 public class YamlCapabilitiesConverter {
 
@@ -57,7 +55,7 @@ public class YamlCapabilitiesConverter {
             }
             return capabilities;
         } catch (FileNotFoundException e) {
-            // Thsi should never happen
+            // This should never happen
             throw new IllegalStateException(e);
         }
     }

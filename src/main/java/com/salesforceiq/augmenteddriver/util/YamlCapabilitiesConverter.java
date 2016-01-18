@@ -12,8 +12,24 @@ import java.io.FileReader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
-import java.util.zip.CRC32;
 
+/**
+ * Converts a Yaml file into a DesiredCapabilities.
+ *
+ * <p>
+ *     Two properties are handled in particular:
+ *     <ul>
+ *         <li>
+ *             capabilities: That property is a mandatory. Should contain the path to the properties file where the
+ *             capabilities are defined
+ *         </li>
+ *         <li>
+ *             chromeExtension: Used to load Chrome Extensions. Right now it allows only one. It should contain the path
+ *             to the crx file.
+ *         </li>
+ *     </ul>
+ * </p>
+ */
 public class YamlCapabilitiesConverter {
 
     private static final String CAPABILITIES = "capabilities";
@@ -46,6 +62,9 @@ public class YamlCapabilitiesConverter {
         }
     }
 
+    /**
+     * All the capabilities covered by WebDriver (Defined in DesiredCapabilities)
+     */
     private enum Capabilities {
         ANDROID(DesiredCapabilities.android()),
         CHROME(DesiredCapabilities.chrome()),

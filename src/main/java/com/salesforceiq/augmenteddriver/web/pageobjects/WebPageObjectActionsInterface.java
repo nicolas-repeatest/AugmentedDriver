@@ -8,13 +8,20 @@ import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
  * Common functionality to all WebPageObjects
  */
 public interface WebPageObjectActionsInterface {
+
     /**
-     * returns the PageObject represented by the input
+     * Initializes a WebPageObject instance.
+     *
+     * @param clazz the WebPageObject class to initialize.
+     * @return the PageObject represented by the input
      */
     <T extends WebPageObject> T get(Class<T> clazz);
 
     /**
-     * returns the PageContainerObject represented by the input
+     * Initializes a WebPageContainerObject instance.
+     *
+     * @param clazz the WebPageObject class to initialize.
+     * @return the PageContainerObject represented by the input
      */
     <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container);
 

@@ -22,10 +22,20 @@ public class AugmentedWebElement implements WebElement {
         this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions.create(webElement));
     }
 
+    /**
+     * Augmented functionality that runs inside this AugmentedWebElement.
+     *
+     * @return the AugmentedWebFunctions for this element.
+     */
     public AugmentedWebFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * For accesing the wrapped WebElement
+     *
+     * @return the WebElement that is wrapped by this AugmentedWebElement.
+     */
     public WebElement webElement() {
         return webElement;
     }

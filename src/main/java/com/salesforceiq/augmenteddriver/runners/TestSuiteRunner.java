@@ -88,7 +88,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                         }));
         LOG.info(String.format("Total tests running: %s", totalTests));
         executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
-        LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start)));
+        LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
         return ImmutableList.copyOf(results);
     }
 

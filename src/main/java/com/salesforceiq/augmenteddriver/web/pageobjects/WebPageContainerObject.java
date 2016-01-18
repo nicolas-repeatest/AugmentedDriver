@@ -12,6 +12,13 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Page Object for WebPages with a container.
+ *
+ * <p>
+ *     Basically it is a helper so it is more convenient to follow the Page Object Pattern.
+ *
+ *     The getters initializes the Page Object using Guice for dependency injection.
+ * </p>
+
  */
 public abstract class WebPageContainerObject implements  WebPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
     private static final Logger LOG = LoggerFactory.getLogger(WebPageObject.class);

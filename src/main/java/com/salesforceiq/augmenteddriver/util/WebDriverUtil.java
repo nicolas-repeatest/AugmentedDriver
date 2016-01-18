@@ -1,6 +1,7 @@
 package com.salesforceiq.augmenteddriver.util;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
@@ -13,7 +14,15 @@ import java.util.stream.Collectors;
  * Utilities around WebDriver.
  */
 public class WebDriverUtil {
+
+    /**
+     * Convenient method since the text of inpus and textareas are in the value attribute,
+     *
+     * @param element the WebElement to get the text.
+     * @return the text.
+     */
     public static String getText(WebElement element) {
+        Preconditions.checkNotNull(element);
         if ("input".equals(element.getTagName()) || "textarea".equals(element.getTagName())) {
             return element.getAttribute("value");
         } else {
@@ -21,7 +30,18 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Finds an element that is visible.
+     *
+     * @param parent The context where the element is going to be looked.
+     * @param by The identifier of the element
+     * @param timeoutInSeconds How much time to wait.
+     * @return the first element that is visible.
+     */
     public static WebElement findElementVisibleAfter(SearchContext parent, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+
         try {
             WebElementWait wait = new WebElementWait(parent, timeoutInSeconds);
             return wait.until((SearchContext element) -> {
@@ -43,7 +63,18 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Finds an element that is clickable.
+     *
+     * @param parent The context where the element is going to be looked.
+     * @param by The identifier of the element
+     * @param timeoutInSeconds How much time to wait.
+     * @return the first element that is clickable.
+     */
     public static WebElement findElementClickableAfter(SearchContext parent, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+
         try {
             WebElementWait wait = new WebElementWait(parent, timeoutInSeconds);
             return wait.until((SearchContext element) -> {
@@ -65,7 +96,22 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Finds an element that is not moving.
+     *
+     * <p>
+     *     This is helpful for animations, sometimes you try to click and element but it moved already.
+     * </p>
+     *
+     * @param parent The context where the element is going to be looked.
+     * @param by The identifier of the element
+     * @param timeoutInSeconds How much time to wait.
+     * @return the first element that hasn't moved.
+     */
     public static WebElement findElementNotMovingAfter(SearchContext parent, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+
         try {
             final WebElement[] previous = {null};
             WebElementWait wait = new WebElementWait(parent, timeoutInSeconds);
@@ -93,7 +139,19 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Finds an element that is contains a particular text.
+     *
+     * @param parent The context where the element is going to be looked.
+     * @param by The identifier of the element
+     * @param timeoutInSeconds How much time to wait.
+     * @param text the string that has to be contained in the element.
+     * @return the first element that contains the text.
+     */
     public static WebElement findElementContainAfter(SearchContext parent, By by, String text, int timeoutInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
         try {
             WebElementWait wait = new WebElementWait(parent, timeoutInSeconds);
             return wait.until((SearchContext element) -> {
@@ -114,6 +172,14 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Finds an element that is present.
+     *
+     * @param parent The context where the element is going to be looked.
+     * @param by The identifier of the element
+     * @param timeoutInSeconds How much time to wait.
+     * @return the first element that is present.
+     */
     public static WebElement findElementPresentAfter(SearchContext parent, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(by);
@@ -132,9 +198,19 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Will return all the elements that are visible identified by the by. It will wait until one is visible and then
+     * return all the visible ones at that point.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param by The identifier of the elements.
+     * @param waitInSeconds How much time to wait.
+     * @return the elements that are visible.
+     */
     public static List<WebElement> findElementsVisibleAfter(SearchContext parent, By by, int waitInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(by);
+
         findElementVisibleAfter(parent, by, waitInSeconds);
         return parent.findElements(by)
                      .stream()
@@ -142,16 +218,36 @@ public class WebDriverUtil {
                      .collect(Collectors.toList());
     }
 
+    /**
+     * Will return all the elements that are present identified by the by. It will wait until one is present and then
+     * return all the present ones at that point.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param by The identifier of the elements.
+     * @param waitInSeconds How much time to wait.
+     * @return the elements that are present.
+     */
     public static List<WebElement> findElementsPresentAfter(SearchContext parent, By by, int waitInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(by);
+
         findElementPresentAfter(parent, by, waitInSeconds);
         return parent.findElements(by);
     }
 
+    /**
+     * Will return all the elements that are clickable identified by the by. It will wait until one is clickable and then
+     * return all the clickable ones at that point.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param by The identifier of the elements.
+     * @param waitInSeconds How much time to wait.
+     * @return the elements that are clickable.
+     */
     public static List<WebElement> findElementsClickableAfter(SearchContext parent, By by, int waitInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(by);
+
         findElementClickableAfter(parent, by, waitInSeconds);
         return parent.findElements(by)
                      .stream()
@@ -159,7 +255,17 @@ public class WebDriverUtil {
                      .collect(Collectors.toList());
     }
 
+    /**
+     * Will wait until no element identified by the by is present.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param by The identifier of the element.
+     * @param waitInSeconds How much time to wait.
+     */
     public static void waitElementToNotBePresent(SearchContext parent, By by, int waitInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+
         try {
             WebElementWait wait = new WebElementWait(parent, waitInSeconds);
             wait.until((SearchContext element) -> {
@@ -174,7 +280,17 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Will wait until no element identified by the by is visible.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param by The identifier of the element.
+     * @param waitInSeconds How much time to wait.
+     */
     public static void waitElementToNotBeVisible(SearchContext parent, By by, int waitInSeconds) {
+        Preconditions.checkNotNull(parent);
+        Preconditions.checkNotNull(by);
+
         try {
             WebElementWait wait = new WebElementWait(parent, waitInSeconds);
             wait.until((SearchContext element) -> {
@@ -193,20 +309,34 @@ public class WebDriverUtil {
         }
     }
 
+    /**
+     * Moves to an element and then clicks another.
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param moveTo The element to move to.
+     * @param click The element to click.
+     * @param waitInSeconds How much time to wait.
+     */
     public static void moveToAndClick(RemoteWebDriver parent, By moveTo, By click, int waitInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(moveTo);
         Preconditions.checkNotNull(click);
-        WebElement moveToElement = findElementVisibleAfter(parent, moveTo, waitInSeconds);
-        new Actions(parent)
-                .moveToElement(moveToElement)
-                .perform();
+
+        moveTo(parent, moveTo, waitInSeconds);
         findElementClickableAfter(parent, click, waitInSeconds).click();
     }
 
+    /**
+     * Moves to an element..
+     *
+     * @param parent The context where the elements are going to be looked.
+     * @param moveTo The element to move to.
+     * @param waitInSeconds How much time to wait.
+     */
     public static WebElement moveTo(RemoteWebDriver parent, By moveTo, int waitInSeconds) {
         Preconditions.checkNotNull(parent);
         Preconditions.checkNotNull(moveTo);
+
         WebElement moveToElement = findElementVisibleAfter(parent, moveTo, waitInSeconds);
         new Actions(parent)
                 .moveToElement(moveToElement)
@@ -214,27 +344,65 @@ public class WebDriverUtil {
         return moveToElement;
     }
 
+    /**
+     * Checks if an element is visible.
+     *
+     * @param element the Element to check.
+     * @return true if it is visible.
+     */
     private static boolean isElementVisible(WebElement element) {
         Preconditions.checkNotNull(element);
+
         return element.isDisplayed();
     }
 
+    /**
+     * Checks if an element is clickable.
+     *
+     * @param element the Element to check.
+     * @return true if it is clickable.
+     */
     private static boolean isElementClickable(WebElement element) {
         Preconditions.checkNotNull(element);
+
         return element.isDisplayed() && element.isEnabled();
     }
 
+    /**
+     * Checks if a WebDriver is running Chrome.
+     *
+     * @param driver the WebDriver to check.
+     * @return true if it is chrome.
+     */
     public static boolean isChrome(RemoteWebDriver driver) {
+        Preconditions.checkNotNull(driver);
+
         Capabilities capabilities = driver.getCapabilities();
         return "CHROME".equals(capabilities.getBrowserName().toUpperCase());
     }
 
+    /**
+     * Checks if a WebDriver is running Firefox.
+     *
+     * @param driver the WebDriver to check.
+     * @return true if it is Firefox.
+     */
     public static boolean isFirefox(RemoteWebDriver driver) {
+        Preconditions.checkNotNull(driver);
+
         Capabilities capabilities = driver.getCapabilities();
         return "FIREFOX".equals(capabilities.getBrowserName().toUpperCase());
     }
 
-    public static boolean isAndroid4 (RemoteWebDriver driver) {
+    /**
+     * Checks if an Appium is running androd 4.x.
+     *
+     * @param driver the appium to check.
+     * @return true if it is running 4.x
+     */
+    public static boolean isAndroid4(RemoteWebDriver driver) {
+        Preconditions.checkNotNull(driver);
+
         String capabilities = driver.getCapabilities().getCapability("platformVersion").toString();
         return capabilities.contains("4");
     }

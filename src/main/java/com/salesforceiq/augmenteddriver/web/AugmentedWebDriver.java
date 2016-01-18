@@ -1,7 +1,5 @@
 package com.salesforceiq.augmenteddriver.web;
 
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.google.inject.name.Named;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -22,15 +20,35 @@ public class AugmentedWebDriver extends RemoteWebDriver {
 
     private AugmentedWebFunctions augmentedFunctions;
 
-    public AugmentedWebDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,
+    /**
+     * Extensive Constructor.
+     *
+     * @param remoteAddress Where the Selenium is running.
+     * @param capabilities The capabilities to use.
+     * @throws MalformedURLException In case the remoteAddress is now well formed.
+     */
+    public AugmentedWebDriver(String remoteAddress,
                               DesiredCapabilities capabilities) throws MalformedURLException {
         super(new URL(remoteAddress), capabilities);
     }
 
+    /**
+     * The augmented functions for the whole driver.
+     *
+     * @return the AugmentedWebFunctions.
+     */
     public AugmentedWebFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * Sets the AugmentedFunction for the session.
+     *
+     * <p>
+     *     SHOULD NOT BE USED OUTSIDE THE SETUP FOR THE BASE WEB TESTCASE.
+     * </p>
+     * @param augmentedFunctions the functions to use.
+     */
     public void setAugmentedFunctions(AugmentedWebFunctions augmentedFunctions) {
         this.augmentedFunctions = augmentedFunctions;
     }

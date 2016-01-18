@@ -28,6 +28,14 @@ public class AugmentedWebDriverProvider implements Provider<AugmentedWebDriver> 
         return Preconditions.checkNotNull(driver);
     }
 
+    /**
+     * Sets the driver that will be used for this test.
+     *
+     * <p>
+     *     SHOULD NOT BE CALLED OUTSIDE THE SETUP FOR THE BASE TESTCASES.
+     * </p>
+     * @param driver the driver to set.
+     */
     public void set(AugmentedWebDriver driver) {
         this.driver = driver;
     }

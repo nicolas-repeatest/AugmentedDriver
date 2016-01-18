@@ -11,16 +11,27 @@ import com.google.common.reflect.ClassPath;
 import java.io.IOException;
 import java.util.List;
 
-
+/**
+ * Provides functionality for finding the classes to run.
+ */
 public class TestsFinder {
 
     private static final ClassLoader CLASS_LOADER = TestsFinder.class.getClassLoader();
 
+    /**
+     * Finds the classes to test, given a list of suites and the root package.
+     *
+     * @param suites the Suites used to find classes (classes should be annotated with the Suites annotation)
+     * @param suitesPackage the root package.
+     * @return the List of classes that are annotated with any of the suites.
+     * @throws IOException if failed to initialize the class loader.
+     */
     @SuppressWarnings("unchecked")
     public static List<Class> getTestClassesOfPackage(List<String> suites, String suitesPackage) throws IOException {
         Preconditions.checkNotNull(suites);
         Preconditions.checkArgument(!suites.isEmpty());
         Preconditions.checkArgument(!Strings.isNullOrEmpty(suitesPackage));
+
         List<String> upperSuites = ImmutableList.copyOf(Lists.transform(suites, String::toUpperCase));
         return ImmutableList.copyOf(Iterables.filter(getAllClassesOfPackage(suitesPackage), clazz -> {
             if (clazz.isAnnotationPresent(Suites.class)) {
@@ -36,6 +47,7 @@ public class TestsFinder {
 
     private static List<Class> getAllClassesOfPackage(String suitesPackage) throws IOException {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(suitesPackage));
+
         ClassPath classPath = ClassPath.from(CLASS_LOADER);
         return ImmutableList.copyOf(Iterables.transform(classPath.getTopLevelClassesRecursive(suitesPackage), TO_CLASS));
     }

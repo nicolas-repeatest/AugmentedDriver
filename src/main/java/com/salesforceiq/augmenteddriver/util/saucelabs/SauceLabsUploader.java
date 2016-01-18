@@ -34,6 +34,6 @@ public class SauceLabsUploader {
                 arguments.file().getFileName().toString(), arguments.overwrite()));
         sauceREST.uploadFile(arguments.file().toFile(), arguments.file().getFileName().toString(), arguments.overwrite());
         LOG.info(String.format("Finishing uploading file %s in %s", arguments.file().getFileName().toString(),
-                Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start)));
+                Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
     }
 }

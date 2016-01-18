@@ -99,7 +99,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         augmentedWebFunctions = augmentedWebFunctionsFactory.create(driver);
         driver.setAugmentedFunctions(augmentedWebFunctions);
         augmentedWebDriverProvider.set(driver);
-        LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
+        LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
 
         sessionId = driver.getSessionId().toString();

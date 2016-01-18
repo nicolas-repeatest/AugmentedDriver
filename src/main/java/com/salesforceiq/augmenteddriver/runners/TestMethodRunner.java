@@ -62,7 +62,7 @@ public class TestMethodRunner implements Callable<List<Result>> {
             Futures.addCallback(future, createCallback(method));
         }
         executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
-        LOG.info(String.format("FINISHED TestMethodRunner %s in %s", testName,Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start)));
+        LOG.info(String.format("FINISHED TestMethodRunner %s in %s", testName,Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
         return ImmutableList.copyOf(results);
     }
 

@@ -22,18 +22,22 @@ import java.util.Properties;
 import java.util.regex.Pattern;
 
 /**
- * For parsing command line arguments.
- *
- * <p>
- *     All the command line arguments should be here.
- * </p>
+ * Where all the configuration parameters of the test reside (from command line arguments and Properties file)
  */
 public class TestRunnerConfig {
 
     private static Class<?> hackClass;
     public static TestRunnerConfig ARGUMENTS;
 
+    /**
+     * Initializes the configuration with the command line arguments.
+     *
+     * @param commandLineArgs the command line arguments that come from the java main method.
+     * @return the Test Configuration.
+     */
     public static TestRunnerConfig initialize(String[] commandLineArgs) {
+        Preconditions.checkNotNull(commandLineArgs);
+
         TestRunnerConfig result = new TestRunnerConfig();
         JCommander jCommander = new JCommander();
         jCommander.setAcceptUnknownOptions(true);
@@ -43,7 +47,15 @@ public class TestRunnerConfig {
         return ARGUMENTS;
     }
 
+    /**
+     * Initializes the configuration with a properties file.
+     *
+     * @param properties the properties file to use.
+     * @return the Test Configuration.
+     */
     public static TestRunnerConfig initialize(Properties properties) {
+        Preconditions.checkNotNull(properties);
+
         TestRunnerConfig result = new TestRunnerConfig();
 
         if (properties.get(PropertiesModule.CAPABILITIES) != null) {

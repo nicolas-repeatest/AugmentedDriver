@@ -79,7 +79,7 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         augmentedIOSFunctions = augmentedIOSFunctionsFactory.create(driver);
         driver.setAugmentedFunctions(augmentedIOSFunctions);
         augmentedIOSDriverProvider.set(driver);
-        LOG.info("AugmentedIOSDriver created in " + Util.TO_PRETTY_FORNAT.apply(System.currentTimeMillis() - start));
+        LOG.info("AugmentedIOSDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
         sessionId = driver.getSessionId().toString();
         if (integrations.sauceLabs().isEnabled()) {

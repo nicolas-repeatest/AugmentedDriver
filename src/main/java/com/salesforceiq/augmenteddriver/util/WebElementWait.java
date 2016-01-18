@@ -8,6 +8,9 @@ import org.openqa.selenium.support.ui.SystemClock;
 
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Simple WebElementWait that polls every timeoutInSeconds.
+ */
 class WebElementWait extends FluentWait<SearchContext> {
 
     public WebElementWait(SearchContext element, long timeoutInSeconds) {

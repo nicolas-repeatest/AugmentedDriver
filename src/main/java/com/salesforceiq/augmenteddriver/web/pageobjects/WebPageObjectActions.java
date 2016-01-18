@@ -11,6 +11,9 @@ import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Implementation based on Guice of WebPageObjectActionsInterface.
+ */
 public class WebPageObjectActions implements WebPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(WebPageObjectActions.class);
 
@@ -26,6 +29,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
 
     @Override
     public <T extends WebPageObject> T get(Class<T> clazz) {
+        Preconditions.checkNotNull(clazz);
         T instance = injector.getInstance(clazz);
         try {
             instance.assertPresent();

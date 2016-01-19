@@ -10,6 +10,9 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Utility class for finding all the tests that are quarantined.
+ */
 public class QuarantineFinder {
 
     private static class QuarantineCommandLineArguments {
@@ -42,6 +45,9 @@ public class QuarantineFinder {
         private String suitesPackage;
     }
 
+    /**
+     * Given a set of suites and the starting root package, it will print all the tests that are quarantined.
+     */
     public static void main(String[] args) throws Exception {
         QuarantineCommandLineArguments arguments = QuarantineCommandLineArguments.initialize(args);
         checkArguments(arguments);

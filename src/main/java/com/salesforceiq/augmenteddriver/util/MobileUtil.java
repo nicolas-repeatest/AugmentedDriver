@@ -6,6 +6,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Common utilities for IOS and Android.
+ */
 public class MobileUtil {
 
     private static final int VERTICAL_OFFSET = 10;
@@ -13,15 +16,42 @@ public class MobileUtil {
     private static final int DEFAULT_DURATION = 1000;
     private static final int DEFAULT_TAP_DURATION = 500;
 
+    /**
+     * Swipes up on an element, until the other element becomes visible.
+     *
+     * @param driver The AppiumDriver used to swip up.
+     * @param augmentedFunctions all the augmented functions.
+     * @param swipeElement form which element the swipe up should start
+     * @param elementVisible which element should become visible
+     * @return the element visible.
+     */
     public static WebElement swipeUpWaitVisible(AppiumDriver driver,
                                                 AugmentedFunctions<?> augmentedFunctions,
                                                 By swipeElement,
                                                 By elementVisible) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        Preconditions.checkNotNull(swipeElement);
+        Preconditions.checkNotNull(elementVisible);
+
         return swipeVerticalWaitVisible(driver, augmentedFunctions, swipeElement,
                 elementVisible, - BIG_NUMBER, 5, DEFAULT_DURATION);
     }
 
+    /**
+     * Taps on an element based on the coordinates (Sometimes the element is there but not clickable).
+     *
+     * @param driver The AppiumDriver used to swip up.
+     * @param augmentedFunctions all the augmented functions.
+     * @param by the by that identifies the element
+     * @param waitTimeInSeconds how much time to wait until the element becomes visible
+     * @return the element that was tapped.
+     */
     public static WebElement tap(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        Preconditions.checkNotNull(by);
+
         WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
         tap(driver, element, DEFAULT_TAP_DURATION);
         return  element;
@@ -29,6 +59,10 @@ public class MobileUtil {
 
     public static WebElement tap(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions,
                                  By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(augmentedFunctions);
+        Preconditions.checkNotNull(by);
+
         WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
         driver.tap(1, element.getLocation().getX() + offsetX, element.getLocation().getY() + offsetY, DEFAULT_TAP_DURATION);
         return element;

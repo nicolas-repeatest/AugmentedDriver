@@ -39,6 +39,7 @@ dependencies {
     compile 'io.appium:java-client:3.2.0'   
 }
 
+
 jar {
     from {
         (configurations.runtime).collect {

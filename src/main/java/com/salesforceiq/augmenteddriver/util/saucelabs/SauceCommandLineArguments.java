@@ -7,10 +7,19 @@ import com.google.common.base.Preconditions;
 
 import java.nio.file.Path;
 
+/**
+ * Command line arguments for uploading files to SauceLabs.
+ */
 public class SauceCommandLineArguments {
 
     public static SauceCommandLineArguments ARGUMENTS;
 
+    /**
+     * Initializes the configuration.
+     *
+     * @param args the Command line arguments of the main method.
+     * @return the configuration for the run.
+     */
     public static SauceCommandLineArguments initialize(String[] args) {
         SauceCommandLineArguments result = new SauceCommandLineArguments();
         JCommander jCommander = new JCommander();
@@ -21,16 +30,25 @@ public class SauceCommandLineArguments {
         return ARGUMENTS;
     }
 
+    /**
+     * @return file to upload to SauceLabs.
+     */
     public Path file() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.fileToUpload;
     }
 
+    /**
+     * @return whether to overwrite or not a file if it exists already.
+     */
     public boolean overwrite() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.overwrite;
     }
 
+    /**
+     * @return path to the properties file with the configuration.
+     */
     public String conf() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.conf;

@@ -71,66 +71,105 @@ public class TestRunnerConfig {
     }
 
 
+    /**
+     * @return Test Class to run (for running one test).
+     */
     public Class<?> clazz() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.clazz;
     }
 
+    /**
+     * @return Method name to run (for running one test).
+     */
     public Method test() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.test;
     }
 
+    /**
+     * @return Suites to run (for running suites).
+     */
     public List<String> suites() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return Arrays.asList(ARGUMENTS.suites.split(","));
     }
 
+    /**
+     * @return root package.
+     */
     public String suitesPackage() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.suitesPackage;
     }
 
+    /**
+     * @return How many times to run a test (for running one test).
+     */
     public int quantity() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quantity;
     }
 
+    /**
+     * @return How many tests in parallel can be run.
+     */
     public int parallel() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.parallel;
     }
 
+    /**
+     * @return time in minutes to wait for the suite/test to finish.
+     */
     public int timeoutInMinutes() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.timeoutInMinutes;
     }
 
+    /**
+     * @return whether is running on sauce or not.
+     */
     public boolean sauce() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.sauce;
     }
 
+    /**
+     * @return whether to run quarantined tests or not.
+     */
     public boolean quarantine() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.quarantine;
     }
 
+    /**
+     * @return Capabilities used to run the test/suite.
+     */
     public DesiredCapabilities capabilities() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.capabilities;
     }
 
+    /**
+     * @return Pointing to the properties file with the configuration.
+     */
     public String conf() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.conf;
     }
 
+    /**
+     * @return Path to the apk or the zip with the android/ios app to run.
+     */
     public String app() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.app;
     }
 
+    /**
+     * @return extra parameters.
+     */
     public Map<String, String> extra() {
         Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
         return ARGUMENTS.extra;

@@ -13,15 +13,22 @@ import org.slf4j.LoggerFactory;
 import java.nio.file.Files;
 import java.util.List;
 
+/**
+ * Utility class to upload files to SauceLabs.
+ *
+ * It reuses the Guice injection for getting the credentials
+ */
 public class SauceLabsUploader {
     private static final Logger LOG = LoggerFactory.getLogger(SauceLabsUploader.class);
-
 
     private static void checkArguments(SauceCommandLineArguments arguments) {
         Preconditions.checkNotNull(arguments.file(), "You should specify a file to upload");
         Preconditions.checkArgument(Files.exists(arguments.file()), "The file should exist " + arguments.file().getFileName());
     }
 
+    /**
+     * Should receive the path of the file to upload and the conf with the properties file with the credentials.
+     */
     public static void main(String[] args) throws Exception {
         SauceCommandLineArguments arguments = SauceCommandLineArguments.initialize(args);
         checkArguments(arguments);

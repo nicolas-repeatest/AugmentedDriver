@@ -13,6 +13,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 
+/**
+ * AbstractModule for loading the keys and the file.
+ */
 public class SauceLabsModule extends AbstractModule {
 
     @Override

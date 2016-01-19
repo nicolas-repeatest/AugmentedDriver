@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.openqa.selenium.By;
 
+/**
+ * Helper static class with handy methods for creating Android Bys.
+ */
 public class AndroidBys {
 
     public static final By elementWithContentDesc(String element, String contentDescription) {

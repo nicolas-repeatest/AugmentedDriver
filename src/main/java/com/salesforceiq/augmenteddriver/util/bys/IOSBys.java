@@ -4,6 +4,9 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.openqa.selenium.By;
 
+/**
+ * Helper static class with handy methods for creating IOS Bys.
+ */
 public class IOSBys {
 
     public static final By elementWithName(String element, String name) {

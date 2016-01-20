@@ -13,10 +13,15 @@ public class AugmentedAssert {
 
     /**
      * Asserts that a By is present. If it is not present after timeoutInSeconds, it will throw an AssertionError exception
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has to be present.
+     * @param timeoutInSeconds how much time to wait.
      */
     public static void assertElementIsPresentAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
+
         try {
             driver.findElementPresentAfter(by, timeoutInSeconds);
         } catch (TimeoutException e) {
@@ -26,10 +31,15 @@ public class AugmentedAssert {
 
     /**
      * Asserts that a By is visible. If it is not visible after timeoutInSeconds, it will throw an AssertionError exception
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has to be visible.
+     * @param timeoutInSeconds how much time to wait.
      */
     public static void assertElementIsVisibleAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
+
         try {
             driver.findElementsVisibleAfter(by, timeoutInSeconds);
         } catch (TimeoutException e) {
@@ -39,10 +49,15 @@ public class AugmentedAssert {
 
     /**
      * Asserts that a By is clickable. If it is not clickable after timeoutInSeconds, it will throw an AssertionError exception
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has to be clickable.
+     * @param timeoutInSeconds how much time to wait.
      */
     public static void assertElementIsClickableAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
+
         try {
             driver.findElementClickableAfter(by, timeoutInSeconds);
         } catch (TimeoutException e) {
@@ -52,11 +67,17 @@ public class AugmentedAssert {
 
     /**
      * Asserts that a By contains a specific text. If there is not by that contains text after timeoutInSeconds, it will throw an AssertionError exception
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has to be present.
+     * @param text the text that the element has to contain.
+     * @param timeoutInSeconds how much time to wait.
      */
     public static void assertElementContainsAfter(AugmentedFunctions driver, By by, String text, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         try {
             driver.findElementContainAfter(by, text, timeoutInSeconds);
         } catch (TimeoutException e) {
@@ -64,7 +85,17 @@ public class AugmentedAssert {
         }
     }
 
+    /**
+     * Asserts that an element is not visible.
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has not to be visible.
+     * @param timeoutInSeconds how much time to wait.
+     */
     public static void assertElementIsNotVisibleAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(by);
+
         try {
             driver.findElementsVisibleAfter(by, timeoutInSeconds);
             org.junit.Assert.fail(String.format("Element %s is visible", by));
@@ -73,7 +104,17 @@ public class AugmentedAssert {
         }
     }
 
+    /**
+     * Asserts that an element is not clickable.
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has not to be clickable.
+     * @param timeoutInSeconds how much time to wait.
+     */
     public static void assertElementIsNotClickableAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(by);
+
         try {
             driver.findElementClickableAfter(by, timeoutInSeconds);
             org.junit.Assert.fail(String.format("Element %s is clickable", by));
@@ -82,7 +123,17 @@ public class AugmentedAssert {
         }
     }
 
+    /**
+     * Asserts that an element is not present.
+     *
+     * @param driver the Driver to use.
+     * @param by the element that has not to be present.
+     * @param timeoutInSeconds how much time to wait.
+     */
     public static void assertElementIsNotPresentAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(driver);
+        Preconditions.checkNotNull(by);
+
         try {
             driver.findElementPresentAfter(by, timeoutInSeconds);
             org.junit.Assert.fail(String.format("Element %s is present", by));

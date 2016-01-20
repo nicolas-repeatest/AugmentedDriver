@@ -7,6 +7,8 @@ public interface Integration {
 
     /**
      * Determines whether the integration is enabled or not.
+     *
+     * @return whether the integration is enabled or not.
      */
     boolean isEnabled();
 

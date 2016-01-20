@@ -10,6 +10,8 @@ import java.lang.annotation.*;
 public @interface GuiceModules {
     /**
      * The Guice Modules classes needed by the class under test.
+     *
+     * @return all the Module needed by guice to initialize.
      */
     Class<? extends AbstractModule>[] value();
 }

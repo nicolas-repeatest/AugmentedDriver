@@ -24,10 +24,11 @@ public class TeamCityReporter extends RunListener {
      * Extensive Constructor.
      *
      * @param out where to print the output.
-     * @param testNameAppender Can be empty
+     * @param testNameAppender Can be empty but not null.
      */
     public TeamCityReporter(final OutputStream out, String testNameAppender) {
         Preconditions.checkNotNull(out);
+        Preconditions.checkNotNull(testNameAppender);
 
         this.testNameAppender = testNameAppender;
         this.out = new PrintStream(out);

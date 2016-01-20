@@ -1,21 +1,19 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
-import com.salesforceiq.augmenteddriver.asserts.AugmentedAssertInterface;
-import com.salesforceiq.augmenteddriver.guice.GuiceTestRunner;
-import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.salesforceiq.augmenteddriver.util.Util;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.asserts.AugmentedAssertInterface;
+import com.salesforceiq.augmenteddriver.guice.GuiceTestRunner;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
+import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Base Test Case for all tests.

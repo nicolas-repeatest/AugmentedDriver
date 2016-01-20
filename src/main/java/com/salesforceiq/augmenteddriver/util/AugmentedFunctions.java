@@ -295,6 +295,7 @@ public interface AugmentedFunctions<T extends WebElement> {
      *
      * @param moveTo the element to move to.
      * @param click the element to click.
+     * @param waitInSeconds How much time in seconds to wait until the element is present.
      */
     void  moveToAndClickAfter(By moveTo, By click, int waitInSeconds);
 

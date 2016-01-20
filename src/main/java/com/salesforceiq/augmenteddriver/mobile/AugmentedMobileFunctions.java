@@ -164,6 +164,7 @@ public interface AugmentedMobileFunctions<T> {
      * @param elementVisible the element that should show up.
      * @param swipeElement whiche element to swipe.
      * @param offset up to which point the swipe will happen.
+     * @return the element that showed up.
      */
     T swipeVerticalWaitVisible(By swipeElement,
                        By elementVisible,

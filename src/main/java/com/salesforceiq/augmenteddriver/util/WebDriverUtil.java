@@ -332,6 +332,7 @@ public class WebDriverUtil {
      * @param parent The context where the elements are going to be looked.
      * @param moveTo The element to move to.
      * @param waitInSeconds How much time to wait.
+     * @return the element that was moved to.
      */
     public static WebElement moveTo(RemoteWebDriver parent, By moveTo, int waitInSeconds) {
         Preconditions.checkNotNull(parent);

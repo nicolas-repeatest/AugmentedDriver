@@ -28,6 +28,9 @@ public class SauceLabsUploader {
 
     /**
      * Should receive the path of the file to upload and the conf with the properties file with the credentials.
+     *
+     * @param args the command line arguments.
+     * @throws Exception if there was an error.
      */
     public static void main(String[] args) throws Exception {
         SauceCommandLineArguments arguments = SauceCommandLineArguments.initialize(args);

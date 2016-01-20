@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
+import com.google.common.base.Strings;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
@@ -72,6 +73,12 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         Preconditions.checkNotNull(remoteAddress);
         Preconditions.checkNotNull(capabilities);
 
+        // If left to Guice, it creates each driver serially, queueing all tests
+        // (Android SauceLabs takes up to 40 seconds to create one)
+        // This is a hack that creates a driver manually and sets it in the
+        // AugmentedWebDriverProvider and AugmentedWebFunctionsFactory.
+        //
+        // NOT IDEAL.
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedAndroidDriver");
         try {
@@ -114,81 +121,111 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
 
     @Override
     public <T extends AndroidPageObject> T get(Class<T> clazz) {
-        return androidPageObjectActions.get(clazz);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
-        return androidPageObjectActions.get(clazz, container);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(container));
     }
 
     @Override
     public void assertElementIsPresentAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsPresentAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsPresent(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsPresentAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsVisibleAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsVisibleAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsVisible(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsVisibleAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsClickableAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsClickableAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsClickable(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsClickableAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementContainsAfter(By by, String text, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         AugmentedAssert.assertElementContainsAfter(augmented(), by, text, timeoutInSeconds);
     }
 
     @Override
     public void assertElementContains(By by, String text) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         AugmentedAssert.assertElementContainsAfter(augmented(), by, text, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotClickableAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotClickable(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotVisibleAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotVisible(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotPresentAfter(By by, int timeoutInSeconds) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotPresent(By by) {
+        Preconditions.checkNotNull(by);
+
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
     }
 }

@@ -4,8 +4,8 @@ import com.google.common.base.Strings;
 import com.google.inject.AbstractModule;
 import com.google.inject.name.Names;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.saucelabs.saucerest.SauceREST;
 import com.salesforceiq.augmenteddriver.util.Util;
+import com.saucelabs.saucerest.SauceREST;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +30,9 @@ public class PropertiesModule extends AbstractModule {
     public static final String REMOTE_ADDRESS = "REMOTE_ADDRESS";
     public static final String UNIQUE_ID = "UNIQUE_ID";
     public static final String WAIT_IN_SECONDS = "WAIT_TIME_IN_SECONDS";
+    public static final String PRESS_TIME_IN_MILLISECONDS = "PRESS_TIME_IN_MILLISECONDS";
+    public static final String SWIPE_QUANTITY = "SWIPE_QUANTITY";
+    public static final String TAP_FINGERS = "TAP_FINGERS";
     public static final String MAX_RETRIES = "MAX_RETRIES";
     public static final String SAUCE_USER = "SAUCE_USER";
     public static final String SAUCE_KEY = "SAUCE_KEY";
@@ -42,23 +45,27 @@ public class PropertiesModule extends AbstractModule {
     private static final String ID = Util.getRandomAsString();
 
     /**
-     * For now all the properties are defined here.
+     * For now all the default properties are defined here.
      */
     private static final Map<String, String> defaultProperties = new HashMap<String, String>() {
         {
             put(LOCAL_ADDRESS, "http://127.0.0.1:7777/wd/hub");
             put(SAUCE_ADDRESS, "http://ondemand.saucelabs.com:80/wd/hub");
             put(WAIT_IN_SECONDS, "30");
+            put(PRESS_TIME_IN_MILLISECONDS, "1000");
+            put(SWIPE_QUANTITY, "5");
             put(TEAM_CITY_INTEGRATION, "false");
             put(REPORTING, "false");
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");
+            put(TAP_FINGERS, "1");
             put(MAX_RETRIES, "2");
         }
     };
 
     @Override
     protected void configure() {
+        // Loads the default properties.
         Properties properties = new Properties();
         defaultProperties.entrySet()
                 .stream()
@@ -67,6 +74,7 @@ public class PropertiesModule extends AbstractModule {
         String path = TestRunnerConfig.ARGUMENTS == null ? DEFAULT_CONFIG : TestRunnerConfig.ARGUMENTS.conf();
         Path propertiesPath = Paths.get(path);
 
+        // Loads the properties set in the properties file.
         if (Files.exists(propertiesPath)) {
             try {
                 properties.load(new FileInputStream(propertiesPath.toFile()));
@@ -77,6 +85,7 @@ public class PropertiesModule extends AbstractModule {
             throw new IllegalArgumentException("Properties file does not exist " + propertiesPath);
         }
 
+        // To load the capabilities from properties file.
         if (TestRunnerConfig.ARGUMENTS == null && properties.get(CAPABILITIES) != null) {
             TestRunnerConfig.initialize(properties);
         }
@@ -90,7 +99,6 @@ public class PropertiesModule extends AbstractModule {
         } else {
             properties.setProperty(PropertiesModule.REMOTE_ADDRESS, properties.getProperty(PropertiesModule.LOCAL_ADDRESS));
         }
-
 
         // This will override the properties set in the property file, with the properties sent in the extra parameters.
         if (TestRunnerConfig.ARGUMENTS.extra() != null
@@ -127,5 +135,4 @@ public class PropertiesModule extends AbstractModule {
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(PropertiesModule.SAUCE_USER));
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(PropertiesModule.SAUCE_KEY));
     }
-
 }

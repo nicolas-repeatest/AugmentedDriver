@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 
 /**
- * Guice Module for CommandLineArgumtens.
+ * Guice Module for TestRunnerConfig.
  *
  * Basically binds TestRunnerConfig to the static instance that should have been already initialized.
  */

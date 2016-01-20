@@ -1,15 +1,13 @@
 package com.salesforceiq.augmenteddriver.modules;
 
-import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
-import com.salesforceiq.augmenteddriver.mobile.ios.*;
-import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctionsFactory;
+import com.salesforceiq.augmenteddriver.mobile.ios.*;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Module for AugmentedIOSDriver.
+ */
 public class AugmentedIOSDriverModule extends AbstractModule {
     @Override
     protected void configure() {

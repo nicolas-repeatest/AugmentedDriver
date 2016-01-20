@@ -5,6 +5,9 @@ import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
 import org.openqa.selenium.WebDriver;
 
+/**
+ * Module for AugmentedWebDriver.
+ */
 public class AugmentedWebDriverModule extends AbstractModule {
     @Override
     protected void configure() {

@@ -30,7 +30,7 @@ public interface AugmentedMobileFunctions<T> {
      *     I.e if we select (by, 5, 5) it will tap 5 pixels to the right and 5 pixels to the bottom
      * </p>
      */
-    T tap(By by, int offsetX, int offsetY);
+    T tapOffset(By by, int offsetX, int offsetY);
 
     /**
      * Taps on the offset of an element.
@@ -39,12 +39,25 @@ public interface AugmentedMobileFunctions<T> {
      *     I.e if we select (by, 5, 5) it will tap 5 pixels to the right and 5 pixels to the bottom
      * </p>
      */
-    T tapAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds);
+    T tapOffsetAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds);
 
     /**
      * Taps on an element for the given milli seconds
      */
-    void tap(WebElement element, int pressInMilliSeconds);
+    T tapLong(By by, int pressInMilliSeconds);
+
+    /**
+     * Taps on an element for the given milli seconds
+     */
+    T tapLongAfter(By by, int pressInMilliSeconds, int waitTimeInSeconds);
+
+    T tapFingers(By by, int fingers);
+
+    T tapFingersAfter(By by, int fingers, int waitTimeInSeconds);
+
+    T tapCustomAfter(By by, int offsetX, int offsetY, int pressInMilliSeconds, int fingers, int waitTimeInSeconds);
+
+    T tapCustom(By by, int offsetX, int offsetY, int pressInMilliSeconds, int fingers);
 
     /**
      * Clicks on an element (waiting default time to show up), types and then hides the keyboard.
@@ -93,19 +106,11 @@ public interface AugmentedMobileFunctions<T> {
      */
     void swipeVertical(By swipeBy, int offset, int duration);
 
-    void swipeFullRight(WebElement element);
-
     void swipeFullRight(By by);
-
-    void swipeFullRightAfter(WebElement element, int waitInSeconds);
 
     void swipeFullRightAfter(By by, int waitInSeconds);
 
-    void swipeFullLeft(WebElement element);
-
     void swipeFullLeft(By by);
-
-    void swipeFullLeftAfter(WebElement element, int waitInSeconds);
 
     void swipeFullLeftAfter(By by, int waitInSeconds);
 }

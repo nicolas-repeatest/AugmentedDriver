@@ -14,6 +14,8 @@ public interface AugmentedWebOnlyFunctions {
 
     /**
      * Scrolls the page to an element.
+     *
+     * @param by to which element to scroll to.
      */
     void scrollToElement(By by);
 }

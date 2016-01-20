@@ -47,6 +47,9 @@ public class QuarantineFinder {
 
     /**
      * Given a set of suites and the starting root package, it will print all the tests that are quarantined.
+     *
+     * @param args command line arguments
+     * @throws Exception if something went wrong.
      */
     public static void main(String[] args) throws Exception {
         QuarantineCommandLineArguments arguments = QuarantineCommandLineArguments.initialize(args);

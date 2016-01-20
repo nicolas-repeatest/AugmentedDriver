@@ -22,6 +22,8 @@ public class IntegrationFactory {
 
     /**
      * Saucelabs Integration.
+     *
+     * @return the SauceLabsIntegration.
      */
     public SauceLabsIntegration sauceLabs() {
         return sauceLabsIntegration;
@@ -29,6 +31,8 @@ public class IntegrationFactory {
 
     /**
      * TeamCity Integration.
+     *
+     * @return  the TeamCityIntegration.
      */
     public TeamCityIntegration teamCity() {
         return teamCityIntegration;

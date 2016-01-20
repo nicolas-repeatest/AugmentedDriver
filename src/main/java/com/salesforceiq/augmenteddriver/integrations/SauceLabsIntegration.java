@@ -30,6 +30,9 @@ public class SauceLabsIntegration implements Integration {
 
     /**
      * Sets the job name
+     *
+     * @param jobName the name to set in SauceLabs.
+     * @param sessionId the session id of the test.
      */
     public void jobName(String jobName, String sessionId) {
         update("name", jobName, sessionId);
@@ -37,6 +40,9 @@ public class SauceLabsIntegration implements Integration {
 
     /**
      * Sets whether the test passed or not.
+     *
+     * @param testPassed if the test passed or not.
+     * @param sessionId the session id of the test.
      */
     public void testPassed(boolean testPassed, String sessionId) {
         update("passed", testPassed, sessionId);
@@ -44,6 +50,9 @@ public class SauceLabsIntegration implements Integration {
 
     /**
      * Sets the build name
+     *
+     * @param buildName the name to assign to the entire build.
+     * @param sessionId the session id of the test.
      */
     public void buildName(String buildName, String sessionId) {
         update("build", buildName, sessionId);
@@ -51,11 +60,16 @@ public class SauceLabsIntegration implements Integration {
 
     /**
      * Uploads a file to SauceLabs. Usually for an app or an apk.
+     *
+     * @param fileToUpload which file to upload to sauce.
+     * @param destinationFileName the name of the file for SauceLabs.
+     * @throws IOException if the file couldnt be uploaded.
      */
     public void uploadFile(Path fileToUpload, String destinationFileName) throws IOException {
         Preconditions.checkNotNull(fileToUpload);
         Preconditions.checkArgument(Files.exists(fileToUpload));
         Preconditions.checkArgument(!Strings.isNullOrEmpty(destinationFileName));
+
         uploadFile(fileToUpload, destinationFileName, true);
     }
 
@@ -63,11 +77,15 @@ public class SauceLabsIntegration implements Integration {
      * Uploads a file to SauceLabs. Usually for an app or an apk.
      *
      * @param overwrite if set to true, it overwrites the file if it exists in SauceLabs.
+     * @param fileToUpload which file to upload to sauce.
+     * @param destinationFileName the name of the file for SauceLabs.
+     * @throws IOException if the file couldnt be uploaded.
      */
     public void uploadFile(Path fileToUpload, String destinationFileName, boolean overwrite) throws IOException {
         Preconditions.checkNotNull(fileToUpload);
         Preconditions.checkArgument(Files.exists(fileToUpload));
         Preconditions.checkArgument(!Strings.isNullOrEmpty(destinationFileName));
+
         sauceRest.uploadFile(fileToUpload.toFile(), destinationFileName, overwrite);
     }
 
@@ -76,6 +94,7 @@ public class SauceLabsIntegration implements Integration {
             Preconditions.checkArgument(!Strings.isNullOrEmpty(sessionId));
             Preconditions.checkArgument(!Strings.isNullOrEmpty(key));
             Preconditions.checkNotNull(value);
+
             Map<String, Object> updates = Maps.newHashMap();
             updates.put(key, value);
             sauceRest.updateJobInfo(sessionId, updates);

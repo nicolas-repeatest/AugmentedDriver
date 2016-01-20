@@ -6,6 +6,8 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.MobileUtil;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
@@ -25,14 +27,23 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     private final AugmentedAndroidElementFactory augmentedAndroidElementFactory;
     private final SearchContext searchContext;
     private final AugmentedAndroidDriverProvider augmentedAndroidDriveProvider;
+    private final int pressTimeInMilliSeconds;
+    private final int swipeQuantity;
+    private final int tapFingers;
 
     @Inject
     public AugmentedAndroidFunctions(@Assisted SearchContext searchContext,
-                                     @Named("WAIT_TIME_IN_SECONDS") String waitTimeInSeconds,
+                                     @Named(PropertiesModule.WAIT_IN_SECONDS) String waitTimeInSeconds,
+                                     @Named(PropertiesModule.PRESS_TIME_IN_MILLISECONDS) String pressTimeInMilliSeconds,
+                                     @Named(PropertiesModule.SWIPE_QUANTITY) String swipeQuantity,
+                                     @Named(PropertiesModule.TAP_FINGERS) String tapFingers,
                                      AugmentedAndroidElementFactory augmentedAndroidElementFactory,
                                      AugmentedAndroidDriverProvider augmentedAndroidDriverProvider) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.augmentedAndroidDriveProvider = Preconditions.checkNotNull(augmentedAndroidDriverProvider);
+        this.pressTimeInMilliSeconds = Integer.valueOf(Preconditions.checkNotNull(pressTimeInMilliSeconds));
+        this.swipeQuantity = Integer.valueOf(Preconditions.checkNotNull(swipeQuantity));
+        this.tapFingers = Integer.valueOf(Preconditions.checkNotNull(tapFingers));
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
         this.augmentedAndroidElementFactory = Preconditions.checkNotNull(augmentedAndroidElementFactory);
     }
@@ -177,7 +188,7 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
         Preconditions.checkNotNull(by);
         return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
-                .map(webElement -> augmentedAndroidElementFactory.create(webElement))
+                .map(augmentedAndroidElementFactory::create)
                 .collect(Collectors.toList());
     }
 
@@ -192,7 +203,7 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
         Preconditions.checkNotNull(by);
         return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
-                .map(webElement -> augmentedAndroidElementFactory.create(webElement))
+                .map(augmentedAndroidElementFactory::create)
                 .collect(Collectors.toList());
     }
 
@@ -207,7 +218,7 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
         Preconditions.checkNotNull(by);
         return WebDriverUtil.findElementsClickableAfter(searchContext, by, waitInSeconds)
                 .stream()
-                .map(webElement -> augmentedAndroidElementFactory.create(webElement))
+                .map(augmentedAndroidElementFactory::create)
                 .collect(Collectors.toList());
     }
 
@@ -289,28 +300,100 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public AugmentedAndroidElement tapAfter(By by, int waitTimeInSeconds) {
         Preconditions.checkNotNull(by);
-        WebElement element = MobileUtil.tap(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), by, waitTimeInSeconds);
+        WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                0,
+                0,
+                waitTimeInSeconds,
+                pressTimeInMilliSeconds,
+                tapFingers);
         return augmentedAndroidElementFactory.create(element);
     }
 
     @Override
-    public AugmentedAndroidElement tap(By by, int offsetX, int offsetY) {
+    public AugmentedAndroidElement tapOffset(By by, int offsetX, int offsetY) {
         Preconditions.checkNotNull(by);
-        return tapAfter(by, offsetX, offsetY, waitTimeInSeconds);
+        return tapOffsetAfter(by, offsetX, offsetY, waitTimeInSeconds);
     }
 
     @Override
-    public AugmentedAndroidElement tapAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
-        Preconditions.checkNotNull(by);
-        WebElement element = MobileUtil.tap(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(),
-                by, offsetX, offsetY, waitTimeInSeconds);
+    public AugmentedAndroidElement tapOffsetAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                offsetX,
+                offsetY,
+                waitTimeInSeconds,
+                pressTimeInMilliSeconds,
+                tapFingers);
         return augmentedAndroidElementFactory.create(element);
     }
 
     @Override
-    public void tap(WebElement element, int pressInMilliSeconds) {
-        Preconditions.checkNotNull(element);
-        MobileUtil.tap(augmentedAndroidDriveProvider.get(), element, pressInMilliSeconds);
+    public AugmentedAndroidElement tapLong(By by, int pressInMilliSeconds) {
+        Preconditions.checkNotNull(by);
+
+        return tapLongAfter(by, pressInMilliSeconds, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapLongAfter(By by, int pressInMilliSeconds, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+
+        WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                0,
+                0,
+                waitTimeInSeconds,
+                pressInMilliSeconds,
+                tapFingers);
+        return augmentedAndroidElementFactory.create(element);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapFingers(By by, int fingers) {
+        Preconditions.checkNotNull(by);
+
+        return tapFingersAfter(by, fingers, waitTimeInSeconds);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapFingersAfter(By by, int fingers, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+
+        WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                0,
+                0,
+                waitTimeInSeconds,
+                pressTimeInMilliSeconds,
+                fingers);
+        return augmentedAndroidElementFactory.create(element);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapCustomAfter(By by, int offsetX, int offsetY, int pressInMilliSeconds, int fingers, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+
+        WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                offsetX,
+                offsetY,
+                waitTimeInSeconds,
+                pressInMilliSeconds,
+                fingers);
+        return augmentedAndroidElementFactory.create(element);
+    }
+
+    @Override
+    public AugmentedAndroidElement tapCustom(By by, int offsetX, int offsetY, int pressInMilliSeconds, int fingers) {
+        Preconditions.checkNotNull(by);
+
+        return tapCustomAfter(by, offsetX, offsetY, pressInMilliSeconds, fingers, waitTimeInSeconds);
     }
 
     @Override
@@ -326,40 +409,67 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public AugmentedAndroidElement swipeUpWaitElementVisible(By swipeUpElement, By elementPresent) {
-        WebElement element = MobileUtil.swipeUpWaitVisible(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeUpElement, elementPresent);
+        WebElement element = MobileUtil.swipeUpWaitVisibleAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeUpElement,
+                elementPresent,
+                waitTimeInSeconds,
+                swipeQuantity,
+                pressTimeInMilliSeconds);
         return augmentedAndroidElementFactory.create(element);
     }
 
     @Override
-    public AugmentedAndroidElement swipeDownWaitElementVisible(By swipeUpElement, By elementPresent) {
-        WebElement element = MobileUtil.swipeDownWaitVisible(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeUpElement, elementPresent);
+    public AugmentedAndroidElement swipeDownWaitElementVisible(By swipeDownElement, By elementPresent) {
+        WebElement element = MobileUtil.swipeDownWaitVisible(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeDownElement,
+                elementPresent,
+                waitTimeInSeconds,
+                swipeQuantity,
+                pressTimeInMilliSeconds);
         return augmentedAndroidElementFactory.create(element);
     }
 
     @Override
-    public AugmentedAndroidElement swipeVerticalWaitVisible(By swipeElement, By elementVisible, int offset, int quantity, int duration) {
-        WebElement element = MobileUtil.swipeVerticalWaitVisible(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeElement, elementVisible, offset, quantity, duration);
+    public AugmentedAndroidElement swipeVerticalWaitVisible(By swipeElement, By elementVisible, int offset, int quantity, int durationInMilliSeconds) {
+        WebElement element = MobileUtil.swipeVerticalWaitVisibleAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeElement,
+                elementVisible,
+                waitTimeInSeconds,
+                offset,
+                quantity,
+                durationInMilliSeconds);
         return augmentedAndroidElementFactory.create(element);
     }
 
     @Override
     public void swipeUp(By swipeBy) {
-        MobileUtil.swipeUp(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeBy);
+        MobileUtil.swipeUpAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeBy,
+                waitTimeInSeconds,
+                pressTimeInMilliSeconds);
     }
 
     @Override
     public void swipeDown(By swipeBy) {
-        MobileUtil.swipeDown(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeBy);
+        MobileUtil.swipeDownAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeBy,
+                waitTimeInSeconds,
+                pressTimeInMilliSeconds);
     }
 
     @Override
-    public void swipeVertical(By swipeBy, int offset, int duration) {
-        MobileUtil.swipeVertical(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), swipeBy, offset, duration);
-    }
-
-    @Override
-    public void swipeFullRight(WebElement element) {
-        swipeFullRightAfter(element, waitTimeInSeconds);
+    public void swipeVertical(By swipeBy, int offset, int durationinMilliSeconds) {
+        MobileUtil.swipeVerticalAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                swipeBy,
+                waitTimeInSeconds,
+                offset,
+                durationinMilliSeconds);
     }
 
     @Override
@@ -368,19 +478,12 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     }
 
     @Override
-    public void swipeFullRightAfter(WebElement element, int waitInSeconds) {
-        MobileUtil.swipeFullRightAfter(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), element, waitInSeconds);
-    }
-
-    @Override
     public void swipeFullRightAfter(By by, int waitInSeconds) {
-        MobileUtil.swipeFullRightAfter(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), by, waitInSeconds);
-    }
-
-    @Override
-    public void swipeFullLeft(WebElement element) {
-        swipeFullLeftAfter(element, waitTimeInSeconds);
-
+        MobileUtil.swipeFullRightAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                waitInSeconds,
+                pressTimeInMilliSeconds);
     }
 
     @Override
@@ -389,13 +492,11 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     }
 
     @Override
-    public void swipeFullLeftAfter(WebElement element, int waitInSeconds) {
-        MobileUtil.swipeFullLeftAfter(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), element, waitInSeconds);
-
-    }
-
-    @Override
     public void swipeFullLeftAfter(By by, int waitInSeconds) {
-        MobileUtil.swipeFullLeftAfter(augmentedAndroidDriveProvider.get(), augmentedAndroidDriveProvider.get().augmented(), by, waitInSeconds);
+        MobileUtil.swipeFullLeftAfter(augmentedAndroidDriveProvider.get(),
+                augmentedAndroidDriveProvider.get().augmented(),
+                by,
+                waitInSeconds,
+                pressTimeInMilliSeconds);
     }
 }

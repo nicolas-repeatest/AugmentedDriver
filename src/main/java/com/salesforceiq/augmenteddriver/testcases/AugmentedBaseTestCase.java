@@ -38,14 +38,11 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
     @Named(PropertiesModule.UNIQUE_ID)
     private String uniqueId;
 
-    @Inject
-    private DesiredCapabilities capabilities;
-
     /**
      * @return the wait time in seconds defined in the com.salesforceiq.augmenteddriver.properties (or 30 by default)
      */
     protected int waitTimeInSeconds() {
-        return Integer.valueOf(waitTimeInSeconds);
+        return Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
     }
 
     /**
@@ -54,6 +51,7 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
      */
     protected String getUniqueId() {
         Preconditions.checkArgument(!Strings.isNullOrEmpty(uniqueId));
+
         return uniqueId;
     }
 
@@ -64,15 +62,8 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
         return String.format("%s:%s:%s", getUniqueId(), Util.shortenClass(this.getClass()), testName.getMethodName());
     }
 
-    protected String getTestName() {
-        return testName.getMethodName();
-    }
-
     @Inject
     private IntegrationFactory integrations;
-
-    @Inject
-    private TestRunnerConfig arguments;
 
     /**
      * Hack, but there is no way to get the session Id in other way.

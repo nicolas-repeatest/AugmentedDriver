@@ -1,5 +1,9 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
@@ -8,10 +12,10 @@ import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import com.salesforceiq.augmenteddriver.web.*;
-import com.salesforceiq.augmenteddriver.web.pageobjects.*;
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageContainerObject;
+import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObject;
+import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActions;
+import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActionsInterface;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -66,12 +70,13 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
 
     @Override
     public <T extends WebPageObject> T get(Class<T> clazz) {
-        return webPageObjectActions.get(clazz);
+        return webPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container) {
-        return webPageObjectActions.get(clazz, container);
+        return webPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                                    Preconditions.checkNotNull(container));
     }
 
     /**
@@ -89,6 +94,12 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         Preconditions.checkNotNull(remoteAddress);
         Preconditions.checkNotNull(capabilities);
 
+        // If left to Guice, it creates each driver serially, queueing all tests
+        // (Android SauceLabs takes up to 40 seconds to create one)
+        // This is a hack that creates a driver manually and sets it in the
+        // AugmentedWebDriverProvider and AugmentedWebFunctionsFactory.
+        //
+        // NOT IDEAL.
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedWebDriver");
         try {
@@ -121,71 +132,101 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
 
     @Override
     public void assertElementIsPresentAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsPresentAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsPresentAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsPresent(By by) {
-        AugmentedAssert.assertElementIsPresentAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsPresentAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsVisibleAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsVisibleAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsVisibleAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsVisible(By by) {
-        AugmentedAssert.assertElementIsVisibleAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsVisibleAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsClickableAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsClickableAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsClickableAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsClickable(By by) {
-        AugmentedAssert.assertElementIsClickableAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsClickableAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementContainsAfter(By by, String text, int timeoutInSeconds) {
-        AugmentedAssert.assertElementContainsAfter(augmentedWebFunctions, by, text, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
+        AugmentedAssert.assertElementContainsAfter(augmented(), by, text, timeoutInSeconds);
     }
 
     @Override
     public void assertElementContains(By by, String text) {
-        AugmentedAssert.assertElementContainsAfter(augmentedWebFunctions, by, text, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
+        AugmentedAssert.assertElementContainsAfter(augmented(), by, text, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotClickableAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsNotClickableAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotClickable(By by) {
-        AugmentedAssert.assertElementIsNotClickableAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotClickableAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotVisibleAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsNotVisibleAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotVisible(By by) {
-        AugmentedAssert.assertElementIsNotVisibleAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotVisibleAfter(augmented(), by, waitTimeInSeconds());
     }
 
     @Override
     public void assertElementIsNotPresentAfter(By by, int timeoutInSeconds) {
-        AugmentedAssert.assertElementIsNotPresentAfter(augmentedWebFunctions, by, timeoutInSeconds);
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, timeoutInSeconds);
     }
 
     @Override
     public void assertElementIsNotPresent(By by) {
-        AugmentedAssert.assertElementIsNotPresentAfter(augmentedWebFunctions, by, waitTimeInSeconds());
+        Preconditions.checkNotNull(by);
+
+        AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
     }
 }

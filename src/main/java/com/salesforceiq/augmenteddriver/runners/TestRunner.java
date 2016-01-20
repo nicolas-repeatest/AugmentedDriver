@@ -38,6 +38,12 @@ public class TestRunner implements Callable<AugmentedResult> {
         this.integrationManager = Preconditions.checkNotNull(integrationManager);
     }
 
+    /**
+     * Wrapper over JUniteCore that runs one test.
+     *
+     * @return the result of the test.
+     * @throws Exception if there was an exception running the test.
+     */
     @Override
     public AugmentedResult call() throws Exception {
         JUnitCore jUnitCore = getJUnitCore();

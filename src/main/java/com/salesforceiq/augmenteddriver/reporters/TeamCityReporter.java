@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.reporters;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import org.junit.runner.Description;
 import org.junit.runner.Result;
@@ -9,16 +10,25 @@ import org.junit.runner.notification.RunListener;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
+/**
+ * Listener that prints output that TeamCity can parse to determine the success/failure
+ * of a test.
+ */
 public class TeamCityReporter extends RunListener {
     private final PrintStream out;
     private final String testNameAppender;
     private String currentTestClassName = null;
     private long startInMilliseconds;
 
+    /**
+     * Extensive Constructor.
+     *
+     * @param out where to print the output.
+     * @param testNameAppender Can be empty
+     */
     public TeamCityReporter(final OutputStream out, String testNameAppender) {
-        checkArgument(out != null, "out must not be null");
+        Preconditions.checkNotNull(out);
+
         this.testNameAppender = testNameAppender;
         this.out = new PrintStream(out);
         this.currentTestClassName = null;
@@ -72,11 +82,11 @@ public class TeamCityReporter extends RunListener {
         }
     }
 
-    protected String getTestClassName(final Description description) {
+    private String getTestClassName(final Description description) {
         return description.getTestClass().getName();
     }
 
-    protected String getTestName(final Description description, String testNameAppender) {
+    private String getTestName(final Description description, String testNameAppender) {
         return description.getMethodName() + ((Strings.isNullOrEmpty(testNameAppender)) ? "" : "-" + testNameAppender);
     }
 

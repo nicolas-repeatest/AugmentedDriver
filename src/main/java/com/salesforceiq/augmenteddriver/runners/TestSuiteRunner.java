@@ -33,7 +33,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
- * Main class for running a set of suites.s
+ * Main class for running a set of suites.
  */
 @Singleton
 public class TestSuiteRunner implements Callable<List<Result>> {
@@ -92,11 +92,19 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         return ImmutableList.copyOf(results);
     }
 
+    /**
+     * Creates a callback that is used to retry tests that fail.
+     *
+     * @param method the test to run.
+     * @return the Callback that will retry if a test fails.
+     */
     private FutureCallback<AugmentedResult> createCallback(Method method) {
         return new FutureCallback<AugmentedResult>() {
             @Override
             public void onSuccess(AugmentedResult result) {
                 countTests.add(method);
+                // If the test succeeds, we add it to the result list and we shut down if it is the
+                // last one.
                 if (result.getResult().wasSuccessful()) {
                     results.add(result.getResult());
                     LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
@@ -105,11 +113,15 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                     }
                     processOutput(result.getOut());
                 } else {
+                    // If it fails but still has retries, we do not count it and add it back
+                    // to the executor.
                     if (countTests.count(method) < maxRetries) {
                         LOG.info(String.format("Test %s#%s failed, retrying", method.getDeclaringClass().getCanonicalName(), method.getName()));
                         ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, ""));
                         Futures.addCallback(future, createCallback(method));
                     } else {
+                        // It failed and reached the max retries, we add it to the result list and shut down
+                        // if it was the last one.
                         results.add(result.getResult());
                         LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
                         if (results.size() == totalTests) {
@@ -120,6 +132,11 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                 }
             }
 
+            /**
+             * For debugging, if everything goes well should never happen.
+             *
+             * @param t the throwable that caused the error.
+             */
             @Override
             public void onFailure(Throwable t) {
                 System.out.println("-------------------------------------------------------------");

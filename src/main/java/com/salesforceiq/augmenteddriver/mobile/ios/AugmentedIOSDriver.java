@@ -31,10 +31,18 @@ public class AugmentedIOSDriver extends IOSDriver<WebElement> {
         this.augmentedFunctions = augmentedFunctions;
     }
 
+    /**
+     * @return the augmented functionality on top of the driver.
+     */
     public AugmentedIOSFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * DO NOT USE.
+     *
+     * @param augmentedFunctions the functions to set on top of the driver.
+     */
     public void setAugmentedFunctions(AugmentedIOSFunctions augmentedFunctions) {
         this.augmentedFunctions = augmentedFunctions;
     }

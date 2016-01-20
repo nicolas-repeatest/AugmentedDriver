@@ -3,11 +3,13 @@ package com.salesforceiq.augmenteddriver.mobile.ios;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctionsFactory;
 import org.openqa.selenium.*;
 
 import java.util.List;
 
+/**
+ * Wrapper of WebElement that also provides augmented functionality.
+ */
 public class AugmentedIOSElement implements WebElement {
     private final WebElement webElement;
     private final AugmentedIOSFunctions augmentedFunctions;
@@ -19,10 +21,16 @@ public class AugmentedIOSElement implements WebElement {
         this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions.create(webElement));
     }
 
+    /**
+     * @return the augmented functionality on top of the web element.
+     */
     public AugmentedIOSFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * @return the wrapped web element.
+     */
     public WebElement webElement() {
         return webElement;
     }

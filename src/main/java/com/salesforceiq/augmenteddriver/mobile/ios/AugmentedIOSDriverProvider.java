@@ -28,6 +28,11 @@ public class AugmentedIOSDriverProvider implements Provider<AugmentedIOSDriver> 
         return Preconditions.checkNotNull(driver);
     }
 
+    /**
+     * DO NOT USE
+     *
+     * @param driver the driver to be set.
+     */
     public void set(AugmentedIOSDriver driver) {
         this.driver = driver;
     }

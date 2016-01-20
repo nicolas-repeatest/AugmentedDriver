@@ -11,13 +11,10 @@ import java.util.List;
 
 public class GuiceTestRunner extends BlockJUnit4ClassRunner {
 
-    /**
-     * The Guice Injector.
-     */
     private final transient Injector injector;
 
     /**
-     * Contructor.
+     * Constructor.
      *
      * @param klass The in test.
      * @throws InitializationError If something goes wrong.

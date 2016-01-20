@@ -22,17 +22,33 @@ import java.net.URL;
 public class AugmentedAndroidDriver extends AndroidDriver<WebElement> {
     private AugmentedAndroidFunctions augmentedFunctions;
 
-    public AugmentedAndroidDriver(@Named(PropertiesModule.REMOTE_ADDRESS) String remoteAddress,
+    /**
+     * Extensive constructor.
+     *
+     * @param remoteAddress Where the Selenium is running.
+     * @param capabilities The capabilities to use.
+     * @param augmentedFunctions the extra functionality for Android.
+     * @throws MalformedURLException In case the remoteAddress is now well formed.
+     */
+    public AugmentedAndroidDriver(String remoteAddress,
                                   DesiredCapabilities capabilities,
                                   AugmentedAndroidFunctions augmentedFunctions) throws MalformedURLException {
         super(new URL(remoteAddress), capabilities);
         this.augmentedFunctions = augmentedFunctions;
     }
 
+    /**
+     * @return the augmented functionality on top of the driver.
+     */
     public AugmentedAndroidFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * DO NOT USE.
+     *
+     * @param augmentedFunctions the functions to set on top of the driver.
+     */
     public void setAugmentedFunctions(AugmentedAndroidFunctions augmentedFunctions) {
         this.augmentedFunctions = augmentedFunctions;
     }

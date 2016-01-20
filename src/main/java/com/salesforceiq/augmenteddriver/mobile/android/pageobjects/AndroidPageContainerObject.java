@@ -1,20 +1,24 @@
 package com.salesforceiq.augmenteddriver.mobile.android.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
-import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 
 /**
- * Page Object for WebPages with a container.
+ * Page Object for AndroidPages with a container.
+ *
+ * <p>
+ *     Basically it is a helper so it is more convenient to follow the Page Object Pattern.
+ *
+ *     The getters initializes the Page Object using Guice for dependency injection.
+ * </p>
  */
 public abstract class AndroidPageContainerObject implements AndroidPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
-    private static final Logger LOG = LoggerFactory.getLogger(AndroidPageContainerObject.class);
 
     /**
      * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
@@ -30,12 +34,12 @@ public abstract class AndroidPageContainerObject implements AndroidPageObjectAct
 
     @Override
     public <T extends AndroidPageObject> T get(Class<T> clazz) {
-        return androidPageObjectActions.get(clazz);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
-        return androidPageObjectActions.get(clazz, container);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(container));
     }
 
     @Override
@@ -57,11 +61,16 @@ public abstract class AndroidPageContainerObject implements AndroidPageObjectAct
 
     /**
      * DO NOT USE
+     *
+     * @param container the container to set.
      */
     void setContainer(AugmentedAndroidElement container) {
         this.container = container;
     }
 
+    /**
+     * @return the container used by the Page Object.
+     */
     public AugmentedAndroidElement container() {
         return container;
     }

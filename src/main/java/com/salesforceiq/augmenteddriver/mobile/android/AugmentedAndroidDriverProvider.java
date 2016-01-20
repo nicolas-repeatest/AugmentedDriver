@@ -28,6 +28,11 @@ public class AugmentedAndroidDriverProvider implements Provider<AugmentedAndroid
         return Preconditions.checkNotNull(driver);
     }
 
+    /**
+     * DO NOT USE
+     *
+     * @param driver the driver to be set.
+     */
     public void set(AugmentedAndroidDriver driver) {
         this.driver = driver;
     }

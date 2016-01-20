@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.web.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.salesforceiq.augmenteddriver.util.PageObject;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
@@ -18,7 +19,6 @@ import org.slf4j.LoggerFactory;
  *
  *     The getters initializes the Page Object using Guice for dependency injection.
  * </p>
-
  */
 public abstract class WebPageContainerObject implements  WebPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
     private static final Logger LOG = LoggerFactory.getLogger(WebPageObject.class);
@@ -64,12 +64,17 @@ public abstract class WebPageContainerObject implements  WebPageObjectActionsInt
 
     /**
      * DO NOT USE
+     *
+     * @param container the container to set.
      */
     void setContainer(AugmentedWebElement container) {
-        this.container = container;
+        this.container = Preconditions.checkNotNull(container);
     }
 
+    /**
+     * @return the container used by the Web Page Object.
+     */
     public AugmentedWebElement container() {
-        return container;
+        return Preconditions.checkNotNull(container);
     }
 }

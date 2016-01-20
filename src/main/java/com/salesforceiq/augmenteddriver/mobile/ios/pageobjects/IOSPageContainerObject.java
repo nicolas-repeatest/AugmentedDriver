@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.mobile.ios.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
@@ -11,7 +12,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Page Object for WebPages with a container.
+ * Page Object for IOSPages with a container.
+ *
+ * <p>
+ *     Basically it is a helper so it is more convenient to follow the Page Object Pattern.
+ *
+ *     The getters initializes the Page Object using Guice for dependency injection.
+ * </p>
  */
 public abstract class IOSPageContainerObject implements IOSPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
     private static final Logger LOG = LoggerFactory.getLogger(IOSPageContainerObject.class);
@@ -30,12 +37,13 @@ public abstract class IOSPageContainerObject implements IOSPageObjectActionsInte
 
     @Override
     public <T extends IOSPageObject> T get(Class<T> clazz) {
-        return IOSPageObjectActions.get(clazz);
+        return IOSPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends IOSPageContainerObject> T get(Class<T> clazz, AugmentedIOSElement container) {
-        return IOSPageObjectActions.get(clazz, container);
+        return IOSPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                Preconditions.checkNotNull(container));
     }
 
     @Override
@@ -57,12 +65,17 @@ public abstract class IOSPageContainerObject implements IOSPageObjectActionsInte
 
     /**
      * DO NOT USE
+     *
+     * @param container the container to set.
      */
     void setContainer(AugmentedIOSElement container) {
-        this.container = container;
+        this.container = Preconditions.checkNotNull(container);
     }
 
+    /**
+     * @return the container used by the Page Object.
+     */
     public AugmentedIOSElement container() {
-        return container;
+        return Preconditions.checkNotNull(container);
     }
 }

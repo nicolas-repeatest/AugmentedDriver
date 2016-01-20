@@ -8,6 +8,9 @@ import org.openqa.selenium.*;
 
 import java.util.List;
 
+/**
+ * Wrapper of WebElement that also provides augmented functionality.
+ */
 public class AugmentedAndroidElement implements WebElement {
     private final WebElement webElement;
     private final AugmentedAndroidFunctions augmentedFunctions;
@@ -19,10 +22,16 @@ public class AugmentedAndroidElement implements WebElement {
         this.augmentedFunctions = Preconditions.checkNotNull(augmentedFunctions.create(webElement));
     }
 
+    /**
+     * @return the augmented functionality on top of the web element.
+     */
     public AugmentedAndroidFunctions augmented() {
         return augmentedFunctions;
     }
 
+    /**
+     * @return the wrapped web element.
+     */
     public WebElement webElement() {
         return webElement;
     }

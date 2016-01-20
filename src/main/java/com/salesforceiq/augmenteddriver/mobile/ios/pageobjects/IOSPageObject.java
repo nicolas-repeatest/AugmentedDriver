@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.mobile.ios.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
@@ -12,7 +13,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Page Object for WebPages with a container.
+ * Page Object for IOSPages.
+ *
+ * <p>
+ *     Basically it is a helper so it is more convenient to follow the Page Object Pattern.
+ *
+ *     The getters initializes the Page Object using Guice for dependency injection.
+ * </p>
  */
 public abstract class IOSPageObject implements IOSPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
     private static final Logger LOG = LoggerFactory.getLogger(IOSPageObject.class);
@@ -29,12 +36,13 @@ public abstract class IOSPageObject implements IOSPageObjectActionsInterface, Pa
 
     @Override
     public <T extends IOSPageObject> T get(Class<T> clazz) {
-        return IOSPageObjectActions.get(clazz);
+        return IOSPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends IOSPageContainerObject> T get(Class<T> clazz, AugmentedIOSElement container) {
-        return IOSPageObjectActions.get(clazz, container);
+        return IOSPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                                        Preconditions.checkNotNull(container));
     }
 
     @Override

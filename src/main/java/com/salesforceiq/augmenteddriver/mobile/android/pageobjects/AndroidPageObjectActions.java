@@ -11,6 +11,9 @@ import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Implementation based on Guice of AndroidPageObjectActionsInterface.
+ */
 public class AndroidPageObjectActions implements AndroidPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(AndroidPageObjectActions.class);
 
@@ -27,6 +30,7 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
     @Override
     public <T extends AndroidPageObject> T get(Class<T> clazz) {
         Preconditions.checkNotNull(clazz);
+
         T instance = injector.getInstance(clazz);
         try {
             instance.assertPresent();
@@ -56,6 +60,7 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
     @Override
     public AugmentedAndroidDriver driver() {
         Preconditions.checkNotNull(driverProvider);
+
         return Preconditions.checkNotNull(driverProvider.get());
     }
 
@@ -63,6 +68,7 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
     public AugmentedAndroidFunctions augmented() {
         Preconditions.checkNotNull(driverProvider);
         Preconditions.checkNotNull(driverProvider.get());
+
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
 }

@@ -6,7 +6,6 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.mobile.AugmentedMobileFunctions;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.MobileUtil;
@@ -19,6 +18,9 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Implementation of the augmented mobile functionality for Android.
+ */
 public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAndroidElement>,
         AugmentedMobileFunctions<AugmentedAndroidElement>,
         AugmentedAndroidOnlyFunctions {
@@ -51,12 +53,14 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public boolean isElementPresent(By by) {
         Preconditions.checkNotNull(by);
+
         return isElementPresentAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public boolean isElementPresentAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         try {
             findElementPresentAfter(by, waitSeconds);
             return true;
@@ -68,18 +72,21 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public boolean isElementPresentImmediate(By by) {
         Preconditions.checkNotNull(by);
-        return isElementPresentAfter(by, 0);
+
+        return isElementPresentAfter(by, 1);
     }
 
     @Override
     public boolean isElementVisible(By by) {
         Preconditions.checkNotNull(by);
+
         return isElementVisibleAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public boolean isElementVisibleAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         try {
             findElementsVisibleAfter(by, waitSeconds);
             return true;
@@ -91,18 +98,21 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public boolean isElementVisibleImmediate(By by) {
         Preconditions.checkNotNull(by);
-        return isElementVisibleAfter(by, 0);
+
+        return isElementVisibleAfter(by, 1);
     }
 
     @Override
     public boolean isElementClickable(By by) {
         Preconditions.checkNotNull(by);
+
         return isElementClickableAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public boolean isElementClickableAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         try {
             findElementClickableAfter(by, waitSeconds);
             return true;
@@ -114,59 +124,71 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public boolean isElementClickableImmediate(By by) {
         Preconditions.checkNotNull(by);
-        return isElementClickableAfter(by, 0);
+
+        return isElementClickableAfter(by, 1);
     }
 
     @Override
     public AugmentedAndroidElement findElementPresent(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementPresentAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement findElementPresentAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.findElementPresentAfter(searchContext, by, waitSeconds));
     }
 
     @Override
     public AugmentedAndroidElement findElementVisible(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementVisibleAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement findElementVisibleAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.findElementVisibleAfter(searchContext, by, waitSeconds));
     }
 
     @Override
     public AugmentedAndroidElement findElementClickable(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementClickableAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement findElementClickableAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.findElementClickableAfter(searchContext, by, waitSeconds));
     }
 
     @Override
     public AugmentedAndroidElement findElementNotMoving(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementNotMovingAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement findElementNotMovingAfter(By by, int waitSeconds) {
         Preconditions.checkNotNull(by);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.findElementNotMovingAfter(searchContext, by, waitSeconds));
     }
 
     @Override
     public AugmentedAndroidElement findElementContain(By by, String text) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         return findElementContainAfter(by, text, waitTimeInSeconds);
     }
 
@@ -174,18 +196,21 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     public AugmentedAndroidElement findElementContainAfter(By by, String text, int waitInSeconds) {
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.findElementContainAfter(searchContext, by, text, waitInSeconds));
     }
 
     @Override
     public List<AugmentedAndroidElement> findElementsVisible(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementsVisibleAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public List<AugmentedAndroidElement> findElementsVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
+
         return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(augmentedAndroidElementFactory::create)
@@ -195,12 +220,14 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public List<AugmentedAndroidElement> findElementsPresent(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementsPresentAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public List<AugmentedAndroidElement> findElementsPresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
+
         return WebDriverUtil.findElementsVisibleAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(augmentedAndroidElementFactory::create)
@@ -210,12 +237,14 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public List<AugmentedAndroidElement> findElementsClickable(By by) {
         Preconditions.checkNotNull(by);
+
         return findElementsClickableAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public List<AugmentedAndroidElement> findElementsClickableAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
+
         return WebDriverUtil.findElementsClickableAfter(searchContext, by, waitInSeconds)
                 .stream()
                 .map(augmentedAndroidElementFactory::create)
@@ -224,28 +253,37 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void waitElementToNotBePresent(By by) {
+        Preconditions.checkNotNull(by);
+
         waitElementToNotBePresentAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public void waitElementToNotBePresentAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
+
         WebDriverUtil.waitElementToNotBePresent(searchContext, by, waitInSeconds);
     }
 
     @Override
     public void waitElementToNotBeVisible(By by) {
+        Preconditions.checkNotNull(by);
+
         waitElementToNotBeVisibleAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public void waitElementToNotBeVisibleAfter(By by, int waitInSeconds) {
         Preconditions.checkNotNull(by);
+
         WebDriverUtil.waitElementToNotBeVisible(searchContext, by, waitInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement clickAndPresent(By click, By wait) {
+        Preconditions.checkNotNull(click);
+        Preconditions.checkNotNull(wait);
+
         return clickAndPresentAfter(click, wait, waitTimeInSeconds);
     }
 
@@ -253,32 +291,46 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     public AugmentedAndroidElement clickAndPresentAfter(By click, By wait, int waitInSeconds) {
         Preconditions.checkNotNull(click);
         Preconditions.checkNotNull(wait);
+
         findElementClickableAfter(click, waitInSeconds).click();
         return findElementPresentAfter(wait, waitInSeconds);
     }
 
     @Override
     public void moveToAndClick(By moveTo, By click) {
+        Preconditions.checkNotNull(moveTo);
+        Preconditions.checkNotNull(click);
+
         WebDriverUtil.moveToAndClick(augmentedAndroidDriveProvider.get(), moveTo, click, waitTimeInSeconds);
     }
 
     @Override
     public void moveToAndClickAfter(By moveTo, By click, int waitInSeconds) {
+        Preconditions.checkNotNull(click);
+        Preconditions.checkNotNull(moveTo);
+
         WebDriverUtil.moveToAndClick(augmentedAndroidDriveProvider.get(), moveTo, click, waitInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement moveTo(By moveTo) {
+        Preconditions.checkNotNull(moveTo);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.moveTo(augmentedAndroidDriveProvider.get(), moveTo, waitTimeInSeconds));
     }
 
     @Override
     public AugmentedAndroidElement moveToAfter(By moveTo, int waitInSeconds) {
+        Preconditions.checkNotNull(moveTo);
+
         return augmentedAndroidElementFactory.create(WebDriverUtil.moveTo(augmentedAndroidDriveProvider.get(), moveTo, waitInSeconds));
     }
 
     @Override
     public void clearAndSendKeys(By by, String text) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         clearAndSendKeysAfter(by, text, waitTimeInSeconds);
     }
 
@@ -286,6 +338,7 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     public void clearAndSendKeysAfter(By by, String text, int waitInSeconds) {
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
+
         AugmentedAndroidElement element = findElementClickableAfter(by, waitInSeconds);
         element.clear();
         element.sendKeys(text);
@@ -294,12 +347,14 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public AugmentedAndroidElement tap(By by) {
         Preconditions.checkNotNull(by);
+
         return tapAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement tapAfter(By by, int waitTimeInSeconds) {
         Preconditions.checkNotNull(by);
+
         WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 by,
@@ -314,11 +369,14 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
     @Override
     public AugmentedAndroidElement tapOffset(By by, int offsetX, int offsetY) {
         Preconditions.checkNotNull(by);
+
         return tapOffsetAfter(by, offsetX, offsetY, waitTimeInSeconds);
     }
 
     @Override
     public AugmentedAndroidElement tapOffsetAfter(By by, int offsetX, int offsetY, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(by);
+
         WebElement element = MobileUtil.tapAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 by,
@@ -398,17 +456,27 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void clickAndSendKeys(By by, String keys) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(keys));
+
+
         clickAndSendKeysAfter(by, keys, waitTimeInSeconds);
     }
 
     @Override
     public void clickAndSendKeysAfter(By by, String keys, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(keys));
+
         findElementClickableAfter(by, waitInSeconds).click();
         findElementClickableAfter(by, waitInSeconds).sendKeys(keys);
     }
 
     @Override
     public AugmentedAndroidElement swipeUpWaitElementVisible(By swipeUpElement, By elementPresent) {
+        Preconditions.checkNotNull(swipeUpElement);
+        Preconditions.checkNotNull(elementPresent);
+
         WebElement element = MobileUtil.swipeUpWaitVisibleAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeUpElement,
@@ -421,6 +489,9 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public AugmentedAndroidElement swipeDownWaitElementVisible(By swipeDownElement, By elementPresent) {
+        Preconditions.checkNotNull(swipeDownElement);
+        Preconditions.checkNotNull(elementPresent);
+
         WebElement element = MobileUtil.swipeDownWaitVisible(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeDownElement,
@@ -433,6 +504,9 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public AugmentedAndroidElement swipeVerticalWaitVisible(By swipeElement, By elementVisible, int offset, int quantity, int durationInMilliSeconds) {
+        Preconditions.checkNotNull(swipeElement);
+        Preconditions.checkNotNull(elementVisible);
+
         WebElement element = MobileUtil.swipeVerticalWaitVisibleAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeElement,
@@ -446,6 +520,8 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void swipeUp(By swipeBy) {
+        Preconditions.checkNotNull(swipeBy);
+
         MobileUtil.swipeUpAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeBy,
@@ -455,6 +531,8 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void swipeDown(By swipeBy) {
+        Preconditions.checkNotNull(swipeBy);
+
         MobileUtil.swipeDownAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeBy,
@@ -464,6 +542,8 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void swipeVertical(By swipeBy, int offset, int durationinMilliSeconds) {
+        Preconditions.checkNotNull(swipeBy);
+
         MobileUtil.swipeVerticalAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 swipeBy,
@@ -474,11 +554,15 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void swipeFullRight(By by) {
+        Preconditions.checkNotNull(by);
+
         swipeFullRightAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public void swipeFullRightAfter(By by, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+
         MobileUtil.swipeFullRightAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 by,
@@ -488,11 +572,15 @@ public class AugmentedAndroidFunctions implements AugmentedFunctions<AugmentedAn
 
     @Override
     public void swipeFullLeft(By by) {
+        Preconditions.checkNotNull(by);
+
         swipeFullLeftAfter(by, waitTimeInSeconds);
     }
 
     @Override
     public void swipeFullLeftAfter(By by, int waitInSeconds) {
+        Preconditions.checkNotNull(by);
+
         MobileUtil.swipeFullLeftAfter(augmentedAndroidDriveProvider.get(),
                 augmentedAndroidDriveProvider.get().augmented(),
                 by,

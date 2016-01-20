@@ -9,6 +9,7 @@ import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
  * Common functionality to all WebPageObjects
  */
 public interface IOSPageObjectActionsInterface {
+
     /**
      * returns the PageObject represented by the input
      */

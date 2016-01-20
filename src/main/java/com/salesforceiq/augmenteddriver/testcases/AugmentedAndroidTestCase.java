@@ -1,19 +1,21 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.mobile.android.*;
-import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.*;
+import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageContainerObject;
+import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObject;
+import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActions;
+import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.Injector;
-import com.google.inject.name.Named;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
@@ -56,16 +58,13 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     @Inject
     private TestRunnerConfig arguments;
 
-    @Inject
-    private Injector injector;
-
     /**
      * <p>
      *     IMPORTANT, the session of the driver is set after the driver is initialized.
      * </p>
      */
     @Before
-    public void setUp() throws MalformedURLException {
+    public void setUp() {
         Preconditions.checkNotNull(augmentedAndroidDriverProvider);
         Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);

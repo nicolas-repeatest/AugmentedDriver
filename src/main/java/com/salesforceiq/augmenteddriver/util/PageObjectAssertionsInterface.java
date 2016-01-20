@@ -24,6 +24,8 @@ public interface PageObjectAssertionsInterface {
      *     All Page Objects should implement it, so the framework can check that the page is in  the
      *     correct state.
      * </p>
+     *
+     * @return  the optional containing the by that should show up.
      */
     Optional<By> visibleBy();
 }

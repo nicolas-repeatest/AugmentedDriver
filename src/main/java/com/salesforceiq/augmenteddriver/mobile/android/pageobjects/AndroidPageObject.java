@@ -1,22 +1,29 @@
 package com.salesforceiq.augmenteddriver.mobile.android.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
-import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObject;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 
 /**
- * Page Object for WebPages with a container.
+ * Page Object for AndroidPages.
+ *
+ * <p>
+ *     Basically it is a helper so it is more convenient to follow the Page Object Pattern.
+ *
+ *     The getters initializes the Page Object using Guice for dependency injection.
+ * </p>
  */
 public abstract class AndroidPageObject implements AndroidPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
-    private static final Logger LOG = LoggerFactory.getLogger(AndroidPageObject.class);
 
+    /**
+     * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
+     * not at creation time, like Guice wants.
+     */
     @Inject
     private Provider<AugmentedAndroidDriver> driverProvider;
 
@@ -25,12 +32,12 @@ public abstract class AndroidPageObject implements AndroidPageObjectActionsInter
 
     @Override
     public <T extends AndroidPageObject> T get(Class<T> clazz) {
-        return androidPageObjectActions.get(clazz);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
-        return androidPageObjectActions.get(clazz, container);
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(container));
     }
 
     @Override

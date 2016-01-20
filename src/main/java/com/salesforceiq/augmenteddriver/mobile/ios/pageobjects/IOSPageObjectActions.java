@@ -11,6 +11,9 @@ import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * Implementation based on Guice of IOSPageObjectActionsInterface.
+ */
 public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     private static final Logger LOG = LoggerFactory.getLogger(IOSPageObjectActions.class);
 
@@ -27,6 +30,7 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     @Override
     public <T extends IOSPageObject> T get(Class<T> clazz) {
         Preconditions.checkNotNull(clazz);
+
         T instance = injector.getInstance(clazz);
         try {
             instance.assertPresent();
@@ -56,6 +60,7 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     @Override
     public AugmentedIOSDriver driver() {
         Preconditions.checkNotNull(driverProvider);
+
         return Preconditions.checkNotNull(driverProvider.get());
     }
 
@@ -63,6 +68,7 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     public AugmentedIOSFunctions augmented() {
         Preconditions.checkNotNull(driverProvider);
         Preconditions.checkNotNull(driverProvider.get());
+
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
 }

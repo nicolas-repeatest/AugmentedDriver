@@ -59,6 +59,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
     @Override
     public AugmentedWebDriver driver() {
         Preconditions.checkNotNull(driverProvider);
+
         return Preconditions.checkNotNull(driverProvider.get());
     }
 
@@ -66,6 +67,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
     public AugmentedWebFunctions augmented() {
         Preconditions.checkNotNull(driverProvider);
         Preconditions.checkNotNull(driverProvider.get());
+
         return Preconditions.checkNotNull(driverProvider.get().augmented());
     }
 }

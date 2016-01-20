@@ -8,6 +8,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface GuiceModules {
+
     /**
      * The Guice Modules classes needed by the class under test.
      *

@@ -8,6 +8,7 @@ import java.lang.annotation.*;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExtraModules {
+
     /**
      * The Extra Modules classes needed by the class under test.
      *

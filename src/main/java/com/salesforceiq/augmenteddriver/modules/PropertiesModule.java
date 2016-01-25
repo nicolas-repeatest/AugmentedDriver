@@ -7,8 +7,6 @@ import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import com.saucelabs.saucerest.SauceREST;
 import org.openqa.selenium.remote.DesiredCapabilities;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import java.util.Properties;
  * Guice Module that loads all the properties file.
  */
 public class PropertiesModule extends AbstractModule {
-    private static final Logger LOG = LoggerFactory.getLogger(PropertiesModule.class);
 
     public static final String TEAM_CITY_INTEGRATION = "TEAM_CITY_INTEGRATION";
     public static final String ALLURE_INTEGRATION = "ALLURE_INTEGRATION";

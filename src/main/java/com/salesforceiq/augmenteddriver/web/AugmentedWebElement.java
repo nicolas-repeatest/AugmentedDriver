@@ -111,6 +111,11 @@ public class AugmentedWebElement implements WebElement {
     }
 
     @Override
+    public Rectangle getRect() {
+        return webElement.getRect();
+    }
+
+    @Override
     public String getCssValue(String propertyName) {
         return webElement.getCssValue(propertyName);
     }

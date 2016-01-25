@@ -5,6 +5,9 @@ import com.google.inject.Inject;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 
+/**
+ * Integration for Allure.
+ */
 public class AllureIntegration implements Integration {
 
     private final boolean allureIntegration;

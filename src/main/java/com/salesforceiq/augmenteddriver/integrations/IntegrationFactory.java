@@ -33,14 +33,19 @@ public class IntegrationFactory {
     }
 
     /**
-     * Allure Integration.
+     * TeamCity Integration.
      *
-     * @return  the AllureIntegration.
+     * @return  the TeamCityIntegration.
      */
     public TeamCityIntegration teamCity() {
         return teamCityIntegration;
     }
 
+    /**
+     * Allure Integration.
+     *
+     * @return  the AllureIntegration.
+     */
     public AllureIntegration allure() {
         return allureIntegration;
     }

@@ -10,6 +10,7 @@ import org.apache.commons.logging.LogFactory;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Request;
 import org.junit.runner.Result;
+import ru.yandex.qatools.allure.junit.AllureRunListener;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
@@ -62,6 +63,10 @@ public class TestRunner implements Callable<AugmentedResult> {
         JUnitCore jUnitCore = new JUnitCore();
         if (integrationFactory.teamCity().isEnabled()) {
             jUnitCore.addListener(integrationFactory.teamCity().getReporter(outputStream, nameAppender));
+        }
+
+        if (integrationFactory.allure().isEnabled()) {
+            jUnitCore.addListener(new AllureRunListener());
         }
         return jUnitCore;
     }

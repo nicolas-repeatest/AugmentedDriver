@@ -16,4 +16,5 @@ jar/
 report/
 libs/
 node_modules/
+target/
 build/

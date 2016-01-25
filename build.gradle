@@ -28,15 +28,15 @@ artifacts {
 }
 
 dependencies {
-    compile 'com.google.guava:guava:18.0'
+    compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
-    compile 'org.seleniumhq.selenium:selenium-java:2.48.2'
+    compile 'org.seleniumhq.selenium:selenium-java:2.49.1'
     compile 'org.slf4j:slf4j-log4j12:1.7.13'        
     compile 'junit:junit:4.12'
     compile 'com.beust:jcommander:1.48'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
     compile 'com.saucelabs:saucerest:1.0.28'
-    compile 'io.appium:java-client:3.2.0'   
+    compile 'io.appium:java-client:3.23.0'   
 
     // For ALLURE
     compile 'org.aspectj:aspectjweaver:1.8.8'

@@ -86,4 +86,10 @@ public class SauceLabsIntegration implements Integration {
     public boolean isEnabled() {
         return arguments.sauce();
     }
+
+    @Override
+    public String name() {
+        return "SauceLabsIntegration";
+    }
+
 }

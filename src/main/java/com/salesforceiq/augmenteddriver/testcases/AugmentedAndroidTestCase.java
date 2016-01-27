@@ -90,6 +90,7 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
             integrations.sauceLabs().jobName(getFullTestName(), sessionId);
             integrations.sauceLabs().buildName(getUniqueId(), sessionId);
         }
+
         if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
             integrations.teamCity().printSessionId(getFullTestName(), sessionId);
         }

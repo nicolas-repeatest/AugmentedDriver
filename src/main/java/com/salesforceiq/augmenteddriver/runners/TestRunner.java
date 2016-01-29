@@ -3,7 +3,7 @@ package com.salesforceiq.augmenteddriver.runners;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationManager;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,6 +46,8 @@ public class TestRunner implements Callable<AugmentedResult> {
      */
     @Override
     public AugmentedResult call() throws Exception {
+        integrationManager.initIntegrations();
+
         JUnitCore jUnitCore = getJUnitCore();
         String testName = String.format("%s#%s", test.getDeclaringClass().getCanonicalName(), test.getName());
         long start = System.currentTimeMillis();

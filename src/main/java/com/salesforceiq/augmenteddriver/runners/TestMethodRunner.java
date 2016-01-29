@@ -5,8 +5,9 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationManager;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
+import com.salesforceiq.augmenteddriver.modules.TestRunnerConfigModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
 import com.salesforceiq.augmenteddriver.util.Util;
@@ -121,8 +122,10 @@ public class TestMethodRunner implements Callable<List<Result>> {
     public static void main(String[] args) throws Exception {
         TestRunnerConfig arguments = TestRunnerConfig.initialize(args);
         checkArguments(arguments);
+        IntegrationManager.args = args;
+
         List<Module> modules = Lists.newArrayList(
-                new CommandLineArgumentsModule(),
+                new TestRunnerConfigModule(),
                 new PropertiesModule(),
                 new TestRunnerModule());
         Injector injector = Guice.createInjector(modules);

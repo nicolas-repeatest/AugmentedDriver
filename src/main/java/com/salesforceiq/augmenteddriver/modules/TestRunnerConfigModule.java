@@ -8,10 +8,11 @@ import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
  *
  * Basically binds TestRunnerConfig to the static instance that should have been already initialized.
  */
-public class CommandLineArgumentsModule extends AbstractModule {
+public class TestRunnerConfigModule extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(TestRunnerConfig.class).toInstance(TestRunnerConfig.ARGUMENTS);
     }
+
 }

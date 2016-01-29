@@ -3,10 +3,8 @@ package com.salesforceiq.augmenteddriver.testcases;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
-import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.AugmentedWebDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
@@ -19,7 +17,6 @@ import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActionsInte
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,17 +43,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     private WebPageObjectActions webPageObjectActions;
 
     @Inject
-    private IntegrationFactory integrations;
-
-    @Inject
     private TestRunnerConfig arguments;
-
-    @Named(PropertiesModule.REMOTE_ADDRESS)
-    @Inject
-    private String remoteAddress;
-
-    @Inject
-    private DesiredCapabilities capabilities;
 
     @Override
     public AugmentedWebDriver driver() {
@@ -88,7 +75,6 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     public void setUp() {
         Preconditions.checkNotNull(augmentedWebDriverProvider);
         Preconditions.checkNotNull(augmentedWebFunctionsFactory);
-        Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(webPageObjectActions);
         Preconditions.checkNotNull(remoteAddress);
@@ -112,15 +98,8 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         augmentedWebDriverProvider.set(driver);
         LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
-
         sessionId = driver.getSessionId().toString();
-        if (integrations.sauceLabs().isEnabled()) {
-            integrations.sauceLabs().jobName(getFullTestName(), sessionId);
-            integrations.sauceLabs().buildName(getUniqueId(), sessionId);
-        }
-        if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
-            integrations.teamCity().printSessionId(getFullTestName(), sessionId);
-        }
+        triggerIntegrations();
     }
 
     @After
@@ -229,4 +208,5 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
 
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
     }
+
 }

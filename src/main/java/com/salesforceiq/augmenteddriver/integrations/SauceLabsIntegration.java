@@ -1,5 +1,9 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.PathConverter;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
@@ -12,6 +16,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Properties;
 
 /**
  * In charge of interacting with SauceLabs
@@ -20,12 +25,49 @@ import java.util.Map;
 public class SauceLabsIntegration implements Integration {
 
     private final SauceREST sauceRest;
-    private final TestRunnerConfig arguments;
+
+    @Parameter(names = "-sauce", description = "Whether to run tests on SauceLabs or not")
+    private boolean enabled = false;
+
+    @Parameter(names = "-file", description = "Path to file to upload", converter = PathConverter.class)
+    private Path fileToUpload;
+
+    @Parameter(names = "-overwrite", description = "Whether to overwrite or not the file in case it exists in SauceLabs")
+    private boolean overwrite = true;
+
+    @Parameter(names = "-conf", description = "Path to the properties file, conf/augmented.properties by default")
+    private String conf = "conf/augmented.properties";
+
+    public static final String SAUCE_USER = "SAUCE_USER";
+    public static final String SAUCE_KEY = "SAUCE_KEY";
+    public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
+    public static final String SAUCE_DEFAULT_ADDRESS = "http://ondemand.saucelabs.com:80/wd/hub";
+
+    public static final String TOGGLE_PROPERTY = "SAUCE";
+    public static final String OVERRIDE_PROPERTY = "saucelabs.overwrite";
+    public static final String CONF_PROPERTY = "saucelabs.conf";
 
     @Inject
-    public SauceLabsIntegration(SauceREST sauceREST, TestRunnerConfig arguments) {
+    public SauceLabsIntegration(SauceREST sauceREST) {
         this.sauceRest = Preconditions.checkNotNull(sauceREST);
-        this.arguments = Preconditions.checkNotNull(arguments);
+    }
+
+    public void initialize(Properties properties) {
+        if (properties.get(TOGGLE_PROPERTY) != null) {
+            this.enabled = Boolean.valueOf(properties.getProperty(TOGGLE_PROPERTY));
+        }
+
+        if (properties.get(OVERRIDE_PROPERTY) != null) {
+            overwrite = Boolean.valueOf(properties.getProperty(OVERRIDE_PROPERTY));
+        }
+
+        if (properties.get(CONF_PROPERTY) != null) {
+            conf = properties.getProperty(CONF_PROPERTY);
+        }
+
+        TestRunnerConfig.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + TestRunnerConfig.ARGUMENTS.app());
+        TestRunnerConfig.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(SAUCE_USER));
+        TestRunnerConfig.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(SAUCE_KEY));
     }
 
     /**
@@ -103,7 +145,7 @@ public class SauceLabsIntegration implements Integration {
 
     @Override
     public boolean isEnabled() {
-        return arguments.sauce();
+        return enabled;
     }
 
     @Override

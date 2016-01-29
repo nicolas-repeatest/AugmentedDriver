@@ -149,4 +149,5 @@ public class AugmentedAssert {
             // Element was not visible.
         }
     }
+
 }

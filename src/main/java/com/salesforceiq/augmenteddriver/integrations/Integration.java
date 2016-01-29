@@ -1,5 +1,7 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
+import java.util.Properties;
+
 /**
  * Markup interface for all integrations.
  */
@@ -17,6 +19,8 @@ public interface Integration {
     void jobName(String testName, String sessionId);
 
     void buildName(String testName, String sessionId);
+
+    void initialize(Properties properties);
 
     String name();
 

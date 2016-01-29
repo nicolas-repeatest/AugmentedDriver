@@ -3,10 +3,8 @@ package com.salesforceiq.augmenteddriver.testcases;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
-import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.mobile.android.*;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageContainerObject;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObject;
@@ -19,7 +17,6 @@ import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,18 +39,8 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
 
     private AugmentedAndroidFunctions augmentedAndroidFunctions;
 
-    @Named(PropertiesModule.REMOTE_ADDRESS)
-    @Inject
-    private String remoteAddress;
-
-    @Inject
-    private DesiredCapabilities capabilities;
-
     @Inject
     private AndroidPageObjectActions androidPageObjectActions;
-
-    @Inject
-    private IntegrationFactory integrations;
 
     @Inject
     private TestRunnerConfig arguments;
@@ -66,7 +53,6 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     @Before
     public void setUp() {
         Preconditions.checkNotNull(augmentedAndroidDriverProvider);
-        Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(androidPageObjectActions);
         Preconditions.checkNotNull(remoteAddress);
@@ -92,14 +78,8 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         LOG.info("AugmentedAndroidDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
         sessionId = driver.getSessionId().toString();
-        if (integrations.sauceLabs().isEnabled()) {
-            integrations.sauceLabs().jobName(getFullTestName(), sessionId);
-            integrations.sauceLabs().buildName(getUniqueId(), sessionId);
-        }
 
-        if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
-            integrations.teamCity().printSessionId(getFullTestName(), sessionId);
-        }
+        triggerIntegrations();
     }
 
     @After
@@ -228,5 +208,6 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
 
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
     }
+
 }
 

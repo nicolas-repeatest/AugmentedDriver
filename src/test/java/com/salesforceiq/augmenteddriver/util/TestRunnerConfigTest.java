@@ -58,20 +58,20 @@ public class TestRunnerConfigTest {
         Assert.assertEquals(3, convert.size());
     }
 
-    @Test
-    public void testInitializeSauceFromProperties() {
-        Properties example = new Properties();
-        example.setProperty("SAUCE", "true");
-        TestRunnerConfig config = TestRunnerConfig.initialize(example);
-        Assert.assertTrue(config.sauce());
-        example = new Properties();
-        example.setProperty("SAUCE", "false");
-        config = TestRunnerConfig.initialize(example);
-        Assert.assertFalse(config.sauce());
-        example = new Properties();
-        config = TestRunnerConfig.initialize(example);
-        Assert.assertFalse(config.sauce());
-    }
+//    @Test
+//    public void testInitializeSauceFromProperties() {
+//        Properties example = new Properties();
+//        example.setProperty("SAUCE", "true");
+//        TestRunnerConfig config = TestRunnerConfig.initialize(example);
+//        Assert.assertTrue(config.sauce());
+//        example = new Properties();
+//        example.setProperty("SAUCE", "false");
+//        config = TestRunnerConfig.initialize(example);
+//        Assert.assertFalse(config.sauce());
+//        example = new Properties();
+//        config = TestRunnerConfig.initialize(example);
+//        Assert.assertFalse(config.sauce());
+//    }
 
     @Test
     public void testInitializeCapabilitiesFromProperties() throws IOException {

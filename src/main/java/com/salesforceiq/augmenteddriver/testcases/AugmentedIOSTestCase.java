@@ -3,10 +3,8 @@ package com.salesforceiq.augmenteddriver.testcases;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
-import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
-import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.mobile.ios.*;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageContainerObject;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObject;
@@ -19,7 +17,6 @@ import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.openqa.selenium.By;
-import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,17 +43,7 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
     private IOSPageObjectActions iosPageObjectActions;
 
     @Inject
-    private IntegrationFactory integrations;
-
-    @Inject
     private TestRunnerConfig arguments;
-
-    @Named(PropertiesModule.REMOTE_ADDRESS)
-    @Inject
-    private String remoteAddress;
-
-    @Inject
-    private DesiredCapabilities capabilities;
 
     /**
      * <p>
@@ -66,7 +53,6 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
     @Before
     public void setUp() {
         Preconditions.checkNotNull(augmentedIOSDriverProvider);
-        Preconditions.checkNotNull(integrations);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(iosPageObjectActions);
         Preconditions.checkNotNull(remoteAddress);
@@ -91,13 +77,8 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         LOG.info("AugmentedIOSDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
         sessionId = driver.getSessionId().toString();
-        if (integrations.sauceLabs().isEnabled()) {
-            integrations.sauceLabs().jobName(getFullTestName(), sessionId);
-            integrations.sauceLabs().buildName(getUniqueId(), sessionId);
-        }
-        if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
-            integrations.teamCity().printSessionId(getFullTestName(), sessionId);
-        }
+
+        triggerIntegrations();
     }
 
     @After
@@ -226,4 +207,5 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
 
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
     }
+
 }

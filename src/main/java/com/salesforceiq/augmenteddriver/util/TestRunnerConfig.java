@@ -62,10 +62,6 @@ public class TestRunnerConfig {
             result.capabilities = new CapabilitiesConverter().convert((String) properties.get(PropertiesModule.CAPABILITIES));
         }
 
-        if (properties.get(PropertiesModule.SAUCE) != null) {
-            result.sauce = Boolean.valueOf((String) properties.get(PropertiesModule.SAUCE));
-        }
-
         ARGUMENTS = result;
         return ARGUMENTS;
     }
@@ -128,14 +124,6 @@ public class TestRunnerConfig {
     }
 
     /**
-     * @return whether is running on sauce or not.
-     */
-    public boolean sauce() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
-        return ARGUMENTS.sauce;
-    }
-
-    /**
      * @return whether to run quarantined tests or not.
      */
     public boolean quarantine() {
@@ -195,9 +183,6 @@ public class TestRunnerConfig {
 
     @Parameter(names = "-timeoutInMinutes", description = "Timeout for tests to finish")
     private Integer timeoutInMinutes = 20;
-
-    @Parameter(names = "-sauce", description = "Whether to run tests on SauceLabs or not")
-    private boolean sauce = false;
 
     @Parameter(names = "-quarantine", description = "Run quarantined tests")
     private boolean quarantine = false;

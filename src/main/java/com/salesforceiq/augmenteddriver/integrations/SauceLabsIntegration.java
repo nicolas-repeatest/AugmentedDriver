@@ -58,11 +58,11 @@ public class SauceLabsIntegration implements Integration {
         }
 
         if (properties.get(OVERRIDE_PROPERTY) != null) {
-            overwrite = Boolean.valueOf(properties.getProperty(OVERRIDE_PROPERTY));
+            this.overwrite = Boolean.valueOf(properties.getProperty(OVERRIDE_PROPERTY));
         }
 
         if (properties.get(CONF_PROPERTY) != null) {
-            conf = properties.getProperty(CONF_PROPERTY);
+            this.conf = properties.getProperty(CONF_PROPERTY);
         }
 
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + TestRunnerConfig.ARGUMENTS.app());

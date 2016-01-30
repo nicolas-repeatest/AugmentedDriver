@@ -18,7 +18,7 @@ public class AllureIntegration implements ReportIntegration {
 
     public static final String TOGGLE_PROPERTY = "ALLURE";
 
-    @Parameter(names = "-allure", description = "Whether to run tests on SauceLabs or not")
+    @Parameter(names = "-allure")
     private boolean enabled = false;
 
     public void initialize(Properties properties) {

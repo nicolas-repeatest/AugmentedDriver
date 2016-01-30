@@ -13,6 +13,7 @@ import java.io.ByteArrayOutputStream;
  * Guice Module for the TestRunner.
  */
 public class TestRunnerModule extends AbstractModule {
+	
     @Override
     protected void configure() {
         bind(TestSuiteRunner.class);
@@ -23,4 +24,5 @@ public class TestRunnerModule extends AbstractModule {
                 .build(TestRunnerFactory.class));
 
     }
+    
 }

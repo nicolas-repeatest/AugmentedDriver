@@ -1,15 +1,15 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
-import com.beust.jcommander.JCommander;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.stream.Collectors;
+import com.beust.jcommander.JCommander;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
 
 @Singleton
 public class IntegrationManager {

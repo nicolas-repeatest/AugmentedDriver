@@ -1,15 +1,13 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
-import com.beust.jcommander.Parameter;
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
-import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import org.junit.runner.notification.RunListener;
-import ru.yandex.qatools.allure.junit.AllureRunListener;
-
 import java.io.ByteArrayOutputStream;
 import java.util.Properties;
+
+import org.junit.runner.notification.RunListener;
+
+import ru.yandex.qatools.allure.junit.AllureRunListener;
+
+import com.beust.jcommander.Parameter;
 
 /**
  * Integration for Allure.
@@ -33,7 +31,7 @@ public class AllureIntegration implements ReportIntegration {
     }
 
     @Override
-    public RunListener getReporter(ByteArrayOutputStream outputStream, String nameAppender) {
+    public RunListener getReporter(ByteArrayOutputStream outputStream) {
         return new AllureRunListener();
     }
 

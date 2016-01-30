@@ -9,7 +9,7 @@ public interface ReportIntegration {
 
     boolean isEnabled();
 
-    RunListener getReporter(ByteArrayOutputStream outputStream, String nameAppender);
+    RunListener getReporter(ByteArrayOutputStream outputStream);
 
     void print(String testName, String sessionId, IntegrationManager integrationManager);
 

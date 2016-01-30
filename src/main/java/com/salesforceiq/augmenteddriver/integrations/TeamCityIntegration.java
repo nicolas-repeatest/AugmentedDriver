@@ -1,16 +1,15 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
-import com.google.common.base.Strings;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.reporters.TeamCityReporter;
+import java.io.ByteArrayOutputStream;
+
+import org.junit.runner.notification.RunListener;
+
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
-import org.junit.runner.notification.RunListener;
-import org.openqa.selenium.remote.SessionId;
-
-import java.io.ByteArrayOutputStream;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
+import com.salesforceiq.augmenteddriver.reporters.TeamCityReporter;
 
 /**
  * Integration for TeamCity, used to write the output so Team City understands.
@@ -51,8 +50,8 @@ public class TeamCityIntegration implements ReportIntegration {
      * @return the Reporter.
      */
     @Override
-    public RunListener getReporter(ByteArrayOutputStream outputStream, String nameAppender) {
-        return new TeamCityReporter(outputStream, nameAppender);
+    public RunListener getReporter(ByteArrayOutputStream outputStream) {
+        return new TeamCityReporter(outputStream);
     }
 
     @Override

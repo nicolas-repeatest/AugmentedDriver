@@ -30,13 +30,26 @@ public class TeamCityIntegration implements ReportIntegration {
         return teamCityIntegration;
     }
 
+    /**
+     * Prints the Session Id the way SauceLabs likes it, for the SauceLabs plugin.
+     *
+     * @param jobName the name of the job running.
+     * @param sessionId the session id of the driver.
+     */
     @Override
-    public void print(String testName, String sessionId, IntegrationManager integrationManager) {
+    public void print(String jobName, String sessionId, IntegrationManager integrationManager) {
         if (integrationManager.containsIntegration("SauceLabsIntegration")) {
-            System.out.println(String.format("SauceOnDemandSessionID=%s job-name=%s", testName, sessionId));
+            System.out.println(String.format("SauceOnDemandSessionID=%s job-name=%s", jobName, sessionId));
         }
     }
 
+    /**
+     * Creates a reporter that understands how to print information for TeamCity.
+     *
+     * @param outputStream where to print the log.
+     * @param nameAppender string to append to the name of the test.
+     * @return the Reporter.
+     */
     @Override
     public RunListener getReporter(ByteArrayOutputStream outputStream, String nameAppender) {
         return new TeamCityReporter(outputStream, nameAppender);

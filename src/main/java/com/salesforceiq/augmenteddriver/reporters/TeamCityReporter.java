@@ -18,9 +18,13 @@ import com.google.common.base.Strings;
  */
 public class TeamCityReporter extends RunListener {
 	
+	/*
+	 * Define the templates message to Interact with TeamCity
+	 * build interaction are made with String messages
+	 * Documentation available on: https://confluence.jetbrains.com/display/TCD3/Build+Script+Interaction+with+TeamCity
+	 */
     private static final String TEMPLATE_SUITE_STARTED = "##teamcity[testSuiteStarted name='%s']";
     private static final String TEMPLATE_SUITE_FINISHED = "##teamcity[testSuiteFinished name='%s']";
-	    
     private static final String TEMPLATE_TEST_STARTED = "##teamcity[testStarted name='%s' captureStandardOutput='true']";
     private static final String TEMPLATE_TEST_FINISHED = "##teamcity[testFinished name='%s' duration='%s']";
     private static final String TEMPLATE_TEST_FAILURE = "##teamcity[testFailed name='%s' message='%s' details='%s']";

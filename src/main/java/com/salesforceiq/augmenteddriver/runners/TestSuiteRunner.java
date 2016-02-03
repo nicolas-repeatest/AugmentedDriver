@@ -163,18 +163,18 @@ public class TestSuiteRunner implements Callable<List<Result>> {
              */
             @Override
             public void onFailure(Throwable t) {
-                logger.error("-------------------------------------------------------------");
-                logger.error("-------------------------------------------------------------");
-                logger.error("-------------------------------------------------------------");
-                logger.error("-------------------------------------------------------------");
-                logger.error("UNEXPECTED FAILURE");
-                logger.error(String.format("FAILED %s#%s", method.getDeclaringClass(), method.getName()));
-                logger.error("REASON: " + t.getMessage());
-                logger.error("STACKTRACE:");
-                logger.error(ExceptionUtils.getStackTrace(t));
-                logger.error("-------------------------------------------------------------");
-                logger.error("-------------------------------------------------------------");
-                logger.error("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("UNEXPECTED FAILURE");
+                System.out.println(String.format("FAILED %s#%s", method.getDeclaringClass(), method.getName()));
+                System.out.println("REASON: " + t.getMessage());
+                System.out.println("STACKTRACE:");
+                System.out.println(ExceptionUtils.getStackTrace(t));
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
+                System.out.println("-------------------------------------------------------------");
             }
 
             private void processOutput(ByteArrayOutputStream outputStream) {

@@ -40,10 +40,6 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
     @Inject
     private IntegrationManager integrationManager;
 
-    @Named(PropertiesModule.REMOTE_ADDRESS)
-    @Inject
-    protected String remoteAddress;
-
     @Inject
     protected DesiredCapabilities capabilities;
 

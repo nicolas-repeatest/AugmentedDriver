@@ -66,12 +66,20 @@ public class TestRunnerConfig {
         return ARGUMENTS;
     }
 
+    public String remoteAddress() {
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
+    	return ARGUMENTS.remoteAddress;
+    }
+    
+    public void setRemoteAddress(String remoteAddress) {
+		this.remoteAddress = remoteAddress;
+	}
 
     /**
      * @return Test Class to run (for running one test).
      */
     public Class<?> clazz() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.clazz;
     }
 
@@ -79,7 +87,7 @@ public class TestRunnerConfig {
      * @return Method name to run (for running one test).
      */
     public Method test() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.test;
     }
 
@@ -87,7 +95,7 @@ public class TestRunnerConfig {
      * @return Suites to run (for running suites).
      */
     public List<String> suites() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return Arrays.asList(ARGUMENTS.suites.split(","));
     }
 
@@ -95,23 +103,23 @@ public class TestRunnerConfig {
      * @return root package.
      */
     public String suitesPackage() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.suitesPackage;
     }
 
     /**
      * @return How many times to run a test (for running one test).
      */
-    public int quantity() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
-        return ARGUMENTS.quantity;
+    public int numberOfExecutions() {
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
+        return ARGUMENTS.numberOfExecutions;
     }
 
     /**
      * @return How many tests in parallel can be run.
      */
     public int parallel() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.parallel;
     }
 
@@ -119,7 +127,7 @@ public class TestRunnerConfig {
      * @return time in minutes to wait for the suite/test to finish.
      */
     public int timeoutInMinutes() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.timeoutInMinutes;
     }
 
@@ -127,7 +135,7 @@ public class TestRunnerConfig {
      * @return whether to run quarantined tests or not.
      */
     public boolean quarantine() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
+        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#initialize first");
         return ARGUMENTS.quarantine;
     }
 
@@ -176,7 +184,7 @@ public class TestRunnerConfig {
     private String suitesPackage;
 
     @Parameter(names = "-quantity", description = "How many times the test is going to run")
-    private Integer quantity = 1;
+    private Integer numberOfExecutions = 1;
 
     @Parameter(names = "-parallel", description = "How many tests in parallel are going to run")
     private Integer parallel = 1;
@@ -198,6 +206,9 @@ public class TestRunnerConfig {
 
     @Parameter(names = "-extra", description = "Extra parameters that are going to be injected (comma delimited)", converter = ExtraArgumentsConverter.class)
     private Map<String, String> extra = Maps.newHashMap();
+    
+    @Parameter(names = "-remoteAddress", description = "The URI to run the tests")
+    private String remoteAddress = "http://127.0.0.1:7777/wd/hub";
 
     public static class ClassConverter implements IStringConverter<Class<?>> {
         @Override

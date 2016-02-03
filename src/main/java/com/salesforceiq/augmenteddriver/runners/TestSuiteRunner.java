@@ -89,7 +89,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         long start = System.currentTimeMillis();
         logger.info(String.format("STARTING TestSuiteRunner for suites [%s], running %s tests in parallel", suites, parallel));
 
-        List<Class> classesToTest = TestsFinder.getTestClassesOfPackage(suites, suitesPackage);
+        List<Class<?>> classesToTest = TestsFinder.getTestClassesOfPackage(suites, suitesPackage);
         logger.info(String.format("Test Classes to run: %s", classesToTest));
 
         classesToTest.stream()

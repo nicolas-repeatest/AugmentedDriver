@@ -1,12 +1,18 @@
 package com.salesforceiq.augmenteddriver.mobile.android;
 
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
+import org.openqa.selenium.Rectangle;
+import org.openqa.selenium.WebDriverException;
+import org.openqa.selenium.WebElement;
+
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctionsFactory;
-import org.openqa.selenium.*;
-
-import java.util.List;
 
 /**
  * Wrapper of WebElement that also provides augmented functionality.

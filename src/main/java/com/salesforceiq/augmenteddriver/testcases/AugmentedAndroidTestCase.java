@@ -55,7 +55,6 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         Preconditions.checkNotNull(augmentedAndroidDriverProvider);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(androidPageObjectActions);
-        Preconditions.checkNotNull(remoteAddress);
         Preconditions.checkNotNull(capabilities);
 
         // If left to Guice, it creates each driver serially, queueing all tests
@@ -67,7 +66,7 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedAndroidDriver");
         try {
-            driver = new AugmentedAndroidDriver(remoteAddress, capabilities, augmentedAndroidFunctions);
+            driver = new AugmentedAndroidDriver(arguments.remoteAddress(), capabilities, augmentedAndroidFunctions);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }

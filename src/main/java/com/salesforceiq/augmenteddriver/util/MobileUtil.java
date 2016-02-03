@@ -27,7 +27,7 @@ public class MobileUtil {
      * @param fingers how many fingers to press.
      * @return the element that was used to determine the coordinates.
      */
-    public static WebElement tapAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions,
+    public static WebElement tapAfter(AppiumDriver<?> driver, AugmentedFunctions<?> augmentedFunctions,
                                  By by, int offsetX, int offsetY, int waitTimeInSeconds, int pressInMilliSeconds, int fingers) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(augmentedFunctions);
@@ -50,7 +50,7 @@ public class MobileUtil {
      * @param quantity how many times should you swipe before giving up.
      * @return the element visible.
      */
-    public static WebElement swipeUpWaitVisibleAfter(AppiumDriver driver,
+    public static WebElement swipeUpWaitVisibleAfter(AppiumDriver<?> driver,
                                                 AugmentedFunctions<?> augmentedFunctions,
                                                 By swipeElement,
                                                 By elementVisible,
@@ -79,7 +79,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes visible
      * @return the element visible.
      */
-    public static WebElement swipeDownWaitVisible(AppiumDriver driver,
+    public static WebElement swipeDownWaitVisible(AppiumDriver<?> driver,
                                                 AugmentedFunctions<?> augmentedFunctions,
                                                 By swipeElement,
                                                 By elementVisible,
@@ -104,7 +104,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes visible
      * @param pressInMilliSeconds how much time to press the element before swiping.
      */
-    public static void swipeUpAfter(AppiumDriver driver,
+    public static void swipeUpAfter(AppiumDriver<?> driver,
                                AugmentedFunctions<?> augmentedFunctions,
                                By swipeBy,
                                int waitTimeInSeconds,
@@ -125,7 +125,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes visible
      * @param pressInMilliSeconds how much time to press the element before swiping.
      */
-    public static void swipeDownAfter(AppiumDriver driver,
+    public static void swipeDownAfter(AppiumDriver<?> driver,
                                AugmentedFunctions<?> augmentedFunctions,
                                By swipeBy,
                                int waitTimeInSeconds,
@@ -148,7 +148,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes visible
      * @param durationInMilliSeconds time to press before swiping.
      */
-    public static void swipeVerticalAfter(AppiumDriver driver,
+    public static void swipeVerticalAfter(AppiumDriver<?> driver,
                                      AugmentedFunctions<?> augmentedFunctions,
                                      By swipeBy,
                                      int waitTimeInSeconds,
@@ -182,7 +182,7 @@ public class MobileUtil {
      * @param quantity how many time to try swiping.
      * @return the element that became visible.
      */
-    public static WebElement swipeVerticalWaitVisibleAfter(AppiumDriver driver,
+    public static WebElement swipeVerticalWaitVisibleAfter(AppiumDriver<?> driver,
                                     AugmentedFunctions<?> augmentedFunctions,
                                     By swipeElement,
                                     By elementVisible,
@@ -221,7 +221,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes present.
      * @param pressInMilliSeconds Time to press the element before swiping.
      */
-    public static void swipeFullRightAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by,
+    public static void swipeFullRightAfter(AppiumDriver<?> driver, AugmentedFunctions<?> augmentedFunctions, By by,
                                            int waitTimeInSeconds, int pressInMilliSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(augmentedFunctions);
@@ -245,7 +245,7 @@ public class MobileUtil {
      * @param waitTimeInSeconds how much time to wait until the element becomes present.
      * @param pressInMilliSeconds Time to press the element before swiping.
      */
-    public static void swipeFullLeftAfter(AppiumDriver driver, AugmentedFunctions<?> augmentedFunctions, By by,
+    public static void swipeFullLeftAfter(AppiumDriver<?> driver, AugmentedFunctions<?> augmentedFunctions, By by,
                                           int waitTimeInSeconds, int pressInMilliSeconds) {
         Preconditions.checkNotNull(by);
         Preconditions.checkNotNull(driver);
@@ -267,7 +267,7 @@ public class MobileUtil {
      * @param offset how much you want to swipe from the vertical position.
      * @return the end coordinate of the swiping action.
      */
-    private static int getVerticalOffset(AppiumDriver driver, int y, int offset) {
+    private static int getVerticalOffset(AppiumDriver<?> driver, int y, int offset) {
         Preconditions.checkNotNull(driver);
 
         if (y + offset < VERTICAL_OFFSET) {

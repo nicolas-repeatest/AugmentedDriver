@@ -77,7 +77,6 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         Preconditions.checkNotNull(augmentedWebFunctionsFactory);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(webPageObjectActions);
-        Preconditions.checkNotNull(remoteAddress);
         Preconditions.checkNotNull(capabilities);
 
         // If left to Guice, it creates each driver serially, queueing all tests
@@ -89,7 +88,7 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedWebDriver");
         try {
-            driver = new AugmentedWebDriver(remoteAddress, capabilities);
+            driver = new AugmentedWebDriver(arguments.remoteAddress(), capabilities);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }

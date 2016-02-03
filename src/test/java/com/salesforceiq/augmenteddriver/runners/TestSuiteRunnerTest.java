@@ -1,16 +1,18 @@
 package com.salesforceiq.augmenteddriver.runners;
 
 
-import com.salesforceiq.augmenteddriver.integrations.IntegrationManager;
-import com.salesforceiq.augmenteddriver.util.Quarantine;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationManager;
+import com.salesforceiq.augmenteddriver.util.Quarantine;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 
 public class TestSuiteRunnerTest {
 
@@ -18,12 +20,7 @@ public class TestSuiteRunnerTest {
 
     @Before
     public void setUp() {
-        runner = new TestSuiteRunner(
-                mock(TestRunnerConfig.class),
-                mock(TestRunnerFactory.class),
-                "2",
-                mock(IntegrationManager.class)
-        );
+    	runner = buildTestRunner(mock(TestRunnerConfig.class));
     }
 
     @Test
@@ -45,6 +42,24 @@ public class TestSuiteRunnerTest {
     @Test
     public void methodWithTestAnnotationWithoutIgnoreAndQuarantineShouldBeValid() throws Exception {
         assertTrue(isValidTest("method5"));
+    }
+    
+    @Test
+    public void methodWithQuarantineShouldBeValidIfQuarantineIsEnabled() throws Exception {
+    	TestRunnerConfig testRunnerConfig = mock(TestRunnerConfig.class);
+    	when(testRunnerConfig.quarantine()).thenReturn(true);
+    	runner = buildTestRunner(testRunnerConfig);
+    	
+    	assertTrue(isValidTest("method4"));
+    }
+    
+    private TestSuiteRunner buildTestRunner(TestRunnerConfig testRunnerConfig) {
+        return new TestSuiteRunner(
+                testRunnerConfig,
+                mock(TestRunnerFactory.class),
+                "2",
+                mock(IntegrationManager.class)
+        );
     }
 
     private boolean isValidTest(String method) throws NoSuchMethodException {

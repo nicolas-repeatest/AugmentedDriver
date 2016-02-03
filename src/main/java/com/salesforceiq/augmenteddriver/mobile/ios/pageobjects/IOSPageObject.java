@@ -3,14 +3,11 @@ package com.salesforceiq.augmenteddriver.mobile.ios.pageobjects;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
-import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriver;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 
 /**
  * Page Object for IOSPages.
@@ -22,7 +19,6 @@ import org.slf4j.LoggerFactory;
  * </p>
  */
 public abstract class IOSPageObject implements IOSPageObjectActionsInterface, PageObjectAssertionsInterface, PageObject {
-    private static final Logger LOG = LoggerFactory.getLogger(IOSPageObject.class);
 
     /**
      * Important we use a Provider, since we need the driver to be initialized when the first test starts to run

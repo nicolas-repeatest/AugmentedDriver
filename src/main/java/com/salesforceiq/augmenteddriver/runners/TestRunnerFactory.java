@@ -6,6 +6,7 @@ import java.lang.reflect.Method;
  * Guice factory for creating TestRunners.
  */
 public interface TestRunnerFactory {
+	
     /**
      * Creates a TestRunner that knows how to run a test.
      *
@@ -14,4 +15,5 @@ public interface TestRunnerFactory {
      * @return a Runner that can run a particular test.
      */
     TestRunner create(Method test, String nameAppender);
+    
 }

@@ -20,7 +20,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is present after ${2} seconds")
-    public static void assertElementIsPresentAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsPresentAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 
@@ -39,7 +39,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is visible after ${2} seconds")
-    public static void assertElementIsVisibleAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsVisibleAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 
@@ -58,7 +58,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is clickable after ${2} seconds")
-    public static void assertElementIsClickableAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsClickableAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 
@@ -78,7 +78,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} containes text ${2} after ${3} seconds")
-    public static void assertElementContainsAfter(AugmentedFunctions driver, By by, String text, int timeoutInSeconds) {
+    public static void assertElementContainsAfter(AugmentedFunctions<?> driver, By by, String text, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
         Preconditions.checkArgument(!Strings.isNullOrEmpty(text));
@@ -98,7 +98,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is not visible after ${2} seconds")
-    public static void assertElementIsNotVisibleAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsNotVisibleAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 
@@ -118,7 +118,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is not clickable after ${2} seconds")
-    public static void assertElementIsNotClickableAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsNotClickableAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 
@@ -138,7 +138,7 @@ public class AugmentedAssert {
      * @param timeoutInSeconds how much time to wait.
      */
     @Step("Asserting element ${1} is not present after ${2} seconds")
-    public static void assertElementIsNotPresentAfter(AugmentedFunctions driver, By by, int timeoutInSeconds) {
+    public static void assertElementIsNotPresentAfter(AugmentedFunctions<?> driver, By by, int timeoutInSeconds) {
         Preconditions.checkNotNull(driver);
         Preconditions.checkNotNull(by);
 

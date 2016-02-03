@@ -20,16 +20,13 @@ import java.util.Properties;
  */
 public class PropertiesModule extends AbstractModule {
 
-    public static final String TEAM_CITY_INTEGRATION = "TEAM_CITY_INTEGRATION";
     public static final String REPORTING = "REPORTING";
-    public static final String REMOTE_ADDRESS = "REMOTE_ADDRESS";
     public static final String UNIQUE_ID = "UNIQUE_ID";
     public static final String WAIT_IN_SECONDS = "WAIT_TIME_IN_SECONDS";
     public static final String PRESS_TIME_IN_MILLISECONDS = "PRESS_TIME_IN_MILLISECONDS";
     public static final String SWIPE_QUANTITY = "SWIPE_QUANTITY";
     public static final String TAP_FINGERS = "TAP_FINGERS";
     public static final String MAX_RETRIES = "MAX_RETRIES";
-    public static final String LOCAL_ADDRESS = "LOCAL_ADDRESS";
     public static final String CAPABILITIES = "CAPABILITIES";
     public static final String DEFAULT_CONFIG = "conf/augmented.properties";
 
@@ -39,25 +36,17 @@ public class PropertiesModule extends AbstractModule {
      * For now all the default properties are defined here.
      */
     private static final Map<String, String> defaultProperties = new HashMap<String, String>() {
-        {
-            put(LOCAL_ADDRESS, "http://127.0.0.1:7777/wd/hub");
+		private static final long serialVersionUID = 1L;
+
+		{
             put(WAIT_IN_SECONDS, "30");
             put(PRESS_TIME_IN_MILLISECONDS, "1000");
             put(SWIPE_QUANTITY, "5");
-            put(TEAM_CITY_INTEGRATION, "false");
             put(REPORTING, "false");
             put(TAP_FINGERS, "1");
             put(MAX_RETRIES, "2");
         }
     };
-
-    private Properties loadDefaultProperties(Properties properties) {
-        defaultProperties.entrySet()
-                .stream()
-                .forEach(entry -> properties.setProperty(entry.getKey(), entry.getValue()));
-
-        return properties;
-    }
 
     @Override
     protected void configure() {
@@ -86,12 +75,6 @@ public class PropertiesModule extends AbstractModule {
             throw new IllegalStateException("Capabilities were not loaded. Please set on properties file or command line args.");
         }
 
-//        if (TestRunnerConfig.ARGUMENTS.sauce()) {
-//            setSauceProperties(properties);
-//        } else {
-//            properties.setProperty(PropertiesModule.REMOTE_ADDRESS, properties.getProperty(PropertiesModule.LOCAL_ADDRESS));
-//        }
-
         // This will override the properties set in the property file, with the properties sent in the extra parameters.
         if (TestRunnerConfig.ARGUMENTS.extra() != null && !TestRunnerConfig.ARGUMENTS.extra().isEmpty()) {
             properties.putAll(TestRunnerConfig.ARGUMENTS.extra());
@@ -100,6 +83,14 @@ public class PropertiesModule extends AbstractModule {
         Names.bindProperties(binder(), properties);
         bind(DesiredCapabilities.class).toInstance(TestRunnerConfig.ARGUMENTS.capabilities());
         bind(String.class).annotatedWith(Names.named(PropertiesModule.UNIQUE_ID)).toInstance(ID);
+    }
+    
+    private Properties loadDefaultProperties(Properties properties) {
+        defaultProperties.entrySet()
+                .stream()
+                .forEach(entry -> properties.setProperty(entry.getKey(), entry.getValue()));
+
+        return properties;
     }
 
 }

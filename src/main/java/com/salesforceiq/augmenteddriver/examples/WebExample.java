@@ -1,12 +1,13 @@
 package com.salesforceiq.augmenteddriver.examples;
 
-import com.salesforceiq.augmenteddriver.testcases.AugmentedWebTestCase;
-import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
+
 import ru.yandex.qatools.allure.annotations.Step;
 import ru.yandex.qatools.allure.annotations.Title;
+
+import com.salesforceiq.augmenteddriver.testcases.AugmentedWebTestCase;
 
 public class WebExample extends AugmentedWebTestCase {
 

@@ -54,7 +54,7 @@ public class QuarantineFinder {
     public static void main(String[] args) throws Exception {
         QuarantineCommandLineArguments arguments = QuarantineCommandLineArguments.initialize(args);
         checkArguments(arguments);
-        List<Class> classes = TestsFinder.getTestClassesOfPackage(arguments.suites(), arguments.suitesPackage());
+        List<Class<?>> classes = TestsFinder.getTestClassesOfPackage(arguments.suites(), arguments.suitesPackage());
         System.out.println(String.format("Quarantined tests for suites %s in package %s",
                                                                                 arguments.suites(),
                                                                                 arguments.suitesPackage()));

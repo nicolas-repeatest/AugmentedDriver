@@ -38,10 +38,10 @@ public class IntegrationManager {
                 .forEach(report -> initWithCommandLineArgs(report));
     }
 
-    private void initWithCommandLineArgs(Object obj) {
+    private void initWithCommandLineArgs(Object integration) {
         JCommander jCommander = new JCommander();
         jCommander.setAcceptUnknownOptions(true);
-        jCommander.addObject(obj);
+        jCommander.addObject(integration);
         jCommander.parse(args);
     }
 
@@ -60,7 +60,9 @@ public class IntegrationManager {
     }
 
     public boolean containsIntegration(String name) {
-        if (name == null) return false;
+        if (name == null) {        	
+        	return false;
+        }
 
         boolean match = enabledIntegrations()
                 .stream()

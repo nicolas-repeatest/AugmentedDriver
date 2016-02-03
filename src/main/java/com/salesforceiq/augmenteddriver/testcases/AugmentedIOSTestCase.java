@@ -55,7 +55,6 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         Preconditions.checkNotNull(augmentedIOSDriverProvider);
         Preconditions.checkNotNull(arguments);
         Preconditions.checkNotNull(iosPageObjectActions);
-        Preconditions.checkNotNull(remoteAddress);
         Preconditions.checkNotNull(capabilities);
 
         // If left to Guice, it creates each driver serially, queueing all tests
@@ -67,7 +66,7 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         long start = System.currentTimeMillis();
         LOG.info("Creating AugmentedIOSDriver");
         try {
-            driver = new AugmentedIOSDriver(remoteAddress, capabilities, augmentedIOSFunctions);
+            driver = new AugmentedIOSDriver(arguments.remoteAddress(), capabilities, augmentedIOSFunctions);
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("Check your addresses on the properties file", e);
         }

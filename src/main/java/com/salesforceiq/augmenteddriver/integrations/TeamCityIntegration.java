@@ -1,14 +1,12 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
 import java.io.ByteArrayOutputStream;
+import java.util.Properties;
 
 import org.junit.runner.notification.RunListener;
 
-import com.google.common.base.Preconditions;
-import com.google.inject.Inject;
+import com.beust.jcommander.Parameter;
 import com.google.inject.Singleton;
-import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.reporters.TeamCityReporter;
 
 /**
@@ -17,16 +15,20 @@ import com.salesforceiq.augmenteddriver.reporters.TeamCityReporter;
 @Singleton
 public class TeamCityIntegration implements ReportIntegration {
 
-    private final boolean teamCityIntegration;
+    public static final String TOGGLE_PROPERTY = "TEAM_CITY_INTEGRATION";
 
-    @Inject
-    public TeamCityIntegration(@Named(PropertiesModule.TEAM_CITY_INTEGRATION) String teamCityIntegration) {
-        this.teamCityIntegration = Preconditions.checkNotNull(Boolean.valueOf(teamCityIntegration));
+    @Parameter(names = "-teamcity")
+    private boolean enabled = false;
+
+    public void initialize(Properties properties) {
+        if (properties.get(TOGGLE_PROPERTY) != null) {
+            this.enabled = Boolean.valueOf(properties.getProperty(TOGGLE_PROPERTY));
+        }
     }
 
     @Override
     public boolean isEnabled() {
-        return teamCityIntegration;
+        return enabled;
     }
 
     /**

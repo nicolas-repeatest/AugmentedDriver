@@ -1,22 +1,20 @@
 package com.salesforceiq.augmenteddriver.integrations;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
-import com.beust.jcommander.converters.PathConverter;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.google.common.base.Preconditions;
-import com.google.common.base.Strings;
-import com.google.common.collect.Maps;
-import com.google.inject.Inject;
-import com.google.inject.Singleton;
-import com.saucelabs.saucerest.SauceREST;
-
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Properties;
+
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.converters.PathConverter;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Strings;
+import com.google.common.collect.Maps;
+import com.google.inject.Inject;
+import com.google.inject.Singleton;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
+import com.saucelabs.saucerest.SauceREST;
 
 /**
  * In charge of interacting with SauceLabs
@@ -68,6 +66,7 @@ public class SauceLabsIntegration implements Integration {
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + TestRunnerConfig.ARGUMENTS.app());
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(SAUCE_USER));
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(SAUCE_KEY));
+        TestRunnerConfig.ARGUMENTS.setRemoteAddress(SAUCE_DEFAULT_ADDRESS);
     }
 
     /**

@@ -1,19 +1,21 @@
 package com.salesforceiq.augmenteddriver.web;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.TimeoutException;
+
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
-import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Implements all the Augmented Functions for Web.

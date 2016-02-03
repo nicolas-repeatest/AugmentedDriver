@@ -1,13 +1,12 @@
 package com.salesforceiq.augmenteddriver.mobile.android;
 
-import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import io.appium.java_client.android.AndroidDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * Driver used for automation against Android.

@@ -2,6 +2,7 @@ package com.salesforceiq.augmenteddriver.integrations;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
@@ -23,6 +24,9 @@ public class IntegrationManager {
 
     @Inject
     private final List<ReportIntegration> reportIntegrations = new LinkedList<>();
+    
+    @Inject
+    private Properties properties;
 
     public void initIntegrations() {
         logger.info("Initializing Integrations");
@@ -36,8 +40,14 @@ public class IntegrationManager {
 
         enabledReportIntegrations()
                 .forEach(report -> initWithCommandLineArgs(report));
+        
+        enabledIntegrations()
+        		.forEach(integration -> integration.initialize(properties));
+        
+        enabledReportIntegrations()
+				.forEach(report -> report.initialize(properties));
     }
-
+    
     private void initWithCommandLineArgs(Object integration) {
         JCommander jCommander = new JCommander();
         jCommander.setAcceptUnknownOptions(true);

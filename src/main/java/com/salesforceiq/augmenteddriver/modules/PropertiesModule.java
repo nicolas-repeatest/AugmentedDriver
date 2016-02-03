@@ -81,6 +81,8 @@ public class PropertiesModule extends AbstractModule {
         }
 
         Names.bindProperties(binder(), properties);
+        
+        bind(Properties.class).toInstance(properties);
         bind(DesiredCapabilities.class).toInstance(TestRunnerConfig.ARGUMENTS.capabilities());
         bind(String.class).annotatedWith(Names.named(PropertiesModule.UNIQUE_ID)).toInstance(ID);
     }

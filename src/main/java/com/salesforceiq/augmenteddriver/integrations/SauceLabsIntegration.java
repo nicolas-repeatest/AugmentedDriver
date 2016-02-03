@@ -63,10 +63,19 @@ public class SauceLabsIntegration implements Integration {
             this.conf = properties.getProperty(CONF_PROPERTY);
         }
 
+        if (!enabled) {
+        	return;
+        }
+        
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("app", "sauce-storage:" + TestRunnerConfig.ARGUMENTS.app());
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("username", properties.getProperty(SAUCE_USER));
         TestRunnerConfig.ARGUMENTS.capabilities().setCapability("access-key", properties.getProperty(SAUCE_KEY));
-        TestRunnerConfig.ARGUMENTS.setRemoteAddress(SAUCE_DEFAULT_ADDRESS);
+        
+        if (Strings.isNullOrEmpty(properties.getProperty(SAUCE_KEY))) {
+        	TestRunnerConfig.ARGUMENTS.setRemoteAddress(SauceLabsIntegration.SAUCE_DEFAULT_ADDRESS);
+        } else {
+        	TestRunnerConfig.ARGUMENTS.setRemoteAddress(properties.getProperty(SAUCE_KEY));
+        }
     }
 
     /**

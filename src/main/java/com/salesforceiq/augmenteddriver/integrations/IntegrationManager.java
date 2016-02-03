@@ -15,72 +15,72 @@ import com.google.inject.Singleton;
 @Singleton
 public class IntegrationManager {
 
-    private static final Logger logger = LoggerFactory.getLogger(IntegrationManager.class);
+	private static final Logger logger = LoggerFactory.getLogger(IntegrationManager.class);
 
-    public static String[] args;
+	public static String[] args;
 
-    @Inject
-    private final List<Integration> integrations = new LinkedList<>();
+	@Inject
+	private final List<Integration> integrations = new LinkedList<>();
 
-    @Inject
-    private final List<ReportIntegration> reportIntegrations = new LinkedList<>();
-    
-    @Inject
-    private Properties properties;
+	@Inject
+	private final List<ReportIntegration> reportIntegrations = new LinkedList<>();
 
-    public void initIntegrations() {
-        logger.info("Initializing Integrations");
+	@Inject
+	private Properties properties;
 
-        if (IntegrationManager.args == null) {
-            throw new IllegalArgumentException("IntegrationManager args was not defined");
-        }
+	public void initIntegrations() {
+		logger.info("Initializing Integrations");
 
-        enabledIntegrations()
-                .forEach(integration -> initWithCommandLineArgs(integration));
+		if (IntegrationManager.args == null) {
+			throw new IllegalArgumentException("IntegrationManager args was not defined");
+		}
 
-        enabledReportIntegrations()
-                .forEach(report -> initWithCommandLineArgs(report));
-        
-        enabledIntegrations()
-        		.forEach(integration -> integration.initialize(properties));
-        
-        enabledReportIntegrations()
-				.forEach(report -> report.initialize(properties));
-    }
-    
-    private void initWithCommandLineArgs(Object integration) {
-        JCommander jCommander = new JCommander();
-        jCommander.setAcceptUnknownOptions(true);
-        jCommander.addObject(integration);
-        jCommander.parse(args);
-    }
+		enabledIntegrations()
+			.forEach(integration -> initWithCommandLineArgs(integration));
 
-    public List<Integration> enabledIntegrations() {
-        return integrations
-                .stream()
-                .filter(integration -> integration.isEnabled())
-                .collect(Collectors.toList());
-    }
+		enabledReportIntegrations()
+			.forEach(report -> initWithCommandLineArgs(report));
 
-    public List<ReportIntegration> enabledReportIntegrations() {
-        return reportIntegrations
-                .stream()
-                .filter(integration -> integration.isEnabled())
-                .collect(Collectors.toList());
-    }
+		enabledIntegrations()
+			.forEach(integration -> integration.initialize(properties));
 
-    public boolean containsIntegration(String name) {
-        if (name == null) {        	
-        	return false;
-        }
+		enabledReportIntegrations()
+			.forEach(report -> report.initialize(properties));
+	}
 
-        boolean match = enabledIntegrations()
-                .stream()
-                .anyMatch(integration -> name.equalsIgnoreCase(integration.name()));
+	private void initWithCommandLineArgs(Object integration) {
+		JCommander jCommander = new JCommander();
+		jCommander.setAcceptUnknownOptions(true);
+		jCommander.addObject(integration);
+		jCommander.parse(args);
+	}
 
-        return match || enabledReportIntegrations()
-                .stream()
-                .anyMatch(integration -> name.equalsIgnoreCase(integration.name()));
-    }
+	public List<Integration> enabledIntegrations() {
+		return integrations
+				.stream()
+				.filter(integration -> integration.isEnabled())
+				.collect(Collectors.toList());
+	}
+
+	public List<ReportIntegration> enabledReportIntegrations() {
+		return reportIntegrations
+				.stream()
+				.filter(integration -> integration.isEnabled())
+				.collect(Collectors.toList());
+	}
+
+	public boolean containsIntegration(String name) {
+		if (name == null) {
+			return false;
+		}
+
+		boolean match = enabledIntegrations()
+				.stream()
+				.anyMatch(integration -> name.equalsIgnoreCase(integration.name()));
+
+		return match || enabledReportIntegrations()
+				.stream()
+				.anyMatch(integration -> name.equalsIgnoreCase(integration.name()));
+	}
 
 }

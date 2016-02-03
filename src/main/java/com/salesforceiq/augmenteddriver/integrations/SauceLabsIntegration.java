@@ -63,7 +63,7 @@ public class SauceLabsIntegration implements Integration {
             this.conf = properties.getProperty(CONF_PROPERTY);
         }
 
-        if (!enabled) {
+        if (!enabled || TestRunnerConfig.ARGUMENTS == null) {
         	return;
         }
         

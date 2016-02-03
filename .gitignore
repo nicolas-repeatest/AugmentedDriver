@@ -18,4 +18,4 @@ libs/
 node_modules/
 target/
 build/
-/bin/
+bin/

@@ -21,7 +21,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.1.4"
+version = "1.1.5"
 
 artifacts {
     archives javadocJar, sourcesJar

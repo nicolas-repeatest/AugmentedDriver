@@ -24,6 +24,8 @@ public class PropertiesModule extends AbstractModule {
 
     public static final String TEAM_CITY_INTEGRATION = "TEAM_CITY_INTEGRATION";
     public static final String ALLURE_INTEGRATION = "ALLURE_INTEGRATION";
+    public static final String JENKINS_INTEGRATION = "JENKINS_INTEGRATION";
+    public static final String JENKINS_XML = "JENKINS_XML";
     public static final String REPORTING = "REPORTING";
     public static final String REMOTE_ADDRESS = "REMOTE_ADDRESS";
     public static final String UNIQUE_ID = "UNIQUE_ID";
@@ -54,6 +56,8 @@ public class PropertiesModule extends AbstractModule {
             put(SWIPE_QUANTITY, "5");
             put(TEAM_CITY_INTEGRATION, "false");
             put(ALLURE_INTEGRATION, "false");
+            put(JENKINS_INTEGRATION, "false");
+            put(JENKINS_XML, "augmentedresults.xml");
             put(REPORTING, "false");
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");

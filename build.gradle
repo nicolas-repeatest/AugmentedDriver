@@ -21,13 +21,15 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.1.6"
+version = "1.1.7"
 
 artifacts {
     archives javadocJar, sourcesJar
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
     compile 'org.seleniumhq.selenium:selenium-java:2.49.1'

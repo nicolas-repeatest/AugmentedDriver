@@ -7,9 +7,6 @@ apply plugin: 'signing'
 
 repositories {
     mavenCentral()
-    maven {
-        url 'http://repo.jenkins-ci.org/releases/'
-    }
 }
 
 task javadocJar(type: Jar) {

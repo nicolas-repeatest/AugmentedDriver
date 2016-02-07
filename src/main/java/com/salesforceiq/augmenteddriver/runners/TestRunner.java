@@ -4,7 +4,9 @@ import barrypitman.junitXmlFormatter.AntXmlRunListener;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
+import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -30,16 +32,19 @@ public class TestRunner implements Callable<AugmentedResult> {
     private final ByteArrayOutputStream outputStream;
     private final String nameAppender;
     private final IntegrationFactory integrationFactory;
+    private final String jenkinsXML;
 
     @Inject
     public TestRunner(@Assisted Method test,
                       @Assisted String nameAppender,
                       ByteArrayOutputStream outputStream,
-                      IntegrationFactory integrationFactory) {
+                      IntegrationFactory integrationFactory,
+                      @Named(PropertiesModule.JENKINS_XML) String jenkinsXML) {
         this.test = Preconditions.checkNotNull(test);
         this.nameAppender = Preconditions.checkNotNull(nameAppender);
         this.outputStream = Preconditions.checkNotNull(outputStream);
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
+        this.jenkinsXML = Preconditions.checkNotNull(jenkinsXML);
     }
 
     /**
@@ -74,12 +79,9 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
 
         if (integrationFactory.jenkins().isEnabled()) {
-            AntXmlRunListener runListener = new AntXmlRunListener();
-
-// or you can set the output stream
-            runListener.setOutputStream(new FileOutputStream(new File("test.xml")));
-            jUnitCore.addListener(runListener);
-
+            AntXmlRunListener jenkinsRunListener = new AntXmlRunListener();
+            jenkinsRunListener.setOutputStream(new FileOutputStream(new File(jenkinsXML)));
+            jUnitCore.addListener(jenkinsRunListener);
         }
         return jUnitCore;
     }

@@ -42,8 +42,9 @@ public class JenkinsIntegration implements Integration {
      * @return the Reporter.
      * @param test Test that is running
      * @param nameAppender Name appender, if it has.
+     * @throws FileNotFoundException if the directory is not there.
      */
-    public RunListener getReporter(Method test, String nameAppender) {
+    public RunListener getReporter(Method test, String nameAppender) throws FileNotFoundException {
         Preconditions.checkNotNull(test);
         Preconditions.checkNotNull(nameAppender);
 

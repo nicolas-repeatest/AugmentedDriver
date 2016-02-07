@@ -76,7 +76,7 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
 
         if (integrationFactory.jenkins().isEnabled()) {
-            jUnitCore.addListener(integrationFactory.jenkins().getReporter());
+            jUnitCore.addListener(integrationFactory.jenkins().getReporter(test, nameAppender));
         }
         return jUnitCore;
     }

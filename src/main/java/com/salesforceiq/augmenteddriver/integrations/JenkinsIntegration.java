@@ -43,7 +43,7 @@ public class JenkinsIntegration implements Integration {
      * @param test Test that is running
      * @param nameAppender Name appender, if it has.
      */
-    public RunListener getReporter(Method test, String nameAppender) throws FileNotFoundException {
+    public RunListener getReporter(Method test, String nameAppender) {
         Preconditions.checkNotNull(test);
         Preconditions.checkNotNull(nameAppender);
 

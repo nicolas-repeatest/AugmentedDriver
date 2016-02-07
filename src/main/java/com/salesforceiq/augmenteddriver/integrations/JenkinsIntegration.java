@@ -31,7 +31,7 @@ public class JenkinsIntegration implements Integration {
 
         this.jenkinsIntegration = Boolean.valueOf(jenkinsIntegration);
         this.jenkinsXMLDir  = new File(jenkinsXMLDir);
-        if (this.jenkinsIntegration && this.jenkinsXMLDir.exists()) {
+        if (this.jenkinsIntegration && !this.jenkinsXMLDir.exists()) {
             this.jenkinsXMLDir.mkdir();
         }
     }

@@ -14,7 +14,7 @@ jar/
 .DS_Store
 .gradle/
 report/
-!libs/*.jar
+!libs/JUnitXmlFormatter-1.0.jar
 node_modules/
 target/
 build/

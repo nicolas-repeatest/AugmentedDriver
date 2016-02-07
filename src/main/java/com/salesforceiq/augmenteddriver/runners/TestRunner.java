@@ -32,19 +32,16 @@ public class TestRunner implements Callable<AugmentedResult> {
     private final ByteArrayOutputStream outputStream;
     private final String nameAppender;
     private final IntegrationFactory integrationFactory;
-    private final String jenkinsXML;
 
     @Inject
     public TestRunner(@Assisted Method test,
                       @Assisted String nameAppender,
                       ByteArrayOutputStream outputStream,
-                      IntegrationFactory integrationFactory,
-                      @Named(PropertiesModule.JENKINS_XML) String jenkinsXML) {
+                      IntegrationFactory integrationFactory) {
         this.test = Preconditions.checkNotNull(test);
         this.nameAppender = Preconditions.checkNotNull(nameAppender);
         this.outputStream = Preconditions.checkNotNull(outputStream);
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
-        this.jenkinsXML = Preconditions.checkNotNull(jenkinsXML);
     }
 
     /**
@@ -79,9 +76,7 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
 
         if (integrationFactory.jenkins().isEnabled()) {
-            AntXmlRunListener jenkinsRunListener = new AntXmlRunListener();
-            jenkinsRunListener.setOutputStream(new FileOutputStream(new File(jenkinsXML)));
-            jUnitCore.addListener(jenkinsRunListener);
+            jUnitCore.addListener(integrationFactory.jenkins().getReporter());
         }
         return jUnitCore;
     }

@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.runners;
 
+import barrypitman.junitXmlFormatter.AntXmlRunListener;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -13,6 +14,9 @@ import org.junit.runner.Result;
 import ru.yandex.qatools.allure.junit.AllureRunListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
@@ -59,7 +63,7 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
     }
 
-    private JUnitCore getJUnitCore() {
+    private JUnitCore getJUnitCore() throws FileNotFoundException {
         JUnitCore jUnitCore = new JUnitCore();
         if (integrationFactory.teamCity().isEnabled()) {
             jUnitCore.addListener(integrationFactory.teamCity().getReporter(outputStream, nameAppender));
@@ -67,6 +71,15 @@ public class TestRunner implements Callable<AugmentedResult> {
 
         if (integrationFactory.allure().isEnabled()) {
             jUnitCore.addListener(new AllureRunListener());
+        }
+
+        if (integrationFactory.jenkins().isEnabled()) {
+            AntXmlRunListener runListener = new AntXmlRunListener();
+
+// or you can set the output stream
+            runListener.setOutputStream(new FileOutputStream(new File("test.xml")));
+            jUnitCore.addListener(runListener);
+
         }
         return jUnitCore;
     }

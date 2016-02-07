@@ -7,6 +7,9 @@ apply plugin: 'signing'
 
 repositories {
     mavenCentral()
+    maven {
+        url 'http://repo.jenkins-ci.org/releases/'
+    }
 }
 
 task javadocJar(type: Jar) {
@@ -28,6 +31,8 @@ artifacts {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
     compile 'org.seleniumhq.selenium:selenium-java:2.49.1'

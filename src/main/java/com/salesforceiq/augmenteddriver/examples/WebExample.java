@@ -13,7 +13,8 @@ public class WebExample extends AugmentedWebTestCase {
     @Test
     @Title("Succesfull Test")
     public void testOne() {
-        goToWikiPedia();
+
+//        goToWikiPedia();
     }
 
     @Step("STEP {method} REASON {0}")

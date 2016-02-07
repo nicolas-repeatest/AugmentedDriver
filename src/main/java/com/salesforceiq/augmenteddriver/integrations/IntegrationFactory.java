@@ -13,14 +13,17 @@ public class IntegrationFactory {
     private final SauceLabsIntegration sauceLabsIntegration;
     private final TeamCityIntegration teamCityIntegration;
     private final AllureIntegration allureIntegration;
+    private final JenkinsIntegration jenkinsIntegration;
 
     @Inject
     public IntegrationFactory(SauceLabsIntegration sauceLabsIntegration,
                               TeamCityIntegration teamCityIntegration,
-                              AllureIntegration allureIntegration) {
+                              AllureIntegration allureIntegration,
+                              JenkinsIntegration jenkinsIntegration) {
         this.sauceLabsIntegration = Preconditions.checkNotNull(sauceLabsIntegration);;
         this.teamCityIntegration = Preconditions.checkNotNull(teamCityIntegration);
         this.allureIntegration = Preconditions.checkNotNull(allureIntegration);
+        this.jenkinsIntegration = jenkinsIntegration;
     }
 
     /**
@@ -48,5 +51,14 @@ public class IntegrationFactory {
      */
     public AllureIntegration allure() {
         return allureIntegration;
+    }
+
+    /**
+     * Jenkins Integration.
+     *
+     * @return  the JenkinsIntegration.
+     */
+    public JenkinsIntegration jenkins() {
+        return jenkinsIntegration;
     }
 }

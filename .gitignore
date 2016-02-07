@@ -14,7 +14,7 @@ jar/
 .DS_Store
 .gradle/
 report/
-libs/
+!libs/*.jar
 node_modules/
 target/
 build/

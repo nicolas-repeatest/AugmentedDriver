@@ -5,55 +5,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-signing {
-    sign configurations.archives
-}
-
-uploadArchives {
-  repositories {
-    mavenDeployer {
-      beforeDeployment { MavenDeployment deployment -> signing.signPom(deployment) }
-
-      repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
-        authentication(userName: ossrhUsername, password: ossrhPassword)
-      }
-
-      pom.project {
-        name 'Augmented Driver'
-        packaging 'jar'
-        // optionally artifactId can be defined here
-        description 'Framework on top of Appium/WebDriver for E2E tests for Web, IOS and Android'
-        url 'https://github.com/relateiq/AugmentedDriver'
-
-        scm {
-          connection 'scm:git:git@github.com:/relateiq/AugmentedDriver.git'
-          developerConnection 'scm:git:git@github.com:/relateiq/AugmentedDriver.git'
-          url 'git@github.com:/relateiq/AugmentedDriver.git'
-        }
-
-        licenses {
-          license {
-            name 'The Apache License, Version 2.0'
-            url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-          }
-        }
-
-        developers {
-          developer {
-            id 'SenhorCastor'
-            name 'Fernando Martin'
-            email 'fernando.a.martin@gmail.com'
-          }
-        }
-      }
-    }
-  }
-}
-
 
 repositories {
     mavenCentral()
@@ -71,7 +22,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.1.11"
+version = "1.1.12"
 
 artifacts {
     archives javadocJar, sourcesJar
@@ -83,7 +34,7 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
     compile 'org.seleniumhq.selenium:selenium-java:2.51.0'
-    compile 'org.slf4j:slf4j-log4j12:1.7.13'        
+    compile 'org.slf4j:slf4j-api:1.7.18'
     compile 'junit:junit:4.12'
     compile 'com.beust:jcommander:1.48'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'

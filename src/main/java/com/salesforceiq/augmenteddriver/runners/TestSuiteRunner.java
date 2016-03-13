@@ -3,17 +3,17 @@ package com.salesforceiq.augmenteddriver.runners;
 import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.HashMultiset;
+import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Multiset;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
 import com.salesforceiq.augmenteddriver.util.Quarantine;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.TestsFinder;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -26,6 +26,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -64,8 +65,8 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         this.totalTests = 0;
         this.maxRetries = Integer.valueOf(Preconditions.checkNotNull(maxRetries));
         this.quarantine = arguments.quarantine();
-        this.results = Lists.newArrayList();
-        this.countTests = HashMultiset.create();
+        this.results = Collections.synchronizedList(Lists.newArrayList());
+        this.countTests = ConcurrentHashMultiset.create();
     }
 
     @Override

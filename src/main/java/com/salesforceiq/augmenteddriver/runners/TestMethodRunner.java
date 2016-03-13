@@ -18,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -45,7 +46,7 @@ public class TestMethodRunner implements Callable<List<Result>> {
         this.method = Preconditions.checkNotNull(arguments.test());
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
         this.quantity = arguments.quantity();
-        this.results = Lists.newArrayList();
+        this.results = Collections.synchronizedList(Lists.newArrayList());
         this.parallel = arguments.parallel();
         this.executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(parallel));
         this.timeoutInMinutes = arguments.timeoutInMinutes();

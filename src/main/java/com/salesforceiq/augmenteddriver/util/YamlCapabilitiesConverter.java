@@ -73,7 +73,7 @@ public class YamlCapabilitiesConverter {
         EDGE(DesiredCapabilities.edge()),
         HTMLUNIT(DesiredCapabilities.htmlUnit()),
         HTMLUNITWITHJS(DesiredCapabilities.htmlUnitWithJs()),
-        INTERNETEXPLORE(DesiredCapabilities.internetExplorer()),
+        INTERNETEXPLORER(DesiredCapabilities.internetExplorer()),
         IPAD(DesiredCapabilities.ipad()),
         IPHONE(DesiredCapabilities.iphone()),
         OPERABLINK(DesiredCapabilities.operaBlink()),

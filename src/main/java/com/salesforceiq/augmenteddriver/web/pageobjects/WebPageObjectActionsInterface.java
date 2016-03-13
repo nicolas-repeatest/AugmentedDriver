@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.web.pageobjects;
 
+import com.google.common.base.Predicate;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebElement;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
@@ -19,6 +20,16 @@ public interface WebPageObjectActionsInterface {
     <T extends WebPageObject> T get(Class<T> clazz);
 
     /**
+     * Initializes a WebPageObject instance.
+     *
+     * @param clazz the WebPageObject class to initialize.
+     * @param waitUntil Will also wait until that predicate is true.
+     * @param <T> The type of the WebPageObject to return.
+     * @return the PageObject represented by the input
+     */
+    <T extends WebPageObject> T get(Class<T> clazz, Predicate<T> waitUntil);
+
+    /**
      * Initializes a WebPageContainerObject instance.
      *
      * @param clazz the WebPageObject class to initialize.
@@ -27,6 +38,17 @@ public interface WebPageObjectActionsInterface {
      * @return the PageContainerObject represented by the input
      */
     <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container);
+
+    /**
+     * Initializes a WebPageContainerObject instance.
+     *
+     * @param clazz the WebPageObject class to initialize.
+     * @param container the container element that is used as a root.
+     * @param waitUntil Will also wait until that predicate is true.
+     * @param <T> The type of the WebPageContainerObject to return.
+     * @return the PageContainerObject represented by the input
+     */
+    <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container, Predicate<T> waitUntil);
 
     /**
      * @return the WebDriver to use.

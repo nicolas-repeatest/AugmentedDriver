@@ -30,6 +30,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String REMOTE_ADDRESS = "REMOTE_ADDRESS";
     public static final String UNIQUE_ID = "UNIQUE_ID";
     public static final String WAIT_IN_SECONDS = "WAIT_TIME_IN_SECONDS";
+    public static final String WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS = "WAIT_BETWEEN_ITERATIONS_IN_MILLISECOND";
     public static final String PRESS_TIME_IN_MILLISECONDS = "PRESS_TIME_IN_MILLISECONDS";
     public static final String SWIPE_QUANTITY = "SWIPE_QUANTITY";
     public static final String TAP_FINGERS = "TAP_FINGERS";
@@ -52,6 +53,7 @@ public class PropertiesModule extends AbstractModule {
             put(LOCAL_ADDRESS, "http://127.0.0.1:7777/wd/hub");
             put(SAUCE_ADDRESS, "http://ondemand.saucelabs.com:80/wd/hub");
             put(WAIT_IN_SECONDS, "30");
+            put(WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS, "500");
             put(PRESS_TIME_IN_MILLISECONDS, "1000");
             put(SWIPE_QUANTITY, "5");
             put(TEAM_CITY_INTEGRATION, "false");

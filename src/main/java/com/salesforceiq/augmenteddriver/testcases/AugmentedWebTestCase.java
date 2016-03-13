@@ -1,6 +1,7 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -74,9 +75,22 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     }
 
     @Override
+    public <T extends WebPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        return webPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(waitUntil));
+    }
+
+
+    @Override
     public <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container) {
         return webPageObjectActions.get(Preconditions.checkNotNull(clazz),
                                     Preconditions.checkNotNull(container));
+    }
+
+    @Override
+    public <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container, Predicate<T> waitUntil) {
+        return webPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                Preconditions.checkNotNull(container),
+                Preconditions.checkNotNull(waitUntil));
     }
 
     /**

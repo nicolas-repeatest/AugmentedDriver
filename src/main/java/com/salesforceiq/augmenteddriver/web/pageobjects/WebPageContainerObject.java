@@ -1,6 +1,7 @@
 package com.salesforceiq.augmenteddriver.web.pageobjects;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.salesforceiq.augmenteddriver.util.PageObject;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
@@ -41,8 +42,18 @@ public abstract class WebPageContainerObject implements  WebPageObjectActionsInt
     }
 
     @Override
+    public <T extends WebPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        return webPageObjectActions.get(clazz, waitUntil);
+    }
+
+    @Override
     public <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container) {
         return webPageObjectActions.get(clazz, container);
+    }
+
+    @Override
+    public <T extends WebPageContainerObject> T get(Class<T> clazz, AugmentedWebElement container, Predicate<T> waitUntil) {
+        return webPageObjectActions.get(clazz, container, waitUntil);
     }
 
     @Override

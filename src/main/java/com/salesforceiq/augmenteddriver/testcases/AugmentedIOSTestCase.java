@@ -15,6 +15,7 @@ import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActi
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedIOSDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
+import com.salesforceiq.augmenteddriver.util.PageObject;
 import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
@@ -243,5 +244,39 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         Preconditions.checkNotNull(by);
 
         AugmentedAssert.assertElementIsNotPresentAfter(augmented(), by, waitTimeInSeconds());
+    }
+
+    @Override
+    public <T extends PageObject> void assertThat(T entity, Predicate<T> assertThat) {
+        Preconditions.checkNotNull(entity);
+        Preconditions.checkNotNull(assertThat);
+
+        AugmentedAssert.assertThatAfter(waiter(), entity, assertThat, "Assert Failed", waitTimeInSeconds());
+    }
+
+    @Override
+    public <T extends PageObject> void assertThat(T entity, Predicate<T> assertThat, String errorMessage) {
+        Preconditions.checkNotNull(entity);
+        Preconditions.checkNotNull(assertThat);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(errorMessage));
+
+        AugmentedAssert.assertThatAfter(waiter(), entity, assertThat, errorMessage, waitTimeInSeconds());
+    }
+
+    @Override
+    public <T extends PageObject> void assertThatAfter(T entity, Predicate<T> assertThat, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(entity);
+        Preconditions.checkNotNull(assertThat);
+
+        AugmentedAssert.assertThatAfter(waiter(), entity, assertThat, "Assert Failed", waitTimeInSeconds);
+    }
+
+    @Override
+    public <T extends PageObject> void assertThatAfter(T entity, Predicate<T> assertThat, String errorMessage, int waitTimeInSeconds) {
+        Preconditions.checkNotNull(entity);
+        Preconditions.checkNotNull(assertThat);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(errorMessage));
+
+        AugmentedAssert.assertThatAfter(waiter(), entity, assertThat, errorMessage, waitTimeInSeconds);
     }
 }

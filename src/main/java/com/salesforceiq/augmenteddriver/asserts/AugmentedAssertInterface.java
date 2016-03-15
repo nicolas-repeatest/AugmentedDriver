@@ -1,5 +1,7 @@
 package com.salesforceiq.augmenteddriver.asserts;
 
+import com.google.common.base.Predicate;
+import com.salesforceiq.augmenteddriver.util.PageObject;
 import org.openqa.selenium.By;
 
 /**
@@ -113,4 +115,46 @@ public interface AugmentedAssertInterface {
      * @param by the element that has to not be present.
      */
     void assertElementIsNotPresent(By by);
+
+    /**
+     * Asserts that a predicate is fulfilled in a PageObject.
+     *
+     * @param entity the entity where the predicate will be fulfilled.
+     * @param assertThat which predicate to fulfill.
+     * @param <T> the type of the page object.
+     */
+    <T extends PageObject> void assertThat(T entity, Predicate<T> assertThat);
+
+    /**
+     * Asserts that a predicate is fulfilled in a PageObject. If not fulfilled will throw an assertion error with
+     * errorMessage.
+     *
+     * @param entity the entity where the predicate will be fulfilled.
+     * @param assertThat which predicate to fulfill.
+     * @param errorMessage message of the exception thrown if not fulfilled.
+     * @param <T> the type of the page object.
+     */
+    <T extends PageObject> void assertThat(T entity, Predicate<T> assertThat, String errorMessage);
+
+    /**
+     * Asserts that a predicate is fulfilled in a PageObject. Wait until waitTimeInSeconds.
+     *
+     * @param entity the entity where the predicate will be fulfilled.
+     * @param assertThat which predicate to fulfill.
+     * @param waitTimeInSeconds How much time to wait until the predicate is fulfilled.
+     * @param <T> the type of the page object.
+     */
+    <T extends PageObject> void assertThatAfter(T entity, Predicate<T> assertThat, int waitTimeInSeconds);
+
+    /**
+     * Asserts that a predicate is fulfilled in a PageObject. If not fulfilled will throw an assertion error with
+     * errorMessage. Wait until waitTimeInSeconds.
+     *
+     * @param entity the entity where the predicate will be fulfilled.
+     * @param assertThat which predicate to fulfill.
+     * @param waitTimeInSeconds How much time to wait until the predicate is fulfilled.
+     * @param errorMessage message of the exception thrown if not fulfilled.
+     * @param <T> the type of the page object.
+     */
+    <T extends PageObject> void assertThatAfter(T entity, Predicate<T> assertThat, String errorMessage, int waitTimeInSeconds);
 }

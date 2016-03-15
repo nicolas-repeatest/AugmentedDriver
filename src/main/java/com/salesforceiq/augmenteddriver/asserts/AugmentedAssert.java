@@ -1,8 +1,11 @@
 package com.salesforceiq.augmenteddriver.asserts;
 
+import com.google.common.base.Predicate;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
+import com.salesforceiq.augmenteddriver.util.PageObject;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import ru.yandex.qatools.allure.annotations.Step;
@@ -148,5 +151,16 @@ public class AugmentedAssert {
         } catch (TimeoutException e) {
             // Element was not visible.
         }
+    }
+
+    @Step("Asserting that entity fulfills predicate in {4} seconds")
+    public static <T extends PageObject> void assertThatAfter(PageObjectWaiter waiter, T entity, Predicate<T> predicate,
+                                                              String errorMessage, int waitInSeconds) {
+        Preconditions.checkNotNull(waiter);
+        Preconditions.checkNotNull(entity);
+        Preconditions.checkNotNull(predicate);
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(errorMessage));
+
+        waiter.waitUntilAfter(entity, predicate, errorMessage, waitInSeconds);
     }
 }

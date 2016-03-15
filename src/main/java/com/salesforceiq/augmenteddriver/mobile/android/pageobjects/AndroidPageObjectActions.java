@@ -1,12 +1,15 @@
 package com.salesforceiq.augmenteddriver.mobile.android.pageobjects;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
+import com.salesforceiq.augmenteddriver.web.AugmentedWebElement;
 import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +22,9 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
 
     @Inject
     private Injector injector;
+
+    @Inject
+    private PageObjectWaiter waiter;
 
     /**
      * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
@@ -42,6 +48,16 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
     }
 
     @Override
+    public <T extends AndroidPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        Preconditions.checkNotNull(clazz);
+        Preconditions.checkNotNull(waitUntil);
+
+        T result = get(clazz);
+        waiter().waitUntil(result, waitUntil);
+        return result;
+    }
+
+    @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
         Preconditions.checkNotNull(clazz);
         Preconditions.checkNotNull(container);
@@ -58,6 +74,17 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
     }
 
     @Override
+    public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container, Predicate<T> waitUntil) {
+        Preconditions.checkNotNull(clazz);
+        Preconditions.checkNotNull(container);
+        Preconditions.checkNotNull(waitUntil);
+
+        T result = get(clazz, container);
+        waiter().waitUntil(result, waitUntil);
+        return result;
+    }
+
+    @Override
     public AugmentedAndroidDriver driver() {
         Preconditions.checkNotNull(driverProvider);
 
@@ -70,5 +97,10 @@ public class AndroidPageObjectActions implements AndroidPageObjectActionsInterfa
         Preconditions.checkNotNull(driverProvider.get());
 
         return Preconditions.checkNotNull(driverProvider.get().augmented());
+    }
+
+    @Override
+    public PageObjectWaiter waiter() {
+        return waiter;
     }
 }

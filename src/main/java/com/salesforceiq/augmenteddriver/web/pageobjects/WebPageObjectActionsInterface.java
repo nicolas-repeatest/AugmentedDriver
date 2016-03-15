@@ -1,6 +1,8 @@
 package com.salesforceiq.augmenteddriver.web.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebElement;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
@@ -59,4 +61,9 @@ public interface WebPageObjectActionsInterface {
      * @return the Augmented Web Functions to use.
      */
     AugmentedWebFunctions augmented();
+
+    /**
+     * @return the waiter for polling predicates.
+     */
+    PageObjectWaiter waiter();
 }

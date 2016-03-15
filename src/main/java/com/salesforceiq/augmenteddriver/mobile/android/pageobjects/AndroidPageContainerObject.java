@@ -1,6 +1,7 @@
 package com.salesforceiq.augmenteddriver.mobile.android.pageobjects;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
@@ -8,6 +9,7 @@ import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
 import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
 import com.salesforceiq.augmenteddriver.util.PageObject;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 
 /**
  * Page Object for AndroidPages with a container.
@@ -38,8 +40,20 @@ public abstract class AndroidPageContainerObject implements AndroidPageObjectAct
     }
 
     @Override
+    public <T extends AndroidPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(waitUntil));
+    }
+
+    @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
         return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(container));
+    }
+
+    @Override
+    public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container, Predicate<T> waitUntil) {
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                Preconditions.checkNotNull(container),
+                Preconditions.checkNotNull(waitUntil));
     }
 
     @Override
@@ -73,5 +87,10 @@ public abstract class AndroidPageContainerObject implements AndroidPageObjectAct
      */
     public AugmentedAndroidElement container() {
         return container;
+    }
+
+    @Override
+    public PageObjectWaiter waiter() {
+        return Preconditions.checkNotNull(androidPageObjectActions.waiter());
     }
 }

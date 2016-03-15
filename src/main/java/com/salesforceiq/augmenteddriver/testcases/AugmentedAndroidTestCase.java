@@ -1,6 +1,7 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -14,6 +15,7 @@ import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageOb
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
@@ -119,13 +121,29 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     }
 
     @Override
+    public PageObjectWaiter waiter() {
+        return Preconditions.checkNotNull(androidPageObjectActions.waiter());
+    }
+
+    @Override
     public <T extends AndroidPageObject> T get(Class<T> clazz) {
         return androidPageObjectActions.get(Preconditions.checkNotNull(clazz));
     }
 
     @Override
+    public <T extends AndroidPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(waitUntil));
+    }
+
+    @Override
     public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container) {
         return androidPageObjectActions.get(Preconditions.checkNotNull(clazz), Preconditions.checkNotNull(container));
+    }
+
+    @Override
+    public <T extends AndroidPageContainerObject> T get(Class<T> clazz, AugmentedAndroidElement container, Predicate<T> waitUntil) {
+        return androidPageObjectActions.get(Preconditions.checkNotNull(clazz),
+                Preconditions.checkNotNull(container), Preconditions.checkNotNull(waitUntil));
     }
 
     @Override

@@ -1,12 +1,14 @@
 package com.salesforceiq.augmenteddriver.mobile.ios.pageobjects;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriver;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
 import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +21,9 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
 
     @Inject
     private Injector injector;
+
+    @Inject
+    private PageObjectWaiter waiter;
 
     /**
      * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
@@ -42,6 +47,16 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     }
 
     @Override
+    public <T extends IOSPageObject> T get(Class<T> clazz, Predicate<T> waitUntil) {
+        Preconditions.checkNotNull(clazz);
+        Preconditions.checkNotNull(waitUntil);
+
+        T result = get(clazz);
+        waiter.waitUntil(result, waitUntil);
+        return result;
+    }
+
+    @Override
     public <T extends IOSPageContainerObject> T get(Class<T> clazz, AugmentedIOSElement container) {
         Preconditions.checkNotNull(clazz);
         Preconditions.checkNotNull(container);
@@ -58,6 +73,17 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
     }
 
     @Override
+    public <T extends IOSPageContainerObject> T get(Class<T> clazz, AugmentedIOSElement container, Predicate<T> waitUntil) {
+        Preconditions.checkNotNull(clazz);
+        Preconditions.checkNotNull(waitUntil);
+        Preconditions.checkNotNull(container);
+
+        T result = get(clazz, container);
+        waiter.waitUntil(result, waitUntil);
+        return result;
+    }
+
+    @Override
     public AugmentedIOSDriver driver() {
         Preconditions.checkNotNull(driverProvider);
 
@@ -70,5 +96,10 @@ public class IOSPageObjectActions implements IOSPageObjectActionsInterface {
         Preconditions.checkNotNull(driverProvider.get());
 
         return Preconditions.checkNotNull(driverProvider.get().augmented());
+    }
+
+    @Override
+    public PageObjectWaiter waiter() {
+        return waiter;
     }
 }

@@ -1,8 +1,10 @@
 package com.salesforceiq.augmenteddriver.web.pageobjects;
 
+import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.salesforceiq.augmenteddriver.util.PageObject;
 import com.salesforceiq.augmenteddriver.util.PageObjectAssertionsInterface;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebElement;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
@@ -70,4 +72,8 @@ public abstract class WebPageObject implements WebPageObjectActionsInterface, Pa
         return driverProvider.get().augmented();
     }
 
+    @Override
+    public PageObjectWaiter waiter() {
+        return Preconditions.checkNotNull(webPageObjectActions.waiter());
+    }
 }

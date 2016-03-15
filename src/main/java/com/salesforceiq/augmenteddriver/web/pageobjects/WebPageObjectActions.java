@@ -5,18 +5,13 @@ import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
-import com.google.inject.name.Named;
-import com.jayway.awaitility.Awaitility;
-import com.jayway.awaitility.core.ConditionTimeoutException;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebElement;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebFunctions;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
 import org.openqa.selenium.TimeoutException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * Implementation based on Guice of WebPageObjectActionsInterface.
@@ -28,12 +23,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
     private Injector injector;
 
     @Inject
-    @Named(PropertiesModule.WAIT_IN_SECONDS)
-    private String waitInSeconds;
-
-    @Inject
-    @Named(PropertiesModule.WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS)
-    private String waitBetweenIterationsInMilliseconds;
+    private PageObjectWaiter waiter;
 
     /**
      * Important we use a Provider, since we need the driver to be initialized when the first test starts to run
@@ -61,14 +51,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
         Preconditions.checkNotNull(waitUntil);
 
         T result = get(clazz);
-        try {
-            Awaitility.await()
-                    .atMost(Integer.valueOf(waitInSeconds), TimeUnit.SECONDS)
-                    .pollDelay(Integer.valueOf(waitBetweenIterationsInMilliseconds), TimeUnit.MILLISECONDS)
-                    .until(() -> waitUntil.apply(result));
-        } catch (ConditionTimeoutException e) {
-            LOG.error(String.format("Condition not fulfilled for Page Object %s", clazz.getCanonicalName()));
-        }
+        waiter.waitUntil(result, waitUntil);
         return result;
     }
 
@@ -96,14 +79,7 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
         Preconditions.checkNotNull(waitUntil);
 
         T result = get(clazz, container);
-        try {
-            Awaitility.await()
-                    .atMost(Integer.valueOf(waitInSeconds), TimeUnit.SECONDS)
-                    .pollDelay(Integer.valueOf(waitBetweenIterationsInMilliseconds), TimeUnit.MILLISECONDS)
-                    .until(() -> waitUntil.apply(result));
-        } catch (ConditionTimeoutException e) {
-            LOG.error(String.format("Condition not fulfilled for Page Object Container %s", clazz.getCanonicalName()));
-        }
+        waiter.waitUntil(result, waitUntil);
         return result;
     }
 
@@ -120,5 +96,10 @@ public class WebPageObjectActions implements WebPageObjectActionsInterface {
         Preconditions.checkNotNull(driverProvider.get());
 
         return Preconditions.checkNotNull(driverProvider.get().augmented());
+    }
+
+    @Override
+    public PageObjectWaiter waiter() {
+        return waiter;
     }
 }

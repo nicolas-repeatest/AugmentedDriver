@@ -4,6 +4,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.allure.AllureRule;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssertInterface;
 import com.salesforceiq.augmenteddriver.guice.GuiceTestRunner;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
@@ -27,6 +28,10 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
 
     @Rule
     public TestName testName = new TestName();
+
+    @Rule
+    @Inject
+    public AllureRule allureRule;
 
     @Inject
     @Named(PropertiesModule.WAIT_IN_SECONDS)

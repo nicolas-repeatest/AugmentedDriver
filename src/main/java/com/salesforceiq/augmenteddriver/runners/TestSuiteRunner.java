@@ -22,6 +22,9 @@ import org.junit.Test;
 import org.junit.runner.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.yandex.qatools.allure.Allure;
+import ru.yandex.qatools.allure.events.ClearStepStorageEvent;
+import ru.yandex.qatools.allure.events.ClearTestStorageEvent;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -118,6 +121,8 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                     // to the executor.
                     if (countTests.count(method) < maxRetries) {
                         LOG.info(String.format("Test %s#%s failed, retrying", method.getDeclaringClass().getCanonicalName(), method.getName()));
+                        Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
+                        Allure.LIFECYCLE.fire(new ClearTestStorageEvent());
                         ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, ""));
                         Futures.addCallback(future, createCallback(method));
                     } else {

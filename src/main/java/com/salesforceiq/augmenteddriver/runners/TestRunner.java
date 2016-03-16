@@ -1,13 +1,9 @@
 package com.salesforceiq.augmenteddriver.runners;
 
-import barrypitman.junitXmlFormatter.AntXmlRunListener;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.allure.AugmentedAllureIntegration;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,9 +13,7 @@ import org.junit.runner.Result;
 import ru.yandex.qatools.allure.junit.AllureRunListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
@@ -33,19 +27,16 @@ public class TestRunner implements Callable<AugmentedResult> {
     private final ByteArrayOutputStream outputStream;
     private final String nameAppender;
     private final IntegrationFactory integrationFactory;
-    private final AugmentedAllureIntegration allureIntegration;
 
     @Inject
     public TestRunner(@Assisted Method test,
                       @Assisted String nameAppender,
                       ByteArrayOutputStream outputStream,
-                      IntegrationFactory integrationFactory,
-                      AugmentedAllureIntegration allureIntegration) {
+                      IntegrationFactory integrationFactory) {
         this.test = Preconditions.checkNotNull(test);
         this.nameAppender = Preconditions.checkNotNull(nameAppender);
         this.outputStream = Preconditions.checkNotNull(outputStream);
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
-        this.allureIntegration = Preconditions.checkNotNull(allureIntegration);
     }
 
     /**
@@ -76,7 +67,7 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
 
         if (integrationFactory.allure().isEnabled()) {
-            jUnitCore.addListener(allureIntegration);
+            jUnitCore.addListener(new AllureRunListener());
         }
 
         if (integrationFactory.jenkins().isEnabled()) {

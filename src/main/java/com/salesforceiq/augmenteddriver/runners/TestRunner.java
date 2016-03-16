@@ -5,6 +5,7 @@ import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.allure.AugmentedAllureIntegration;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.Util;
@@ -32,16 +33,19 @@ public class TestRunner implements Callable<AugmentedResult> {
     private final ByteArrayOutputStream outputStream;
     private final String nameAppender;
     private final IntegrationFactory integrationFactory;
+    private final AugmentedAllureIntegration allureIntegration;
 
     @Inject
     public TestRunner(@Assisted Method test,
                       @Assisted String nameAppender,
                       ByteArrayOutputStream outputStream,
-                      IntegrationFactory integrationFactory) {
+                      IntegrationFactory integrationFactory,
+                      AugmentedAllureIntegration allureIntegration) {
         this.test = Preconditions.checkNotNull(test);
         this.nameAppender = Preconditions.checkNotNull(nameAppender);
         this.outputStream = Preconditions.checkNotNull(outputStream);
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
+        this.allureIntegration = Preconditions.checkNotNull(allureIntegration);
     }
 
     /**
@@ -72,7 +76,7 @@ public class TestRunner implements Callable<AugmentedResult> {
         }
 
         if (integrationFactory.allure().isEnabled()) {
-            jUnitCore.addListener(new AllureRunListener());
+            jUnitCore.addListener(allureIntegration);
         }
 
         if (integrationFactory.jenkins().isEnabled()) {

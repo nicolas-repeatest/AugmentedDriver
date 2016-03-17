@@ -121,8 +121,6 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                     // to the executor.
                     if (countTests.count(method) < maxRetries) {
                         LOG.info(String.format("Test %s#%s failed, retrying", method.getDeclaringClass().getCanonicalName(), method.getName()));
-                        Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
-                        Allure.LIFECYCLE.fire(new ClearTestStorageEvent());
                         ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, ""));
                         Futures.addCallback(future, createCallback(method));
                     } else {

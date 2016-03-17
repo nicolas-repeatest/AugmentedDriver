@@ -39,8 +39,11 @@ public class AllureRule implements TestRule {
                     base.evaluate();
                 } catch (Throwable e) {
                     if (integrationFactory.allure().isEnabled() && countTests.count(getId(description)) < maxRetries) {
+                        System.out.println("FAILED, RETRYING ATTEMPT " + countTests.count(getId(description)));
 //                        Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
 //                        Allure.LIFECYCLE.fire(new ClearTestStorageEvent());
+                    } else {
+                        System.out.println("FAILED, NO MORE RETRIES");
                     }
                     throw e;
                 }

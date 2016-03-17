@@ -29,5 +29,5 @@ fi
 
 echo "Running test for ${CLASS}#${TEST} quantity ${QUANTITY} parallel tests ${PARALLEL_TESTS} with capabilities ${CAPABILITIES}"
 
-cd ..
-./gradlew :web-uitest2:runTest -Pclazz=${CLASS} -Ptest=${TEST} -Pquantity=${QUANTITY} -PparallelTests=${PARALLEL_TESTS} -Pcapabilities=${CAPABILITIES}
+rm -rf target/
+./gradlew runTest -Pclazz=${CLASS} -Ptest=${TEST} -Pquantity=${QUANTITY} -PparallelTests=${PARALLEL_TESTS} -Pcapabilities=${CAPABILITIES}

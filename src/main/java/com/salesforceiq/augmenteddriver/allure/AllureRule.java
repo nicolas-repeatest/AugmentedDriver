@@ -39,8 +39,8 @@ public class AllureRule implements TestRule {
                     base.evaluate();
                 } catch (Throwable e) {
                     if (integrationFactory.allure().isEnabled() && countTests.count(getId(description)) < maxRetries) {
-                        Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
-                        Allure.LIFECYCLE.fire(new ClearTestStorageEvent());
+//                        Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
+//                        Allure.LIFECYCLE.fire(new ClearTestStorageEvent());
                     }
                     throw e;
                 }

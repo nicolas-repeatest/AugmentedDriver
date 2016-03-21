@@ -3,12 +3,9 @@ package com.salesforceiq.augmenteddriver.runners;
 import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
-import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Multiset;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
-import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
@@ -46,16 +43,13 @@ public class TestSuiteRunner implements Callable<List<Result>> {
     private final int timeoutInMinutes;
     private final ListeningExecutorService executor;
     private final List<Result> results;
-    private final int maxRetries;
     private final int parallel;
     private final boolean quarantine;
     private int totalTests;
-    private final Multiset<Method> countTests;
 
     @Inject
     public TestSuiteRunner(TestRunnerConfig arguments,
-                           TestRunnerFactory testRunnerFactory,
-                           @Named(PropertiesModule.MAX_RETRIES) String maxRetries) {
+                           TestRunnerFactory testRunnerFactory) {
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
         this.suites = arguments.suites();
         this.suitesPackage = arguments.suitesPackage();
@@ -63,10 +57,8 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         this.parallel = arguments.parallel();
         this.executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(parallel));
         this.totalTests = 0;
-        this.maxRetries = Integer.valueOf(Preconditions.checkNotNull(maxRetries));
         this.quarantine = arguments.quarantine();
         this.results = Collections.synchronizedList(Lists.newArrayList());
-        this.countTests = ConcurrentHashMultiset.create();
     }
 
     @Override
@@ -84,7 +76,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                         .forEach(method -> {
                             totalTests++;
                             Util.pause(Util.getRandom(500, 2000));
-                            ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, ""));
+                            ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, "", true));
                             Futures.addCallback(future, createCallback(method));
                         }));
         LOG.info(String.format("Total tests running: %s", totalTests));
@@ -103,34 +95,12 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         return new FutureCallback<AugmentedResult>() {
             @Override
             public void onSuccess(AugmentedResult result) {
-                countTests.add(method);
-                // If the test succeeds, we add it to the result list and we shut down if it is the
-                // last one.
-                if (result.getResult().wasSuccessful()) {
-                    results.add(result.getResult());
-                    LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
-                    if (results.size() == totalTests) {
-                        executor.shutdown();
-                    }
-                    processOutput(result.getOut());
-                } else {
-                    // If it fails but still has retries, we do not count it and add it back
-                    // to the executor.
-                    if (countTests.count(method) < maxRetries) {
-                        LOG.info(String.format("Test %s#%s failed, retrying", method.getDeclaringClass().getCanonicalName(), method.getName()));
-                        ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, ""));
-                        Futures.addCallback(future, createCallback(method));
-                    } else {
-                        // It failed and reached the max retries, we add it to the result list and shut down
-                        // if it was the last one.
-                        results.add(result.getResult());
-                        LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
-                        if (results.size() == totalTests) {
-                            executor.shutdown();
-                        }
-                        processOutput(result.getOut());
-                    }
+                results.add(result.getResult());
+                LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
+                if (results.size() == totalTests) {
+                    executor.shutdown();
                 }
+                processOutput(result.getOut());
             }
 
             /**

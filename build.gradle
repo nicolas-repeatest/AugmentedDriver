@@ -22,7 +22,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.2.4"
+version = "1.3.0"
 
 artifacts {
     archives javadocJar, sourcesJar
@@ -58,6 +58,47 @@ jar {
     baseName = 'AugmentedDriver'
     version = '0.1'
 }
+
+task (runTest, dependsOn: 'classes', type: JavaExec) {
+    main = "com.salesforceiq.augmenteddriver.runners.TestMethodRunner"
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("clazz") && project.hasProperty("capabilities")) {
+        if (project.hasProperty("sauce")) {
+            if (project.hasProperty("extra")) {
+                args '-extra', extra, '-clazz', clazz, '-test', test, '-sauce', '-capabilities', capabilities, '-quantity', quantity, '-parallel', parallelTests
+            } else {
+                args '-clazz', clazz, '-test', test, '-sauce', '-capabilities', capabilities, '-quantity', quantity, '-parallel', parallelTests
+            }
+        } else {
+            if (project.hasProperty("extra")) {
+                args '-extra', extra, '-clazz', clazz, '-test', test, '-capabilities', capabilities, '-quantity', quantity, '-parallel', parallelTests
+            } else {
+                args '-clazz', clazz, '-test', test, '-capabilities', capabilities, '-quantity', quantity, '-parallel', parallelTests
+            }
+        }
+    }
+}
+
+task (runSuite, dependsOn: 'classes', type: JavaExec) {
+    main = "com.salesforceiq.augmenteddriver.runners.TestSuiteRunner"
+    classpath = sourceSets.main.runtimeClasspath
+    if (project.hasProperty("suites") && project.hasProperty("capabilities")) {
+        if (project.hasProperty("sauce")) {
+            if (project.hasProperty("extra")) {
+                args '-extra', extra, '-suitesPackage', suitesPackage, '-suites', suites, '-capabilities', capabilities, '-parallel', parallelTests, '-sauce'
+            } else {
+                args '-suitesPackage', suitesPackage, '-suites', suites, '-capabilities', capabilities, '-parallel', parallelTests, '-sauce'
+            }
+        } else {
+            if (project.hasProperty("extra")) {
+                args '-extra', extra, '-suitesPackage', suitesPackage, '-suites', suites, '-capabilities', capabilities, '-parallel', parallelTests
+            } else {
+                args '-suitesPackage', suitesPackage, '-suites', suites, '-capabilities', capabilities, '-parallel', parallelTests
+            }
+        }
+    }
+}
+
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.2.1'

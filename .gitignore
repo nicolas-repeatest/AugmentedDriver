@@ -15,6 +15,7 @@ jar/
 .gradle/
 report/
 !libs/JUnitXmlFormatter-1.0.jar
+allure-report/
 node_modules/
 target/
 build/

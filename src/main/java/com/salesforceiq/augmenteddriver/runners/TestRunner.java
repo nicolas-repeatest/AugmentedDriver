@@ -1,12 +1,9 @@
 package com.salesforceiq.augmenteddriver.runners;
 
-import barrypitman.junitXmlFormatter.AntXmlRunListener;
 import com.google.common.base.Preconditions;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,9 +13,7 @@ import org.junit.runner.Result;
 import ru.yandex.qatools.allure.junit.AllureRunListener;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.lang.reflect.Method;
 import java.util.concurrent.Callable;
 
@@ -32,15 +27,18 @@ public class TestRunner implements Callable<AugmentedResult> {
     private final ByteArrayOutputStream outputStream;
     private final String nameAppender;
     private final IntegrationFactory integrationFactory;
+    private final boolean retry;
 
     @Inject
     public TestRunner(@Assisted Method test,
                       @Assisted String nameAppender,
+                      @Assisted boolean retry,
                       ByteArrayOutputStream outputStream,
                       IntegrationFactory integrationFactory) {
         this.test = Preconditions.checkNotNull(test);
         this.nameAppender = Preconditions.checkNotNull(nameAppender);
         this.outputStream = Preconditions.checkNotNull(outputStream);
+        this.retry = retry;
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
     }
 
@@ -57,6 +55,12 @@ public class TestRunner implements Callable<AugmentedResult> {
         long start = System.currentTimeMillis();
         try {
             LOG.info(String.format("STARTING Test %s", testName));
+            // HACK since for TestSuiteRunner we want to retry, and for TestMethodRunner we don't want to
+            // The other way would be a RETRY on augmented.properties, but this is independent of the configuration of
+            // the test.
+            if (!retry) {
+                TestRunnerRetryingRule.noRetry();
+            }
             Result result = jUnitCore.run(Request.method(test.getDeclaringClass(), test.getName()));
             LOG.info(String.format("FINSHED Test %s in %s", testName, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
             return new AugmentedResult(result, outputStream);

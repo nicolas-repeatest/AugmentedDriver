@@ -12,6 +12,8 @@ import ru.yandex.qatools.allure.annotations.Title;
 @Suites("SMOKE")
 public class WebExample extends AugmentedWebTestCase {
 
+
+    public static int count = 0;
     @Test
     @Title("Succesfull Test")
     public void testSucceed() {
@@ -21,8 +23,11 @@ public class WebExample extends AugmentedWebTestCase {
     @Test
     @Title("Failed Test")
     public void testFail() {
+        count++;
         driver().get("https://www.wikipedia.org/");
-        Assert.fail("THEREASON");
+        if (count != 1) {
+            Assert.fail("THEREASON");
+        }
     }
 
 }

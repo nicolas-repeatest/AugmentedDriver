@@ -11,7 +11,8 @@ public interface TestRunnerFactory {
      *
      * @param test the test to run.
      * @param nameAppender String to append to the test name.
+     * @param retry whether to retry or not failing tests.
      * @return a Runner that can run a particular test.
      */
-    TestRunner create(Method test, String nameAppender);
+    TestRunner create(Method test, String nameAppender, boolean retry);
 }

@@ -59,7 +59,7 @@ public class TestMethodRunner implements Callable<List<Result>> {
         LOG.info(String.format("STARTING TestMethodRunner %s, running it %s times %s in parallel", testName, quantity, parallel));
         for (int index = 0; index < this.quantity; index++) {
             Util.pause(Util.getRandom(500, 2000));
-            ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, String.valueOf(index)));
+            ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, String.valueOf(index), false));
             Futures.addCallback(future, createCallback(method));
         }
         executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);

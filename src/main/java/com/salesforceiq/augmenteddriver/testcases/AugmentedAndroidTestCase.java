@@ -13,14 +13,13 @@ import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageCo
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObject;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActions;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActionsInterface;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriverProvider;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.PageObject;
-import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.salesforceiq.augmenteddriver.util.Util;
+import com.salesforceiq.augmenteddriver.util.*;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -48,6 +47,10 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
     @Named(PropertiesModule.REMOTE_ADDRESS)
     @Inject
     private String remoteAddress;
+
+    @Rule
+    @Inject
+    public AugmentedTestWatcher<AugmentedAndroidDriverProvider> augmentedTestWatcher;
 
     @Inject
     private DesiredCapabilities capabilities;

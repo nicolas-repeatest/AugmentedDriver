@@ -10,17 +10,14 @@ import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.AugmentedWebDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.PageObject;
-import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.salesforceiq.augmenteddriver.util.Util;
+import com.salesforceiq.augmenteddriver.util.*;
 import com.salesforceiq.augmenteddriver.web.*;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageContainerObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActions;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActionsInterface;
-import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
 import org.openqa.selenium.By;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
@@ -60,6 +57,10 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
 
     @Inject
     private DesiredCapabilities capabilities;
+
+    @Rule
+    @Inject
+    public AugmentedTestWatcher<AugmentedWebDriverProvider> augmentedTestWatcher;
 
     @Override
     public AugmentedWebDriver driver() {
@@ -136,13 +137,6 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         }
         if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
             integrations.teamCity().printSessionId(getFullTestName(), sessionId);
-        }
-    }
-
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
         }
     }
 

@@ -77,7 +77,7 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
      * Rule for executing code after the test finished, whether it failed or not.
      *
      * <p>
-     *     IMPORTANT. It's implemented here since many if the data is generated at runtime.
+     *     IMPORTANT. It's implemented here since many of the data is generated at runtime.
      * </p>
      */
     @Rule

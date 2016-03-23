@@ -25,9 +25,16 @@ public class WebExample extends AugmentedWebTestCase {
     public void testFail() {
         count++;
         driver().get("https://www.wikipedia.org/");
-        if (count != 1) {
+
+        stepOne();
+        if (count != 4433) {
             Assert.fail("THEREASON");
         }
+    }
+
+    @Step("STEP ONE")
+    public void stepOne() {
+
     }
 
 }

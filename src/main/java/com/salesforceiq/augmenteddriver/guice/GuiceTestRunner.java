@@ -16,14 +16,14 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
     /**
      * Constructor.
      *
-     * @param klass The in test.
+     * @param clazz The in test.
      * @throws InitializationError If something goes wrong.
      */
-    public GuiceTestRunner(final Class<?> klass) throws InitializationError {
-        super(klass);
+    public GuiceTestRunner(final Class<?> clazz) throws InitializationError {
+        super(clazz);
 
-        List<Class<? extends AbstractModule>> modules = getGuiceModulesFor(klass);
-        modules.addAll(getExtraModulesFor(klass));
+        List<Class<? extends AbstractModule>> modules = getGuiceModulesFor(clazz);
+        modules.addAll(getExtraModulesFor(clazz));
         this.injector = this.createInjectorFor(modules);
     }
 
@@ -55,20 +55,19 @@ public class GuiceTestRunner extends BlockJUnit4ClassRunner {
         return Guice.createInjector(modules);
     }
 
-    private List<Class<? extends AbstractModule>> getGuiceModulesFor(final Class<?> klass) throws InitializationError {
-        final GuiceModules annotation = klass.getAnnotation(GuiceModules.class);
+    private List<Class<? extends AbstractModule>> getGuiceModulesFor(final Class<?> clazz) throws InitializationError {
+        final GuiceModules annotation = clazz.getAnnotation(GuiceModules.class);
 
         if (annotation == null) {
-            final String message = String.format("Missing @GuiceModules annotation for unit test '%s'", klass.getName());
+            final String message = String.format("Missing @GuiceModules annotation for unit test '%s'", clazz.getName());
             throw new InitializationError(message);
         }
 
         return Lists.newArrayList(annotation.value());
     }
 
-    private List<Class<? extends AbstractModule>> getExtraModulesFor(final Class<?> klass) throws InitializationError {
-        ExtraModules annotation = klass.getAnnotation(ExtraModules.class);
+    private List<Class<? extends AbstractModule>> getExtraModulesFor(final Class<?> clazz) throws InitializationError {
+        ExtraModules annotation = clazz.getAnnotation(ExtraModules.class);
         return annotation == null ? Lists.newArrayList() : Lists.newArrayList(annotation.value());
     }
-
 }

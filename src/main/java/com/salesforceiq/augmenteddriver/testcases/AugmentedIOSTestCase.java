@@ -15,16 +15,20 @@ import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActi
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedIOSDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.PageObject;
-import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
-import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
-import com.salesforceiq.augmenteddriver.util.Util;
+import com.salesforceiq.augmenteddriver.util.*;
+import com.salesforceiq.augmenteddriver.web.AugmentedWebDriverProvider;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Rule;
+import org.junit.rules.TestWatcher;
+import org.junit.runner.Description;
 import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ru.yandex.qatools.allure.annotations.Attachment;
 
 import java.net.MalformedURLException;
 
@@ -47,6 +51,10 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
 
     @Inject
     private IOSPageObjectActions iosPageObjectActions;
+
+    @Rule
+    @Inject
+    public AugmentedTestWatcher<AugmentedIOSDriverProvider> augmentedTestWatcher;
 
     @Inject
     private IntegrationFactory integrations;

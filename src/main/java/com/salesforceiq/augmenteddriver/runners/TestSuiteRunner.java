@@ -73,6 +73,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                         .filter(method -> method.isAnnotationPresent(Test.class)
                                 && !method.isAnnotationPresent(Ignore.class)
                                 && method.isAnnotationPresent(Quarantine.class) == quarantine)
+
                         .forEach(method -> {
                             totalTests++;
                             Util.pause(Util.getRandom(500, 2000));

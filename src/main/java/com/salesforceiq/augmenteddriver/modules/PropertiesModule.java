@@ -22,25 +22,60 @@ import java.util.Properties;
  */
 public class PropertiesModule extends AbstractModule {
 
+    // false or true whether to print in the logs the information so TeamCity recognizes the tests
+    // False by default
     public static final String TEAM_CITY_INTEGRATION = "TEAM_CITY_INTEGRATION";
+    // false or true whether to generate the Allure reports.
+    // False by default
     public static final String ALLURE_INTEGRATION = "ALLURE_INTEGRATION";
+    // false or true whether to generate an xml file that can be parsed later by Jenkins to get the test results.
+    // False by default
     public static final String JENKINS_INTEGRATION = "JENKINS_INTEGRATION";
+    // Where the XML with the results will be stored.
+    // results by default
     public static final String JENKINS_XML_DIR = "JENKINS_XML_DIR";
-    public static final String REPORTING = "REPORTING";
+    // Address used by the framework to contact Selenium/Appium. It is set to LOCAL_ADDRESS or SAUCE_ADDRESS depending
+    // whether the test is run on SauceLabs or locally.
+    // SHOULD NOT BE SET EVER AT ALL
     public static final String REMOTE_ADDRESS = "REMOTE_ADDRESS";
+    // Unique Id for the test/suite.
+    // SHOULD NOT BE SET EVER AT ALL
     public static final String UNIQUE_ID = "UNIQUE_ID";
+    // How much time in seconds all the commands (waitElementToBePresent, etc) will wait by default.
+    // 30 seconds is the default.
     public static final String WAIT_IN_SECONDS = "WAIT_TIME_IN_SECONDS";
+    // How much time in milliseconds will the PageObjectWaiter wait be default.
+    // 500 milliseconds by default.
     public static final String WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS = "WAIT_BETWEEN_ITERATIONS_IN_MILLISECOND";
+    // How much time in milliseconds the Appium Swipe methods will press.
+    // 1000 milliseconds by default.
     public static final String PRESS_TIME_IN_MILLISECONDS = "PRESS_TIME_IN_MILLISECONDS";
+    // How many times the swipeUp/swipeDown are going to try to swipe until an element becomes visible.
+    // 5 by default
     public static final String SWIPE_QUANTITY = "SWIPE_QUANTITY";
+    // How many fingers will be used for the Appium Tap methods.
+    // 1 by default
     public static final String TAP_FINGERS = "TAP_FINGERS";
+    // How many times a test will be retried when running a suite.
+    // 2 by default.
     public static final String MAX_RETRIES = "MAX_RETRIES";
+    // User for SauceLabs
+    // Empty by default.
     public static final String SAUCE_USER = "SAUCE_USER";
+    // Key for SauceLabs
+    // Empty by default
     public static final String SAUCE_KEY = "SAUCE_KEY";
+    // Local Address where Selenium/Appium is listening.
+    // http://127.0.0.1:7777/wd/hub by default
     public static final String LOCAL_ADDRESS = "LOCAL_ADDRESS";
+    // Sauce Address where Selenium/Appium is listening.
+    // http://ondemand.saucelabs.com:80/wd/hub
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
+    // In case you want to load the capabilities from the properties file.
     public static final String CAPABILITIES = "CAPABILITIES";
+    // true or false whether to run the tests on saucelabs.
     public static final String SAUCE = "SAUCE";
+    // Where the default properties file reside
     public static final String DEFAULT_CONFIG = "conf/augmented.properties";
 
     private static final String ID = Util.getRandomAsString();
@@ -60,7 +95,6 @@ public class PropertiesModule extends AbstractModule {
             put(ALLURE_INTEGRATION, "false");
             put(JENKINS_INTEGRATION, "false");
             put(JENKINS_XML_DIR, "results");
-            put(REPORTING, "false");
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");
             put(TAP_FINGERS, "1");

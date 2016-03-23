@@ -9,6 +9,8 @@ import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import org.junit.rules.TestRule;
 import org.junit.runner.Description;
 import org.junit.runners.model.Statement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.yandex.qatools.allure.Allure;
 import ru.yandex.qatools.allure.events.ClearStepStorageEvent;
 import ru.yandex.qatools.allure.events.RemoveAttachmentsEvent;
@@ -18,6 +20,7 @@ import ru.yandex.qatools.allure.events.RemoveAttachmentsEvent;
  */
 @Singleton
 public class TestRunnerRetryingRule implements TestRule {
+    private static final Logger LOG = LoggerFactory.getLogger(TestRunnerRetryingRule.class);
 
     private final Integer maxRetries;
     private final IntegrationFactory integrationFactory;
@@ -55,13 +58,17 @@ public class TestRunnerRetryingRule implements TestRule {
                                  * Remove all steps from failed test before retry.
                                  */
                                 Allure.LIFECYCLE.fire(new ClearStepStorageEvent());
-                            }
+                            } 
                             base.evaluate();
                             return;
                         } catch (Throwable throwable) {
+                            LOG.warn(String.format("Test %s#%s failed, attempt %s of %s",
+                                    description.getClassName(), description.getMethodName(), attempt + 1, maxRetries + 1));
                             e = throwable;
                         }
                     }
+                    LOG.error(String.format("Test %s#%s failed, all %s attempts",
+                            description.getClassName(), description.getMethodName(), maxRetries + 1));
                     throw e;
                 } else {
                     base.evaluate();

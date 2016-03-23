@@ -62,7 +62,8 @@ public class TestRunner implements Callable<AugmentedResult> {
                 TestRunnerRetryingRule.noRetry();
             }
             Result result = jUnitCore.run(Request.method(test.getDeclaringClass(), test.getName()));
-            LOG.info(String.format("FINSHED Test %s in %s", testName, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
+            LOG.info(String.format("FINSHED Test %s in %s, result %s", testName,
+                    Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start), result.wasSuccessful()? "SUCCEEDED" : "FAILED"));
             return new AugmentedResult(result, outputStream);
         } finally {
             outputStream.close();

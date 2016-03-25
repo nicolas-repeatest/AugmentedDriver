@@ -30,7 +30,7 @@ public class AugmentedTestWatcher<T extends Provider<? extends RemoteWebDriver>>
     @Override
     protected void failed(Throwable e, Description description) {
         if (driverProvider.get() != null) {
-            if (integrationFactory.allure().isEnabled()) {
+            if (integrationFactory.allure().isEnabled() && driverProvider.get().getSessionId() != null) {
                 takeScrenshoot();
             }
             driverProvider.get().quit();

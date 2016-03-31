@@ -94,7 +94,7 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         augmentedAndroidFunctions= augmentedAndroidFunctionsFactory.create(driver);
         driver.setAugmentedFunctions(augmentedAndroidFunctions);
 
-        augmentedAndroidDriverProvider.set(driver);
+        augmentedAndroidDriverProvider.initialize(driver);
         LOG.info("AugmentedAndroidDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
         sessionId = driver.getSessionId().toString();

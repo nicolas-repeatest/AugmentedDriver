@@ -15,7 +15,7 @@ import ru.yandex.qatools.allure.annotations.Attachment;
  *
  * @param <T> the RemoteWebDriver provider.
  */
-public class AugmentedTestWatcher<T extends Provider<? extends RemoteWebDriver>> extends TestWatcher {
+public class AugmentedTestWatcher<T extends AugmentedProvider<? extends RemoteWebDriver>> extends TestWatcher {
 
     private final T driverProvider;
     private final IntegrationFactory integrationFactory;
@@ -29,7 +29,7 @@ public class AugmentedTestWatcher<T extends Provider<? extends RemoteWebDriver>>
 
     @Override
     protected void failed(Throwable e, Description description) {
-        if (driverProvider.get() != null) {
+        if (driverProvider.isInitialized()) {
             if (integrationFactory.allure().isEnabled() && driverProvider.get().getSessionId() != null) {
                 takeScrenshoot();
             }
@@ -39,12 +39,12 @@ public class AugmentedTestWatcher<T extends Provider<? extends RemoteWebDriver>>
 
     @Override
     protected void succeeded(Description description) {
-        if (driverProvider.get() != null) {
+        if (driverProvider.isInitialized()) {
             driverProvider.get().quit();
         }
     }
 
-    @Attachment("Screenshot")
+    @Attachment("Screenshot on Failure")
     public byte[] takeScrenshoot() {
         return driverProvider.get().getScreenshotAs(OutputType.BYTES);
     }

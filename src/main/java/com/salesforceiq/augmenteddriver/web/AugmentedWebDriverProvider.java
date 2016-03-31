@@ -3,6 +3,7 @@ package com.salesforceiq.augmenteddriver.web;
 import com.google.common.base.Preconditions;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.salesforceiq.augmenteddriver.util.AugmentedProvider;
 
 /**
  * Ugly hack
@@ -19,24 +20,22 @@ import com.google.inject.Singleton;
  * </p>
  */
 @Singleton
-public class AugmentedWebDriverProvider implements Provider<AugmentedWebDriver> {
+public class AugmentedWebDriverProvider implements AugmentedProvider<AugmentedWebDriver> {
 
     private AugmentedWebDriver driver;
 
     @Override
     public AugmentedWebDriver get() {
-        return Preconditions.checkNotNull(driver);
+        return Preconditions.checkNotNull(driver, "AugmentedWebDriver not initialized, call initialize first");
     }
 
-    /**
-     * Sets the driver that will be used for this test.
-     *
-     * <p>
-     *     SHOULD NOT BE CALLED OUTSIDE THE SETUP FOR THE BASE TESTCASES.
-     * </p>
-     * @param driver the driver to set.
-     */
-    public void set(AugmentedWebDriver driver) {
+    @Override
+    public void initialize(AugmentedWebDriver driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return driver != null;
     }
 }

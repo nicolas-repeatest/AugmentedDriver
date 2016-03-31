@@ -3,6 +3,7 @@ package com.salesforceiq.augmenteddriver.mobile.ios;
 import com.google.common.base.Preconditions;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.salesforceiq.augmenteddriver.util.AugmentedProvider;
 
 /**
  * Ugly hack
@@ -19,21 +20,22 @@ import com.google.inject.Singleton;
  * </p>
  */
 @Singleton
-public class AugmentedIOSDriverProvider implements Provider<AugmentedIOSDriver> {
+public class AugmentedIOSDriverProvider implements AugmentedProvider<AugmentedIOSDriver> {
 
     private AugmentedIOSDriver driver;
 
     @Override
     public AugmentedIOSDriver get() {
-        return Preconditions.checkNotNull(driver);
+        return Preconditions.checkNotNull(driver, "AugmentedIOSDriver not initialized, call initialize first");
     }
 
-    /**
-     * DO NOT USE
-     *
-     * @param driver the driver to be set.
-     */
-    public void set(AugmentedIOSDriver driver) {
+    @Override
+    public void initialize(AugmentedIOSDriver driver) {
         this.driver = driver;
+    }
+
+    @Override
+    public boolean isInitialized() {
+        return driver != null;
     }
 }

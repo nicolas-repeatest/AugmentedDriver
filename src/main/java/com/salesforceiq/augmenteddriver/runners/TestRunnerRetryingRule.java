@@ -22,14 +22,14 @@ import ru.yandex.qatools.allure.events.RemoveAttachmentsEvent;
 public class TestRunnerRetryingRule implements TestRule {
     private static final Logger LOG = LoggerFactory.getLogger(TestRunnerRetryingRule.class);
 
-    private final Integer maxRetries;
+    private final Integer maxAttempts;
     private final IntegrationFactory integrationFactory;
     private static boolean retry = true;
 
     @Inject
-    public TestRunnerRetryingRule(@Named(PropertiesModule.MAX_RETRIES) String maxRetries,
+    public TestRunnerRetryingRule(@Named(PropertiesModule.MAX_ATTEMPTS) String maxAttempts,
                                   IntegrationFactory integrationFactory) {
-        this.maxRetries = Integer.valueOf(Preconditions.checkNotNull(maxRetries));
+        this.maxAttempts = Integer.valueOf(Preconditions.checkNotNull(maxAttempts));
         this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
     }
 
@@ -47,7 +47,7 @@ public class TestRunnerRetryingRule implements TestRule {
             public void evaluate() throws Throwable {
                 if (retry) {
                     Throwable e = null;
-                    for (int attempt = 0; attempt < maxRetries; attempt++) {
+                    for (int attempt = 1; attempt <= maxAttempts; attempt++) {
                         try {
                             if (integrationFactory.allure().isEnabled()) {
                                 /**
@@ -63,12 +63,12 @@ public class TestRunnerRetryingRule implements TestRule {
                             return;
                         } catch (Throwable throwable) {
                             LOG.warn(String.format("Test %s#%s failed, attempt %s of %s",
-                                    description.getClassName(), description.getMethodName(), attempt + 1, maxRetries + 1));
+                                    description.getClassName(), description.getMethodName(), attempt, maxAttempts));
                             e = throwable;
                         }
                     }
                     LOG.error(String.format("Test %s#%s failed, all %s attempts",
-                            description.getClassName(), description.getMethodName(), maxRetries + 1));
+                            description.getClassName(), description.getMethodName(), maxAttempts));
                     throw e;
                 } else {
                     base.evaluate();

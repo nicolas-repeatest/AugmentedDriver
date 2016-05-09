@@ -24,7 +24,7 @@ public class TestRunnerRetryingRule implements TestRule {
 
     private final Integer maxRetries;
     private final IntegrationFactory integrationFactory;
-    private static boolean retry = true;
+    private static boolean retry = false;
 
     @Inject
     public TestRunnerRetryingRule(@Named(PropertiesModule.MAX_RETRIES) String maxRetries,
@@ -36,8 +36,8 @@ public class TestRunnerRetryingRule implements TestRule {
     /**
      * Hack since we call JunitCore#run, and we don't have a way to send parameters.
      */
-    public static void noRetry() {
-        retry = false;
+    public static void retry() {
+        retry = true;
     }
 
     @Override

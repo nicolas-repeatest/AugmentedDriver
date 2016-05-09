@@ -58,8 +58,8 @@ public class TestRunner implements Callable<AugmentedResult> {
             // HACK since for TestSuiteRunner we want to retry, and for TestMethodRunner we don't want to
             // The other way would be a RETRY on augmented.properties, but this is independent of the configuration of
             // the test.
-            if (!retry) {
-                TestRunnerRetryingRule.noRetry();
+            if (retry) {
+                TestRunnerRetryingRule.retry();
             }
             Result result = jUnitCore.run(Request.method(test.getDeclaringClass(), test.getName()));
             LOG.info(String.format("FINSHED Test %s in %s, result %s", testName,

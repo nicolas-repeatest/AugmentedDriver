@@ -44,6 +44,9 @@ public class PropertiesModule extends AbstractModule {
     // How much time in seconds all the commands (waitElementToBePresent, etc) will wait by default.
     // 30 seconds is the default.
     public static final String WAIT_IN_SECONDS = "WAIT_TIME_IN_SECONDS";
+    // Max length of the test/suite in minutes.
+    // 20 minutes by default.
+    public static final String TIMEOUT_IN_MINUTES = "TIMEOUT_IN_MINUTES";
     // How much time in milliseconds will the PageObjectWaiter wait be default.
     // 500 milliseconds by default.
     public static final String WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS = "WAIT_BETWEEN_ITERATIONS_IN_MILLISECOND";
@@ -87,6 +90,7 @@ public class PropertiesModule extends AbstractModule {
         {
             put(LOCAL_ADDRESS, "http://127.0.0.1:7777/wd/hub");
             put(SAUCE_ADDRESS, "http://ondemand.saucelabs.com:80/wd/hub");
+            put(TIMEOUT_IN_MINUTES, "20");
             put(WAIT_IN_SECONDS, "30");
             put(WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS, "500");
             put(PRESS_TIME_IN_MILLISECONDS, "1000");

@@ -5,6 +5,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.*;
 import com.google.inject.*;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
@@ -41,7 +42,8 @@ public class TestMethodRunner implements Callable<List<Result>> {
     private final int parallel;
 
     @Inject
-    public TestMethodRunner(TestRunnerConfig arguments,
+    public TestMethodRunner(@Named(PropertiesModule.TIMEOUT_IN_MINUTES) String timeOutInMinutes,
+                            TestRunnerConfig arguments,
                             TestRunnerFactory testRunnerFactory) {
         this.method = Preconditions.checkNotNull(arguments.test());
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
@@ -49,7 +51,7 @@ public class TestMethodRunner implements Callable<List<Result>> {
         this.results = Collections.synchronizedList(Lists.newArrayList());
         this.parallel = arguments.parallel();
         this.executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(parallel));
-        this.timeoutInMinutes = arguments.timeoutInMinutes();
+        this.timeoutInMinutes = Integer.valueOf(timeOutInMinutes);
     }
 
     @Override

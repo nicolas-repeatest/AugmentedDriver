@@ -4,8 +4,17 @@ import com.beust.jcommander.internal.Lists;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
-import com.google.common.util.concurrent.*;
-import com.google.inject.*;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.inject.Guice;
+import com.google.inject.Inject;
+import com.google.inject.Injector;
+import com.google.inject.Module;
+import com.google.inject.Singleton;
+import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
@@ -48,12 +57,14 @@ public class TestSuiteRunner implements Callable<List<Result>> {
     private int totalTests;
 
     @Inject
-    public TestSuiteRunner(TestRunnerConfig arguments,
-                           TestRunnerFactory testRunnerFactory) {
+    public TestSuiteRunner(
+            @Named(PropertiesModule.TIMEOUT_IN_MINUTES) String timeOutInMinutes,
+            TestRunnerConfig arguments,
+            TestRunnerFactory testRunnerFactory) {
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
         this.suites = arguments.suites();
         this.suitesPackage = arguments.suitesPackage();
-        this.timeoutInMinutes = arguments.timeoutInMinutes();
+        this.timeoutInMinutes = Integer.valueOf(timeOutInMinutes);
         this.parallel = arguments.parallel();
         this.executor = MoreExecutors.listeningDecorator(Executors.newFixedThreadPool(parallel));
         this.totalTests = 0;

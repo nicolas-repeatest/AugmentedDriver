@@ -59,9 +59,9 @@ public class PropertiesModule extends AbstractModule {
     // How many fingers will be used for the Appium Tap methods.
     // 1 by default
     public static final String TAP_FINGERS = "TAP_FINGERS";
-    // How many times a test will be retried when running a suite.
+    // How many total attempts a test will run
     // 2 by default.
-    public static final String MAX_RETRIES = "MAX_RETRIES";
+    public static final String MAX_ATTEMPTS = "MAX_ATTEMPTS";
     // User for SauceLabs
     // Empty by default.
     public static final String SAUCE_USER = "SAUCE_USER";
@@ -102,7 +102,7 @@ public class PropertiesModule extends AbstractModule {
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");
             put(TAP_FINGERS, "1");
-            put(MAX_RETRIES, "2");
+            put(MAX_ATTEMPTS, "2");
         }
     };
 

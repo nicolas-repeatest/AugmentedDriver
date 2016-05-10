@@ -120,14 +120,6 @@ public class TestRunnerConfig {
     }
 
     /**
-     * @return time in minutes to wait for the suite/test to finish.
-     */
-    public int timeoutInMinutes() {
-        Preconditions.checkNotNull(ARGUMENTS, "Call TestRunnerConfig#intialize first");
-        return ARGUMENTS.timeoutInMinutes;
-    }
-
-    /**
      * @return whether is running on sauce or not.
      */
     public boolean sauce() {
@@ -192,9 +184,6 @@ public class TestRunnerConfig {
 
     @Parameter(names = "-parallel", description = "How many tests in parallel are going to run")
     private Integer parallel = 1;
-
-    @Parameter(names = "-timeoutInMinutes", description = "Timeout for tests to finish")
-    private Integer timeoutInMinutes = 20;
 
     @Parameter(names = "-sauce", description = "Whether to run tests on SauceLabs or not")
     private boolean sauce = false;

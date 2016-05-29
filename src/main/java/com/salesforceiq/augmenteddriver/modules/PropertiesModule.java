@@ -33,7 +33,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String SLACK_INTEGRATION = "SLACK_INTEGRATION";
     // Token for the bot, get it here https://api.slack.com/bot-users
     // Default Empty
-    public static final String SLACK_BOT_TOKEN = "SLACK_VERBOSE";
+    public static final String SLACK_BOT_TOKEN = "SLACK_BOT_TOKEN";
     // Name of the channel where the bot will broadcast digested messages
     // A summary of the run will be broadcasted here.
     // Default Empty

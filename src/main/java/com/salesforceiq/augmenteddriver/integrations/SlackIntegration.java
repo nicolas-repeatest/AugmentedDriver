@@ -71,6 +71,10 @@ public class SlackIntegration implements Integration, AutoCloseable {
      *     <li> The reason with the error message.</li>
      *     <li> A ``` code with the stacktrace.</li>
      * </ul>
+     *
+     * @param description the test description from JUnit.
+     * @param error reason of the failure.
+     * @param sessionId WebDriver session Id. (to link to saucelabs).
      */
     public void failed(Description description, Throwable error, String sessionId) {
         if (verboseEnabled()) {
@@ -110,6 +114,9 @@ public class SlackIntegration implements Integration, AutoCloseable {
      * <ul>
      *     <li> The test that passed.</li>
      * </ul>
+     *
+     * @param description the test description from JUnit.
+     * @param sessionId WebDriver session Id. (to link to saucelabs).
      */
     public void passed(Description description, String sessionId) {
         if (verboseEnabled()) {
@@ -127,6 +134,9 @@ public class SlackIntegration implements Integration, AutoCloseable {
      *     <li> Summary will contain the title and how many tests total/passed/failed</li>
      *     <li> For each failure it will send and attachment with the test name</li>
      * </ul>
+     *
+     * @param title Title of the message.
+     * @param results all the test results.
      */
     public void digest(String title, List<AugmentedResult> results) {
         if (digestEnabled()) {

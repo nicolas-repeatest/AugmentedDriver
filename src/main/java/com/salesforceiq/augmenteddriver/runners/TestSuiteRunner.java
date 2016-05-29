@@ -103,7 +103,7 @@ public class TestSuiteRunner implements Callable<List<AugmentedResult>> {
             executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
             LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
             if (integrationFactory.slack().isEnabled()) {
-                integrationFactory.slack().digest(String.format("Suite Results: [%s]", suites), results);
+                integrationFactory.slack().digest(String.format("Suite Results: %s", suites), results);
             }
         } finally {
             if (integrationFactory.slack().isEnabled()) {

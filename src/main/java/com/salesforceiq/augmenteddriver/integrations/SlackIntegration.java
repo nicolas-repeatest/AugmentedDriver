@@ -9,13 +9,9 @@ import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.runners.AugmentedResult;
 import com.ullink.slack.simpleslackapi.SlackAttachment;
 import com.ullink.slack.simpleslackapi.SlackChannel;
-import com.ullink.slack.simpleslackapi.SlackField;
-import com.ullink.slack.simpleslackapi.SlackMessage;
 import com.ullink.slack.simpleslackapi.SlackSession;
-import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import org.junit.runner.Description;
-import org.junit.runner.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,33 +63,31 @@ public class SlackIntegration implements Integration, AutoCloseable {
         return enabled;
     }
 
+    /**
+     * It will send 2 attachments and one message:
+     *
+     * <ul>
+     *     <li> The header, with the test name.</li>
+     *     <li> The reason with the error message.</li>
+     *     <li> A ``` code with the stacktrace.</li>
+     * </ul>
+     */
     public void failed(Description description, Throwable error, String sessionId) {
         if (verboseEnabled()) {
-            String text = String.format("%s#%s", description.getClassName(), description.getMethodName());
-            String title = "FAILED";
-
-            SlackAttachment header = new SlackAttachment(title, "WHAT", text, null);
-            header
-                    .setColor("danger");
             slackSession
                     .sendMessage(verboseChannel,
                             "",
-                            header);
+                            createHeaderAttachment(description, false));
 
-            //-----------------------------------------------------------------------
-
-            title = "Reason";
-            text = String.format(error.getMessage());
-            SlackAttachment reason = new SlackAttachment(title, "WHAT", text, null);
+            String title = "Reason";
+            String text = String.format(error.getMessage());
+            SlackAttachment reason = new SlackAttachment(title, "", text, null);
             reason
                     .setColor("warning");
             slackSession
                     .sendMessage(verboseChannel,
                             "",
                             reason);
-
-            
-            //-----------------------------------------------------------------------
 
             StringBuilder exception = new StringBuilder();
             exception.append("```");
@@ -110,31 +104,41 @@ public class SlackIntegration implements Integration, AutoCloseable {
         }
     }
 
+    /**
+     * It will send one attachment:
+     *
+     * <ul>
+     *     <li> The test that passed.</li>
+     * </ul>
+     */
     public void passed(Description description, String sessionId) {
         if (verboseEnabled()) {
-            String text = String.format("%s#%s", description.getClassName(), description.getMethodName());
-            String title = "SUCCEEDED";
-
-            SlackAttachment slackAttachment = new SlackAttachment(title, "WHAT", text, null);
-            slackAttachment
-                    .setColor("good");
             slackSession
                     .sendMessage(verboseChannel,
                             "",
-                            slackAttachment);
+                            createHeaderAttachment(description, true));
         }
     }
 
+    /**
+     * It will send one attachment with the summary and one attachment per test failure:
+     *
+     * <ul>
+     *     <li> Summary will contain the title and how many tests total/passed/failed</li>
+     *     <li> For each failure it will send and attachment with the test name</li>
+     * </ul>
+     */
     public void digest(String title, List<AugmentedResult> results) {
         if (digestEnabled()) {
             List<AugmentedResult> failed = failedTests(results);
+
             String slackTitle = String.format("%s %s", title, failed.isEmpty() ? " SUCCEEDED" : " FAILED");
             String slackText = String.format("TOTAL: %s SUCCEEDED: %s FAILED %s",
                     results.size(),
                     results.size() - failed.size(),
                     failed.size());
 
-            SlackAttachment slackAttachment = new SlackAttachment(slackTitle, "WHAT", slackText, null);
+            SlackAttachment slackAttachment = new SlackAttachment(slackTitle, "", slackText, null);
             slackAttachment.setColor(failed.isEmpty() ? "good" : "danger");
             slackSession
                     .sendMessage(digestChannel,
@@ -146,15 +150,25 @@ public class SlackIntegration implements Integration, AutoCloseable {
                     .forEach(failedTest -> {
                         String failedTestTitle = String.format("%s", failedTest.getTestName());
                         String failedTestText = failedTest.getResult().getFailures().get(0).getMessage();
-                        SlackAttachment faildTestAttachment = new SlackAttachment(failedTestTitle, "WHAT", failedTestText, null);
-                        faildTestAttachment
+                        SlackAttachment failedTestAttachment = new SlackAttachment(failedTestTitle, "", failedTestText, null);
+                        failedTestAttachment
                                 .setColor("warning");
                         slackSession
                                 .sendMessage(digestChannel,
                                         "",
-                                        faildTestAttachment);
+                                        failedTestAttachment);
                     });
         }
+    }
+
+    private SlackAttachment createHeaderAttachment(Description description, boolean succeeded) {
+        String text = String.format("%s#%s", description.getClassName(), description.getMethodName());
+        String title = succeeded? "SUCCEEDED" : "FAILED";
+
+        SlackAttachment slackAttachment = new SlackAttachment(title, "", text, null);
+        slackAttachment
+                .setColor(succeeded? "good" : "danger");
+        return slackAttachment;
     }
 
     /**

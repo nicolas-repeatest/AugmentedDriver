@@ -28,6 +28,20 @@ public class PropertiesModule extends AbstractModule {
     // false or true whether to generate the Allure reports.
     // False by default
     public static final String ALLURE_INTEGRATION = "ALLURE_INTEGRATION";
+    // false or true whether to broadcast via Slack
+    // False by default
+    public static final String SLACK_INTEGRATION = "SLACK_INTEGRATION";
+    // Token for the bot, get it here https://api.slack.com/bot-users
+    // Default Empty
+    public static final String SLACK_BOT_TOKEN = "SLACK_VERBOSE";
+    // Name of the channel where the bot will broadcast digested messages
+    // A summary of the run will be broadcasted here.
+    // Default Empty
+    public static final String SLACK_DIGEST_CHANNEL = "SLACK_DIGEST_CHANNEL";
+    // Name of the channel where the bot will broadcast verbose messages
+    // Each failure/success will be broadcasted here.
+    // Default Empty
+    public static final String SLACK_VERBOSE_CHANNEL = "SLACK_VERBOSE_CHANNEL";
     // false or true whether to generate an xml file that can be parsed later by Jenkins to get the test results.
     // False by default
     public static final String JENKINS_INTEGRATION = "JENKINS_INTEGRATION";
@@ -97,6 +111,10 @@ public class PropertiesModule extends AbstractModule {
             put(SWIPE_QUANTITY, "5");
             put(TEAM_CITY_INTEGRATION, "false");
             put(ALLURE_INTEGRATION, "false");
+            put(SLACK_INTEGRATION, "false");
+            put(SLACK_BOT_TOKEN, "");
+            put(SLACK_DIGEST_CHANNEL, "");
+            put(SLACK_VERBOSE_CHANNEL, "");
             put(JENKINS_INTEGRATION, "false");
             put(JENKINS_XML_DIR, "results");
             put(SAUCE_KEY, "");

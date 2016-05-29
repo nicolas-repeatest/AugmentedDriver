@@ -11,14 +11,20 @@ public class AugmentedResult {
 
     private final Result result;
     private final ByteArrayOutputStream out;
+    private final String testName;
 
-    public AugmentedResult(Result result, ByteArrayOutputStream out) {
+    public AugmentedResult(String testName, Result result, ByteArrayOutputStream out) {
         this.result = result;
+        this.testName = testName;
         this.out = out;
     }
 
     public Result getResult() {
         return result;
+    }
+
+    public String getTestName() {
+        return testName;
     }
 
     public ByteArrayOutputStream getOut() {

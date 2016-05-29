@@ -15,6 +15,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
 import com.google.inject.name.Named;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.CommandLineArgumentsModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
@@ -43,7 +44,7 @@ import java.util.stream.Collectors;
  * Main class for running a set of suites.
  */
 @Singleton
-public class TestSuiteRunner implements Callable<List<Result>> {
+public class TestSuiteRunner implements Callable<List<AugmentedResult>> {
     private static final Logger LOG = LoggerFactory.getLogger(TestSuiteRunner.class);
 
     private final TestRunnerFactory testRunnerFactory;
@@ -51,16 +52,18 @@ public class TestSuiteRunner implements Callable<List<Result>> {
     private final String suitesPackage;
     private final int timeoutInMinutes;
     private final ListeningExecutorService executor;
-    private final List<Result> results;
+    private final List<AugmentedResult> results;
     private final int parallel;
     private final boolean quarantine;
+    private final IntegrationFactory integrationFactory;
     private int totalTests;
 
     @Inject
     public TestSuiteRunner(
             @Named(PropertiesModule.TIMEOUT_IN_MINUTES) String timeOutInMinutes,
             TestRunnerConfig arguments,
-            TestRunnerFactory testRunnerFactory) {
+            TestRunnerFactory testRunnerFactory,
+            IntegrationFactory integrationFactory) {
         this.testRunnerFactory = Preconditions.checkNotNull(testRunnerFactory);
         this.suites = arguments.suites();
         this.suitesPackage = arguments.suitesPackage();
@@ -70,30 +73,43 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         this.totalTests = 0;
         this.quarantine = arguments.quarantine();
         this.results = Collections.synchronizedList(Lists.newArrayList());
+        this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
     }
 
     @Override
-    public List<Result> call() throws Exception {
+    public List<AugmentedResult> call() throws Exception {
         long start = System.currentTimeMillis();
         LOG.info(String.format("STARTING TestSuiteRunner for suites [%s], running %s tests in parallel", suites, parallel));
         List<Class> classesToTest = TestsFinder.getTestClassesOfPackage(suites, suitesPackage);
         LOG.info(String.format("Test Classes to run: %s", classesToTest));
-        classesToTest.stream()
-                .forEach(test -> Lists.newArrayList(test.getMethods())
-                        .stream()
-                        .filter(method -> method.isAnnotationPresent(Test.class)
-                                && !method.isAnnotationPresent(Ignore.class)
-                                && method.isAnnotationPresent(Quarantine.class) == quarantine)
+        try {
+            if (integrationFactory.slack().isEnabled()) {
+                integrationFactory.slack().initialize();
+            }
+            classesToTest.stream()
+                    .forEach(test -> Lists.newArrayList(test.getMethods())
+                            .stream()
+                            .filter(method -> method.isAnnotationPresent(Test.class)
+                                    && !method.isAnnotationPresent(Ignore.class)
+                                    && method.isAnnotationPresent(Quarantine.class) == quarantine)
 
-                        .forEach(method -> {
-                            totalTests++;
-                            Util.pause(Util.getRandom(500, 2000));
-                            ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, "", true));
-                            Futures.addCallback(future, createCallback(method));
-                        }));
-        LOG.info(String.format("Total tests running: %s", totalTests));
-        executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
-        LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
+                            .forEach(method -> {
+                                totalTests++;
+                                Util.pause(Util.getRandom(500, 2000));
+                                ListenableFuture<AugmentedResult> future = executor.submit(testRunnerFactory.create(method, "", true));
+                                Futures.addCallback(future, createCallback(method));
+                            }));
+            LOG.info(String.format("Total tests running: %s", totalTests));
+            executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
+            LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
+            if (integrationFactory.slack().isEnabled()) {
+                integrationFactory.slack().digest(String.format("Suite Results: %s", suites), results);
+            }
+        } finally {
+            if (integrationFactory.slack().isEnabled()) {
+                integrationFactory.slack().close();
+            }
+        }
         return ImmutableList.copyOf(results);
     }
 
@@ -107,7 +123,7 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         return new FutureCallback<AugmentedResult>() {
             @Override
             public void onSuccess(AugmentedResult result) {
-                results.add(result.getResult());
+                results.add(result);
                 LOG.info(String.format("Test %s finished of %s", results.size(), totalTests));
                 if (results.size() == totalTests) {
                     executor.shutdown();
@@ -148,9 +164,9 @@ public class TestSuiteRunner implements Callable<List<Result>> {
         };
     }
 
-    private static List<Result> failedTests(List<Result> results) {
+    private static List<AugmentedResult> failedTests(List<AugmentedResult> results) {
         return results.stream()
-                .filter(result -> !result.wasSuccessful())
+                .filter(result -> !result.getResult().wasSuccessful())
                 .collect(Collectors.toList());
     }
 
@@ -170,8 +186,8 @@ public class TestSuiteRunner implements Callable<List<Result>> {
                 new TestRunnerModule());
         Injector injector = Guice.createInjector(modules);
         TestSuiteRunner runner = injector.getInstance(TestSuiteRunner.class);
-        List<Result> results = runner.call();
-        List<Result> failed = failedTests(results);
+        List<AugmentedResult> results = runner.call();
+        List<AugmentedResult> failed = failedTests(results);
         if (!failed.isEmpty()) {
             System.exit(1);
         }

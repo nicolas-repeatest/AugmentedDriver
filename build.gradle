@@ -8,6 +8,7 @@ apply plugin: 'signing'
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 task javadocJar(type: Jar) {
@@ -22,7 +23,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.4.3"
+version = "1.5.0"
 
 // To enable Steps and Arguments on AllureReport
 tasks.withType(JavaExec) { jvmArgs "-javaagent:./allure/aspectjweaver.jar" }
@@ -49,6 +50,9 @@ dependencies {
     // For ALLURE
     compile 'org.aspectj:aspectjweaver:1.8.8'
     compile 'ru.yandex.qatools.allure:allure-junit-adaptor:1.4.20'
+
+    // For SLACK
+    compile 'com.github.Ullink:simple-slack-api:0.5.1'
 }
 
 

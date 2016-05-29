@@ -87,12 +87,18 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
             if (integrations.sauceLabs().isEnabled() && !Strings.isNullOrEmpty(sessionId)) {
                 integrations.sauceLabs().testPassed(false, sessionId);
             }
+            if (integrations.slack().isEnabled() && !Strings.isNullOrEmpty(sessionId)) {
+                integrations.slack().failed(description, e, sessionId);
+            }
         }
 
         @Override
         protected void succeeded(Description description) {
             if (integrations.sauceLabs().isEnabled() && !Strings.isNullOrEmpty(sessionId)) {
                 integrations.sauceLabs().testPassed(true, sessionId);
+            }
+            if (integrations.slack().isEnabled() && !Strings.isNullOrEmpty(sessionId)) {
+                integrations.slack().passed(description, sessionId);
             }
         }
     };

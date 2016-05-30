@@ -128,6 +128,25 @@ public class SlackIntegration implements Integration, AutoCloseable {
     }
 
     /**
+     * It will send on attachment with the title
+     *
+     * @param title the title
+     */
+    public void startDigest(String title) {
+        if (digestEnabled()) {
+            String attachmentTitle = "STARTED";
+
+            SlackAttachment slackAttachment = new SlackAttachment(attachmentTitle, "", title, null);
+            slackAttachment
+                    .setColor("good");
+            slackSession
+                    .sendMessage(digestChannel,
+                            "",
+                            slackAttachment);
+        }
+    }
+
+    /**
      * It will send one attachment with the summary and one attachment per test failure:
      *
      * <ul>
@@ -138,7 +157,7 @@ public class SlackIntegration implements Integration, AutoCloseable {
      * @param title Title of the message.
      * @param results all the test results.
      */
-    public void digest(String title, List<AugmentedResult> results) {
+    public void finishDigest(String title, List<AugmentedResult> results) {
         if (digestEnabled()) {
             List<AugmentedResult> failed = failedTests(results);
 

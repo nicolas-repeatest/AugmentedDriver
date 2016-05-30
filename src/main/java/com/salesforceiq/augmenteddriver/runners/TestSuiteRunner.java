@@ -26,7 +26,6 @@ import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -85,6 +84,7 @@ public class TestSuiteRunner implements Callable<List<AugmentedResult>> {
         try {
             if (integrationFactory.slack().isEnabled()) {
                 integrationFactory.slack().initialize();
+                integrationFactory.slack().startDigest(String.format("Running %s suites", suites));
             }
             classesToTest.stream()
                     .forEach(test -> Lists.newArrayList(test.getMethods())
@@ -103,7 +103,8 @@ public class TestSuiteRunner implements Callable<List<AugmentedResult>> {
             executor.awaitTermination(timeoutInMinutes, TimeUnit.MINUTES);
             LOG.info(String.format("FINISHED TestSuiteRunner for suites [%s] in %s", suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
             if (integrationFactory.slack().isEnabled()) {
-                integrationFactory.slack().digest(String.format("Suite Results: %s", suites), results);
+                integrationFactory.slack().finishDigest(String.format("Suite Results: %s finished in %s",
+                        suites, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)), results);
             }
         } finally {
             if (integrationFactory.slack().isEnabled()) {

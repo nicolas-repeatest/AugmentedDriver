@@ -13,7 +13,6 @@ import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.modules.TestRunnerModule;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.junit.runner.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +65,7 @@ public class TestMethodRunner implements Callable<List<AugmentedResult>> {
         try {
             if (integrationFactory.slack().isEnabled()) {
                 integrationFactory.slack().initialize();
+                integrationFactory.slack().startDigest(String.format("Running %s, %s times, %s in parallel", testName, quantity, parallel));
             }
             for (int index = 0; index < this.quantity; index++) {
                 Util.pause(Util.getRandom(500, 2000));
@@ -76,7 +76,8 @@ public class TestMethodRunner implements Callable<List<AugmentedResult>> {
             LOG.info(String.format("FINISHED TestMethodRunner %s in %s", testName,Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)));
 
             if (integrationFactory.slack().isEnabled()) {
-                integrationFactory.slack().digest(String.format("Test Results: %s", testName), results);
+                integrationFactory.slack().finishDigest(String.format("Test Results: %s finished in %s",
+                        testName, Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start)), results);
             }
             return ImmutableList.copyOf(results);
         } finally {

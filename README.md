@@ -15,4 +15,4 @@ The whole framework aims to simplify 3 aspects of writing JAVA E2E tests using W
 
 ***  
 
-With this framework, At SalesforceIQ we were able to run 250+ (and adding every week) E2E Tests for Web, Android and IOS in less than 15 minutes, embedded in our TeamCity Integration with the help from SauceLabs  
+With this framework, At SalesforceIQ we were able to run 250+ (and adding every week) E2E Tests for Web, Android and IOS in less than 15 minutes, 80000+ tests in one month, embedded in our TeamCity Integration with the help from SauceLabs  

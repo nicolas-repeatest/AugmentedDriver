@@ -37,15 +37,20 @@ dependencies {
     
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
-    compile 'org.seleniumhq.selenium:selenium-java:2.51.0'
+    compile ('org.seleniumhq.selenium:selenium-java:2.51.0') {
+        exclude group: 'org.eclipse.jetty.websocket'
+    }
     compile 'org.slf4j:slf4j-api:1.7.18'
     compile 'junit:junit:4.12'
     compile 'com.beust:jcommander:1.48'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
     compile 'com.saucelabs:saucerest:1.0.28'
-    compile 'io.appium:java-client:3.3.0'   
+    compile ('io.appium:java-client:3.3.0') {
+        exclude group: 'org.eclipse.jetty.websocket'
+    }   
 
     compile 'com.jayway.awaitility:awaitility:1.7.0'
+    compile 'org.mockito:mockito-all:1.10.19'
 
     // For ALLURE
     compile 'org.aspectj:aspectjweaver:1.8.8'
@@ -53,6 +58,11 @@ dependencies {
 
     // For SLACK
     compile 'com.github.Ullink:simple-slack-api:0.5.1'
+
+    // For Server
+    compile 'io.dropwizard:dropwizard-core:0.8.1'
+    compile 'io.dropwizard:dropwizard-client:0.8.1'
+    compile 'io.dropwizard:dropwizard-forms:0.8.1'
 }
 
 
@@ -62,6 +72,7 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
     baseName = 'AugmentedDriver'
     version = '0.1'
 }
@@ -108,6 +119,6 @@ task (runSuite, dependsOn: 'classes', type: JavaExec) {
 
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.2.1'
+    gradleVersion = '2.13'
 }
 

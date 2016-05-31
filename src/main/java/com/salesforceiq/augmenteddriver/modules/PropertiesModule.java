@@ -89,6 +89,9 @@ public class PropertiesModule extends AbstractModule {
     // http://ondemand.saucelabs.com:80/wd/hub
     public static final String SAUCE_ADDRESS = "SAUCE_ADDRESS";
     // In case you want to load the capabilities from the properties file.
+    public static final String SUITES = "SUITES";
+    public static final String SUITES_PACKAGE = "SUITES_PACKAGE";
+    public static final String PARALLEL = "PARALLEL";
     public static final String CAPABILITIES = "CAPABILITIES";
     // true or false whether to run the tests on saucelabs.
     public static final String SAUCE = "SAUCE";
@@ -119,6 +122,11 @@ public class PropertiesModule extends AbstractModule {
             put(JENKINS_XML_DIR, "results");
             put(SAUCE_KEY, "");
             put(SAUCE_USER, "");
+            put(SUITES, "");
+            put(SUITES_PACKAGE, "");
+            put(PARALLEL, "1");
+            put(CAPABILITIES, "");
+            put(SAUCE, "false");
             put(TAP_FINGERS, "1");
             put(MAX_ATTEMPTS, "2");
         }

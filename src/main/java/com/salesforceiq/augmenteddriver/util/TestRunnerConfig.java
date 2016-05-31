@@ -66,6 +66,18 @@ public class TestRunnerConfig {
             result.sauce = Boolean.valueOf((String) properties.get(PropertiesModule.SAUCE));
         }
 
+        if (properties.get(PropertiesModule.PARALLEL) != null) {
+            result.parallel = Integer.valueOf((String) properties.get(PropertiesModule.PARALLEL));
+        }
+
+        if (properties.get(PropertiesModule.SUITES) != null) {
+            result.suites = (String) properties.get(PropertiesModule.SUITES);
+        }
+
+        if (properties.get(PropertiesModule.SUITES_PACKAGE) != null) {
+            result.suitesPackage = (String) properties.get(PropertiesModule.SUITES_PACKAGE);
+        }
+
         ARGUMENTS = result;
         return ARGUMENTS;
     }

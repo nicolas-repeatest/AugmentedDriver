@@ -6,7 +6,7 @@ import org.openqa.selenium.remote.RemoteWebDriver;
 /**
  * Provider extension that also allows initializing it
  *
- * (since we cannot initialize it at Guice init time, since the driver needs to be created,
+ * (since we cannot create it at Guice init time, since the driver needs to be created,
  * and that is at setUp time.
  */
 public interface AugmentedProvider<T extends RemoteWebDriver> extends Provider<T> {

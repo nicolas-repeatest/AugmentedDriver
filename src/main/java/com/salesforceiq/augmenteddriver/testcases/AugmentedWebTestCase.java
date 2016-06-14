@@ -138,6 +138,9 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
             integrations.teamCity().printSessionId(getFullTestName(), sessionId);
         }
+        if (integrations.slack().isEnabled() && integrations.sauceLabs().isEnabled()) {
+            integrations.slack().setSessionId(sessionId);
+        }
     }
 
     @Override

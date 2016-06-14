@@ -105,6 +105,9 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         if (integrations.teamCity().isEnabled() && integrations.sauceLabs().isEnabled()) {
             integrations.teamCity().printSessionId(getFullTestName(), sessionId);
         }
+        if (integrations.slack().isEnabled() && integrations.sauceLabs().isEnabled()) {
+            integrations.slack().setSessionId(sessionId);
+        }
     }
 
     @After

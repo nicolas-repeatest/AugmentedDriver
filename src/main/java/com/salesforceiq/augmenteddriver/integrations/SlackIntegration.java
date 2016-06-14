@@ -41,20 +41,23 @@ public class SlackIntegration implements Integration, AutoCloseable {
     private static SlackSession slackSession;
     private static SlackChannel verboseChannel;
 
-
     private final boolean enabled;
     private final String slackVerboseChannel;
     private final String slackDigestChannel;
     private final String slackBotToken;
+    private final String saucelabsTestUrl;
+    private String sessionId;
 
     @Inject
     public SlackIntegration(@Named(PropertiesModule.SLACK_INTEGRATION) String slackIntegration,
                             @Named(PropertiesModule.SLACK_BOT_TOKEN) String slackBotToken,
                             @Named(PropertiesModule.SLACK_DIGEST_CHANNEL) String slackDigestChannel,
-                            @Named(PropertiesModule.SLACK_VERBOSE_CHANNEL) String slackVerboseChannel) {
+                            @Named(PropertiesModule.SLACK_VERBOSE_CHANNEL) String slackVerboseChannel,
+                            @Named(PropertiesModule.SAUCELABS_TEST_URL) String sauceTestUrl) {
         this.enabled = Boolean.valueOf(Preconditions.checkNotNull(slackIntegration));
         this.slackVerboseChannel = Preconditions.checkNotNull(slackVerboseChannel);
         this.slackDigestChannel = Preconditions.checkNotNull(slackDigestChannel);
+        this.saucelabsTestUrl = Preconditions.checkNotNull(sauceTestUrl);
         this.slackBotToken = Preconditions.checkNotNull(slackBotToken);
     }
 
@@ -195,9 +198,18 @@ public class SlackIntegration implements Integration, AutoCloseable {
         String title = succeeded? "SUCCEEDED" : "FAILED";
 
         SlackAttachment slackAttachment = new SlackAttachment(title, "", text, null);
+        //Session was set since saucelabs is enabled also.
+        if (!Strings.isNullOrEmpty(sessionId)) {
+            attachSauceLink(slackAttachment, sessionId);
+        }
         slackAttachment
-                .setColor(succeeded? "good" : "danger");
+                .setColor(succeeded ? "good" : "danger");
         return slackAttachment;
+    }
+
+    private void attachSauceLink(SlackAttachment slackAttachment, String sessionId) {
+        slackAttachment
+                .setTitleLink(String.format(saucelabsTestUrl, sessionId));
     }
 
     /**
@@ -252,6 +264,11 @@ public class SlackIntegration implements Integration, AutoCloseable {
         if (slackSession != null) {
             slackSession.disconnect();
         }
+    }
+
+    public void setSessionId(String sessionId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sessionId));
+        this.sessionId = sessionId;
     }
 
     private List<AugmentedResult> failedTests(List<AugmentedResult> results) {

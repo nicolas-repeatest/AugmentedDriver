@@ -16,6 +16,7 @@ import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageContainerObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActions;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActionsInterface;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.openqa.selenium.By;
@@ -140,6 +141,13 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         }
         if (integrations.slack().isEnabled() && integrations.sauceLabs().isEnabled()) {
             integrations.slack().setSessionId(sessionId);
+        }
+    }
+
+    @After
+    public void tearDown() {
+        if (driver != null) {
+            driver.quit();
         }
     }
 

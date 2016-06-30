@@ -63,7 +63,7 @@ public class PropertiesModule extends AbstractModule {
     public static final String TIMEOUT_IN_MINUTES = "TIMEOUT_IN_MINUTES";
     // How much time in milliseconds will the PageObjectWaiter wait be default.
     // 500 milliseconds by default.
-    public static final String WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS = "WAIT_BETWEEN_ITERATIONS_IN_MILLISECOND";
+    public static final String WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS = "WAIT_BETWEEN_ITERATIONS_IN_MILLISECONDS";
     // How much time in milliseconds the Appium Swipe methods will press.
     // 1000 milliseconds by default.
     public static final String PRESS_TIME_IN_MILLISECONDS = "PRESS_TIME_IN_MILLISECONDS";

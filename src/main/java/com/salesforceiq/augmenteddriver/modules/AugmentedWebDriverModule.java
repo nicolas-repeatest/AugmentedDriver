@@ -3,6 +3,9 @@ package com.salesforceiq.augmenteddriver.modules;
 import com.salesforceiq.augmenteddriver.web.*;
 import com.google.inject.AbstractModule;
 import com.google.inject.assistedinject.FactoryModuleBuilder;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyes;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyesFactory;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyesImpl;
 import org.openqa.selenium.WebDriver;
 
 /**
@@ -19,5 +22,8 @@ public class AugmentedWebDriverModule extends AbstractModule {
         install(new FactoryModuleBuilder()
                 .implement(AugmentedWebFunctions.class, AugmentedWebFunctions.class)
                 .build(AugmentedWebFunctionsFactory.class));
+        install(new FactoryModuleBuilder()
+                .implement(AugmentedEyes.class, AugmentedEyesImpl.class)
+                .build(AugmentedEyesFactory.class));
     }
 }

@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.testcases;
 
+import com.applitools.eyes.Eyes;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Strings;
@@ -12,6 +13,8 @@ import com.salesforceiq.augmenteddriver.modules.AugmentedWebDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.*;
 import com.salesforceiq.augmenteddriver.web.*;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyes;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyesFactory;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageContainerObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObject;
 import com.salesforceiq.augmenteddriver.web.pageobjects.WebPageObjectActions;
@@ -41,7 +44,12 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
     @Inject
     private AugmentedWebFunctionsFactory augmentedWebFunctionsFactory;
 
+    @Inject
+    private AugmentedEyesFactory augmentedEyesFactory;
+
     private AugmentedWebFunctions augmentedWebFunctions;
+
+    private AugmentedEyes augmentedEyes;
 
     @Inject
     private WebPageObjectActions webPageObjectActions;
@@ -127,6 +135,10 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         }
         augmentedWebFunctions = augmentedWebFunctionsFactory.create(driver);
         driver.setAugmentedFunctions(augmentedWebFunctions);
+
+        augmentedEyes = augmentedEyesFactory.create(testName.getMethodName());
+        driver().setAugmentedEyes(augmentedEyes);
+
         augmentedWebDriverProvider.initialize(driver);
         LOG.info("AugmentedWebDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 

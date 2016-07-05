@@ -1,16 +1,17 @@
 package com.salesforceiq.augmenteddriver.web;
 
+import com.applitools.eyes.Eyes;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
+import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyes;
 import org.openqa.selenium.*;
-import org.openqa.selenium.interactions.Actions;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -18,22 +19,27 @@ import java.util.stream.Collectors;
 /**
  * Implements all the Augmented Functions for Web.
  */
-public class AugmentedWebFunctions implements AugmentedFunctions<AugmentedWebElement>, AugmentedWebOnlyFunctions {
+public class AugmentedWebFunctions implements
+        AugmentedFunctions<AugmentedWebElement>,
+        AugmentedWebOnlyFunctions {
 
     private final SearchContext searchContext;
     private final int waitTimeInSeconds;
     private final AugmentedWebElementFactory augmentedWebElementFactory;
     private final AugmentedWebDriverProvider augmentedWebDriverProvider;
+    private final IntegrationFactory integrationFactory;
 
     @Inject
     public AugmentedWebFunctions(@Assisted SearchContext searchContext,
                                  @Named(PropertiesModule.WAIT_IN_SECONDS) String waitTimeInSeconds,
                                  AugmentedWebDriverProvider augmentedWebDriverProvider,
-                                 AugmentedWebElementFactory augmentedWebElementFactory) {
+                                 AugmentedWebElementFactory augmentedWebElementFactory,
+                                 IntegrationFactory integrationFactory) {
         this.searchContext = Preconditions.checkNotNull(searchContext);
         this.waitTimeInSeconds= Integer.valueOf(Preconditions.checkNotNull(waitTimeInSeconds));
         this.augmentedWebElementFactory = Preconditions.checkNotNull(augmentedWebElementFactory);
         this.augmentedWebDriverProvider = Preconditions.checkNotNull(augmentedWebDriverProvider);
+        this.integrationFactory = Preconditions.checkNotNull(integrationFactory);
     }
 
     @Override

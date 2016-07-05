@@ -15,18 +15,21 @@ public class IntegrationFactory {
     private final AllureIntegration allureIntegration;
     private final JenkinsIntegration jenkinsIntegration;
     private final SlackIntegration slackIntegration;
+    private final AppliToolsWebDriverIntegration applitoolsIntegration;
 
     @Inject
     public IntegrationFactory(SauceLabsIntegration sauceLabsIntegration,
                               TeamCityIntegration teamCityIntegration,
                               AllureIntegration allureIntegration,
                               JenkinsIntegration jenkinsIntegration,
-                              SlackIntegration slackIntegration) {
+                              SlackIntegration slackIntegration,
+                              AppliToolsWebDriverIntegration applitoolsIntegration) {
         this.sauceLabsIntegration = Preconditions.checkNotNull(sauceLabsIntegration);;
         this.teamCityIntegration = Preconditions.checkNotNull(teamCityIntegration);
         this.allureIntegration = Preconditions.checkNotNull(allureIntegration);
         this.jenkinsIntegration = Preconditions.checkNotNull(jenkinsIntegration);
         this.slackIntegration = Preconditions.checkNotNull(slackIntegration);
+        this.applitoolsIntegration = Preconditions.checkNotNull(applitoolsIntegration);
     }
 
     /**
@@ -72,5 +75,14 @@ public class IntegrationFactory {
      */
     public SlackIntegration slack() {
         return slackIntegration;
+    }
+
+    /**
+     * Applitools Integration
+     *
+     * @return the Applitools Integration.
+     */
+    public AppliToolsWebDriverIntegration appliTools() {
+        return applitoolsIntegration;
     }
 }

@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.examples;
 
+import com.applitools.eyes.Eyes;
 import com.salesforceiq.augmenteddriver.testcases.AugmentedWebTestCase;
 import com.salesforceiq.augmenteddriver.util.Suites;
 import com.salesforceiq.augmenteddriver.util.Util;
@@ -12,12 +13,36 @@ import ru.yandex.qatools.allure.annotations.Title;
 @Suites("SMOKE")
 public class WebExample extends AugmentedWebTestCase {
 
-
     public static int count = 0;
     @Test
-    @Title("Succesfull Test")
+    @Title("Successful Test")
     public void testSucceed() {
         driver().get("https://www.wikipedia.org/");
+        driver()
+                .eyes()
+                .instance()
+                .checkWindow(5000, "Main Page");
+        driver()
+                .augmented()
+                .findElementClickable(By.id("searchInput"))
+                .sendKeys("WebDriver");
+        Util.pause(5000);
+        driver()
+                .eyes()
+                .instance()
+                .checkWindow(5000, "Search");
+        driver()
+                .augmented()
+                .findElementsVisible(By.className("suggestion-link"))
+                .get(0)
+                .click();
+        driver()
+                .augmented()
+                .findElementVisible(By.id("firstHeading"));
+        driver()
+                .eyes()
+                .instance()
+                .checkWindow(5000, "WebDriver Wiki");
     }
 
     @Test

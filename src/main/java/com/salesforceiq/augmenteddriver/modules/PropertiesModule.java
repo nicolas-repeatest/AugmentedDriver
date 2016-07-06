@@ -48,6 +48,15 @@ public class PropertiesModule extends AbstractModule {
     // Where the XML with the results will be stored.
     // results by default
     public static final String JENKINS_XML_DIR = "JENKINS_XML_DIR";
+    // false or true whether to integrate with applitools.
+    // default false
+    public static final String APPLITOOLS_INTEGRATION = "APPLITOOLS_INTEGRATION";
+    // Key for applitools
+    // empty by default
+    public static final String APPLITOOLS_KEY = "APPLITOOLS_KEY";
+    // Name for the Eyes on applitools.
+    // Default empty
+    public static final String APPLITOOLS_APP_NAME = "APPLITOOLS_APP_NAME";
     // Address used by the framework to contact Selenium/Appium. It is set to LOCAL_ADDRESS or SAUCE_ADDRESS depending
     // whether the test is run on SauceLabs or locally.
     // SHOULD NOT BE SET EVER AT ALL
@@ -117,6 +126,9 @@ public class PropertiesModule extends AbstractModule {
             put(SWIPE_QUANTITY, "5");
             put(TEAM_CITY_INTEGRATION, "false");
             put(ALLURE_INTEGRATION, "false");
+            put(APPLITOOLS_INTEGRATION, "false");
+            put(APPLITOOLS_KEY, "");
+            put(APPLITOOLS_APP_NAME, "");
             put(SLACK_INTEGRATION, "false");
             put(SLACK_BOT_TOKEN, "");
             put(SLACK_DIGEST_CHANNEL, "");

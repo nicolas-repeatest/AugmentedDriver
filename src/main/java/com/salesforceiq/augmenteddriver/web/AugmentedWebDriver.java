@@ -1,5 +1,6 @@
 package com.salesforceiq.augmenteddriver.web;
 
+import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyes;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
@@ -19,7 +20,7 @@ import java.net.URL;
 public class AugmentedWebDriver extends RemoteWebDriver {
 
     private AugmentedWebFunctions augmentedFunctions;
-
+    private AugmentedEyes augmentedEyes;
     /**
      * Extensive Constructor.
      *
@@ -42,6 +43,15 @@ public class AugmentedWebDriver extends RemoteWebDriver {
     }
 
     /**
+     * The augmented eyes for the whole driver
+     *
+     * @return the AugmentedEyes
+     */
+    public AugmentedEyes eyes() {
+        return augmentedEyes;
+    }
+
+    /**
      * Sets the AugmentedFunction for the session.
      *
      * <p>
@@ -51,5 +61,17 @@ public class AugmentedWebDriver extends RemoteWebDriver {
      */
     public void setAugmentedFunctions(AugmentedWebFunctions augmentedFunctions) {
         this.augmentedFunctions = augmentedFunctions;
+    }
+
+    /**
+     * Sets the AugmentedEyes for the session.
+     *
+     * <p>
+     *     SHOULD NOT BE USED OUTSIDE THE SETUP FOR THE BASE WEB TESTCASE.
+     * </p>
+     * @param augmentedEyes sthe functions to use.
+     */
+    public void setAugmentedEyes(AugmentedEyes augmentedEyes) {
+        this.augmentedEyes = augmentedEyes;
     }
 }

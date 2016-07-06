@@ -28,7 +28,7 @@ public class AugmentedEyesImpl implements AugmentedEyes {
             }
             return eyes;
         } else {
-            throw new IllegalStateException("Applitools Integration is not enableed");
+            throw new IllegalStateException("Applitools Integration is not enabled");
         }
     }
 }

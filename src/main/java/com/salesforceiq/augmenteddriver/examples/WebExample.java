@@ -22,6 +22,7 @@ public class WebExample extends AugmentedWebTestCase {
                 .eyes()
                 .instance()
                 .checkWindow(5000, "Main Page");
+        
         driver()
                 .augmented()
                 .findElementClickable(By.id("searchInput"))

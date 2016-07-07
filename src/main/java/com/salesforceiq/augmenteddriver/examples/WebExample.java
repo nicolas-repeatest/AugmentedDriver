@@ -21,17 +21,16 @@ public class WebExample extends AugmentedWebTestCase {
         driver()
                 .eyes()
                 .instance()
-                .checkWindow(5000, "Main Page");
+                .checkWindow("Main Page");
         
         driver()
                 .augmented()
                 .findElementClickable(By.id("searchInput"))
                 .sendKeys("WebDriver");
-        Util.pause(5000);
         driver()
                 .eyes()
                 .instance()
-                .checkWindow(5000, "Search");
+                .checkWindow("Search");
         driver()
                 .augmented()
                 .findElementsVisible(By.className("suggestion-link"))
@@ -43,7 +42,7 @@ public class WebExample extends AugmentedWebTestCase {
         driver()
                 .eyes()
                 .instance()
-                .checkWindow(5000, "WebDriver Wiki");
+                .checkWindow("WebDriver Wiki");
     }
 
     @Test

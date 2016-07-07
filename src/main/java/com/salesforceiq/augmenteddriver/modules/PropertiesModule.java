@@ -57,6 +57,9 @@ public class PropertiesModule extends AbstractModule {
     // Name for the Eyes on applitools.
     // Default empty
     public static final String APPLITOOLS_APP_NAME = "APPLITOOLS_APP_NAME";
+    // How much time in seconds to wait until the screenshot matches.
+    // Default is 5 seconds.
+    public static final String APPLITOOLS_MATCH_TIMEOUT_IN_SECONDS = "APPLITOOLS_MATCH_TIMEOUT_IN_SECONDS";
     // Address used by the framework to contact Selenium/Appium. It is set to LOCAL_ADDRESS or SAUCE_ADDRESS depending
     // whether the test is run on SauceLabs or locally.
     // SHOULD NOT BE SET EVER AT ALL
@@ -129,6 +132,7 @@ public class PropertiesModule extends AbstractModule {
             put(APPLITOOLS_INTEGRATION, "false");
             put(APPLITOOLS_KEY, "");
             put(APPLITOOLS_APP_NAME, "");
+            put(APPLITOOLS_MATCH_TIMEOUT_IN_SECONDS, "5");
             put(SLACK_INTEGRATION, "false");
             put(SLACK_BOT_TOKEN, "");
             put(SLACK_DIGEST_CHANNEL, "");

@@ -41,6 +41,10 @@ public class AppliToolsWebDriverIntegration implements Integration {
         return Preconditions.checkNotNull(eyes, "Applitools should be initialized first");
     }
 
+    public boolean isInitialized() {
+        return eyes != null;
+    }
+
     public Eyes initialize(String testName) {
         if (isEnabled()) {
             if (eyes == null) {

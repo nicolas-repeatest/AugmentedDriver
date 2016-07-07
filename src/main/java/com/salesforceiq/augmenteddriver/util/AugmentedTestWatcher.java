@@ -33,7 +33,7 @@ public class AugmentedTestWatcher<T extends AugmentedProvider<? extends RemoteWe
             if (integrationFactory.allure().isEnabled() && driverProvider.get().getSessionId() != null) {
                 takeScrenshoot();
             }
-            if (integrationFactory.appliTools().isEnabled()) {
+            if (integrationFactory.appliTools().isEnabled() && integrationFactory.appliTools().isInitialized()) {
                 integrationFactory.appliTools().getEyes().abortIfNotClosed();
             }
             driverProvider.get().quit();
@@ -43,7 +43,7 @@ public class AugmentedTestWatcher<T extends AugmentedProvider<? extends RemoteWe
     @Override
     protected void succeeded(Description description) {
         if (driverProvider.isInitialized()) {
-            if (integrationFactory.appliTools().isEnabled()) {
+            if (integrationFactory.appliTools().isEnabled() && integrationFactory.appliTools().isInitialized()) {
                 integrationFactory.appliTools().getEyes().close();
             }
             driverProvider.get().quit();

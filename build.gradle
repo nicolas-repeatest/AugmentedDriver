@@ -23,7 +23,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.6.3"
+version = "1.6.4"
 
 // To enable Steps and Arguments on AllureReport
 tasks.withType(JavaExec) { jvmArgs "-javaagent:./allure/aspectjweaver.jar" }
@@ -65,6 +65,7 @@ jar {
             it.isDirectory() ? it : zipTree(it)
         }
     }
+    exclude 'META-INF/*.RSA', 'META-INF/*.SF','META-INF/*.DSA' 
     baseName = 'AugmentedDriver'
     version = '0.1'
 }

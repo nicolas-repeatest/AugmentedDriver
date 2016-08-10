@@ -7,6 +7,7 @@ import com.google.inject.Provider;
 import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.web.AugmentedWebDriver;
+import com.salesforceiq.augmenteddriver.web.AugmentedWebDriverProvider;
 
 public class AppliToolsWebDriverIntegration implements Integration {
 
@@ -23,7 +24,7 @@ public class AppliToolsWebDriverIntegration implements Integration {
             @Named(PropertiesModule.APPLITOOLS_APP_NAME) String applitoolsAppName,
             @Named(PropertiesModule.APPLITOOLS_MATCH_TIMEOUT_IN_SECONDS) String matchTimeoutInSeconds,
             @Named(PropertiesModule.APPLITOOLS_KEY) String applitoolsKey,
-            Provider<AugmentedWebDriver> driverProvider) {
+            AugmentedWebDriverProvider driverProvider) {
         this.enabled = Boolean.valueOf(Preconditions.checkNotNull(applitoolsIntegration));
         this.applitoolsKey = Preconditions.checkNotNull(applitoolsKey);
         this.applitoolsAppName = Preconditions.checkNotNull(applitoolsAppName);

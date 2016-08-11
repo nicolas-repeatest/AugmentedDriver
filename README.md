@@ -8,7 +8,7 @@ Also, for more detailed information, the [Wiki](https://github.com/relateiq/Augm
 
 ***
 
-Last stable release: 1.5.4
+Last stable release: [1.5.4](http://search.maven.org/#artifactdetails%7Ccom.salesforceiq.augmenteddriver%7CAugmentedDriver%7C1.5.4%7Cjar)
 
 1.6.0 Introduces Applitools Integration, but I am having issues with signature.
 

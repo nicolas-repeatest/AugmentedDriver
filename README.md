@@ -6,12 +6,6 @@ Check [our 5 Minute Tutorial](http://augmenteddriver.salesforceiq.com/#what-is-a
 
 Also, for more detailed information, the [Wiki](https://github.com/relateiq/AugmentedDriver/wiki/The-Basics) is available  
 
-***
-
-Last stable release: [1.5.4](http://search.maven.org/#artifactdetails%7Ccom.salesforceiq.augmenteddriver%7CAugmentedDriver%7C1.5.4%7Cjar)
-
-1.6.0 Introduces Applitools Integration, but I am having issues with signature.
-
 *** 
 
 The whole framework aims to simplify 3 aspects of writing JAVA E2E tests using WebDriver/Appium:

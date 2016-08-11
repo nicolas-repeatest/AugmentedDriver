@@ -156,13 +156,6 @@ public class AugmentedWebTestCase extends AugmentedBaseTestCase implements WebPa
         }
     }
 
-    @After
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-
     @Override
     public PageObjectWaiter waiter() {
         return Preconditions.checkNotNull(webPageObjectActions.waiter());

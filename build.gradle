@@ -5,7 +5,6 @@ apply plugin: 'maven-publish'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
-
 repositories {
     mavenCentral()
     maven { url "https://jitpack.io" }
@@ -23,7 +22,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.6.4"
+version = "1.6.6"
 
 // To enable Steps and Arguments on AllureReport
 tasks.withType(JavaExec) { jvmArgs "-javaagent:./allure/aspectjweaver.jar" }

@@ -8,27 +8,29 @@ import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.mobile.ios.*;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriver;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriverProvider;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSElement;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctions;
+import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSFunctionsFactory;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageContainerObject;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObject;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActions;
 import com.salesforceiq.augmenteddriver.mobile.ios.pageobjects.IOSPageObjectActionsInterface;
 import com.salesforceiq.augmenteddriver.modules.AugmentedIOSDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.*;
-import com.salesforceiq.augmenteddriver.web.AugmentedWebDriverProvider;
+import com.salesforceiq.augmenteddriver.util.AugmentedTestWatcher;
+import com.salesforceiq.augmenteddriver.util.PageObject;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
+import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
-import org.junit.rules.TestWatcher;
-import org.junit.runner.Description;
 import org.openqa.selenium.By;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ru.yandex.qatools.allure.annotations.Attachment;
 
 import java.net.MalformedURLException;
 
@@ -101,7 +103,8 @@ public class AugmentedIOSTestCase extends AugmentedBaseTestCase implements IOSPa
         augmentedIOSDriverProvider.initialize(driver);
         LOG.info("AugmentedIOSDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
-        sessionId = driver.getSessionId().toString();
+        String sessionId = driver.getSessionId().toString();
+        setSessionId(sessionId);
         if (integrations.sauceLabs().isEnabled()) {
             integrations.sauceLabs().jobName(getFullTestName(), sessionId);
             integrations.sauceLabs().buildName(getUniqueId(), sessionId);

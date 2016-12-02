@@ -8,15 +8,22 @@ import com.google.inject.name.Named;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssert;
 import com.salesforceiq.augmenteddriver.guice.GuiceModules;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
-import com.salesforceiq.augmenteddriver.mobile.android.*;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriver;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidDriverProvider;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidElement;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctions;
+import com.salesforceiq.augmenteddriver.mobile.android.AugmentedAndroidFunctionsFactory;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageContainerObject;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObject;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActions;
 import com.salesforceiq.augmenteddriver.mobile.android.pageobjects.AndroidPageObjectActionsInterface;
-import com.salesforceiq.augmenteddriver.mobile.ios.AugmentedIOSDriverProvider;
 import com.salesforceiq.augmenteddriver.modules.AugmentedAndroidDriverModule;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
-import com.salesforceiq.augmenteddriver.util.*;
+import com.salesforceiq.augmenteddriver.util.AugmentedTestWatcher;
+import com.salesforceiq.augmenteddriver.util.PageObject;
+import com.salesforceiq.augmenteddriver.util.PageObjectWaiter;
+import com.salesforceiq.augmenteddriver.util.TestRunnerConfig;
+import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
@@ -97,7 +104,8 @@ public class AugmentedAndroidTestCase extends AugmentedBaseTestCase implements A
         augmentedAndroidDriverProvider.initialize(driver);
         LOG.info("AugmentedAndroidDriver created in " + Util.TO_PRETTY_FORMAT.apply(System.currentTimeMillis() - start));
 
-        sessionId = driver.getSessionId().toString();
+        String sessionId = driver.getSessionId().toString();
+        setSessionId(sessionId);
         if (integrations.sauceLabs().isEnabled()) {
             integrations.sauceLabs().jobName(getFullTestName(), sessionId);
             integrations.sauceLabs().buildName(getUniqueId(), sessionId);

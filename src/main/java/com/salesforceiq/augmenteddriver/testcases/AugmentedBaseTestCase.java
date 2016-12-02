@@ -4,17 +4,22 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
-import com.salesforceiq.augmenteddriver.runners.TestRunnerRetryingRule;
 import com.salesforceiq.augmenteddriver.asserts.AugmentedAssertInterface;
 import com.salesforceiq.augmenteddriver.guice.GuiceTestRunner;
 import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
+import com.salesforceiq.augmenteddriver.runners.TestRunnerRetryingRule;
 import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.Rule;
 import org.junit.rules.TestName;
 import org.junit.rules.TestWatcher;
 import org.junit.runner.Description;
 import org.junit.runner.RunWith;
+
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import java.util.function.Supplier;
 
 /**
  * Base Test Case for all tests.
@@ -71,7 +76,24 @@ public abstract class AugmentedBaseTestCase implements AugmentedAssertInterface 
     /**
      * Hack, but there is no way to get the session Id in other way.
      */
-    protected String sessionId;
+    private String sessionId;
+
+    protected void setSessionId(String sessionId) {
+        Preconditions.checkArgument(!Strings.isNullOrEmpty(sessionId));
+        this.sessionId = sessionId;
+    }
+
+    /**
+     * @return returns the Selenium Session Id if the test has been initialized, other wise returns an empty optional.
+     */
+    public Future<Optional<String>> sessionId() {
+        return CompletableFuture.supplyAsync(new Supplier<Optional<String>>() {
+            @Override
+            public Optional<String> get() {
+                return (Strings.isNullOrEmpty(sessionId)) ? Optional.empty() : Optional.of(sessionId);
+            }
+        });
+    }
 
     /**
      * Rule for executing code after the test finished, whether it failed or not.

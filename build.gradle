@@ -32,6 +32,15 @@ artifacts {
 }
 
 dependencies {
+    def withoutLog = {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+        exclude group: 'ch.qos.logback', module: 'logback-core'
+        exclude group: 'org.slf4j', module: 'log4j-over-slf4j'
+        exclude group: 'org.slf4j', module: 'jul-to-slf4j'
+        exclude group: 'org.slf4j', module: 'jcl-over-slf4j'
+    }
+
     compile fileTree(dir: 'libs', include: '*.jar')
     
     compile 'com.google.guava:guava:19.0'
@@ -48,16 +57,10 @@ dependencies {
 
     // For ALLURE
     compile 'org.aspectj:aspectjweaver:1.8.8'
-    compile ('ru.yandex.qatools.allure:allure-junit-adaptor:1.4.20') {
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-        exclude group: 'ch.qos.logback', module: 'logback-classic'
-    }
+    compile 'ru.yandex.qatools.allure:allure-junit-adaptor:1.4.20', withoutLog
 
     // For SLACK
-    compile ('com.ullink.slack:simpleslackapi:0.6.0') {
-        exclude group: 'org.slf4j', module: 'slf4j-api'
-        exclude group: 'ch.qos.logback', module: 'logback-classic'
-    }
+    compile 'com.ullink.slack:simpleslackapi:0.6.0', withoutLog
 }
 
 

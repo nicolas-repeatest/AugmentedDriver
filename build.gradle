@@ -22,7 +22,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.7.2"
+version = "1.7.3"
 
 // To enable Steps and Arguments on AllureReport
 tasks.withType(JavaExec) { jvmArgs "-javaagent:./allure/aspectjweaver.jar" }
@@ -37,6 +37,7 @@ dependencies {
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
     compile 'org.seleniumhq.selenium:selenium-java:3.1.0'
+    compile 'org.slf4j:slf4j-api:1.7.25'
     compile 'junit:junit:4.12'
     compile 'com.beust:jcommander:1.48'
     compile 'com.esotericsoftware.yamlbeans:yamlbeans:1.09'
@@ -46,10 +47,16 @@ dependencies {
 
     // For ALLURE
     compile 'org.aspectj:aspectjweaver:1.8.8'
-    compile 'ru.yandex.qatools.allure:allure-junit-adaptor:1.4.20'
+    compile ('ru.yandex.qatools.allure:allure-junit-adaptor:1.4.20') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
 
     // For SLACK
-    compile 'com.ullink.slack:simpleslackapi:0.6.0'
+    compile ('com.ullink.slack:simpleslackapi:0.6.0') {
+        exclude group: 'org.slf4j', module: 'slf4j-api'
+        exclude group: 'ch.qos.logback', module: 'logback-classic'
+    }
 }
 
 

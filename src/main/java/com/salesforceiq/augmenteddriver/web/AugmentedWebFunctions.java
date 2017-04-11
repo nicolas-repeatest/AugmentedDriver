@@ -1,6 +1,5 @@
 package com.salesforceiq.augmenteddriver.web;
 
-import com.applitools.eyes.Eyes;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Strings;
 import com.google.inject.Inject;
@@ -10,8 +9,10 @@ import com.salesforceiq.augmenteddriver.integrations.IntegrationFactory;
 import com.salesforceiq.augmenteddriver.modules.PropertiesModule;
 import com.salesforceiq.augmenteddriver.util.AugmentedFunctions;
 import com.salesforceiq.augmenteddriver.util.WebDriverUtil;
-import com.salesforceiq.augmenteddriver.web.applitools.AugmentedEyes;
-import org.openqa.selenium.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.SearchContext;
+import org.openqa.selenium.TimeoutException;
 
 import java.util.List;
 import java.util.stream.Collectors;

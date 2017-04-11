@@ -1,9 +1,7 @@
 package com.salesforceiq.augmenteddriver.examples;
 
-import com.applitools.eyes.Eyes;
 import com.salesforceiq.augmenteddriver.testcases.AugmentedWebTestCase;
 import com.salesforceiq.augmenteddriver.util.Suites;
-import com.salesforceiq.augmenteddriver.util.Util;
 import org.junit.Assert;
 import org.junit.Test;
 import org.openqa.selenium.By;
@@ -18,19 +16,11 @@ public class WebExample extends AugmentedWebTestCase {
     @Title("Successful Test")
     public void testSucceed() {
         driver().get("https://www.wikipedia.org/");
-        driver()
-                .eyes()
-                .instance()
-                .checkWindow("Main Page");
-        
+
         driver()
                 .augmented()
                 .findElementClickable(By.id("searchInput"))
                 .sendKeys("WebDriver");
-        driver()
-                .eyes()
-                .instance()
-                .checkWindow("Search");
         driver()
                 .augmented()
                 .findElementsVisible(By.className("suggestion-link"))
@@ -39,10 +29,6 @@ public class WebExample extends AugmentedWebTestCase {
         driver()
                 .augmented()
                 .findElementVisible(By.id("firstHeading"));
-        driver()
-                .eyes()
-                .instance()
-                .checkWindow("WebDriver Wiki");
     }
 
     @Test

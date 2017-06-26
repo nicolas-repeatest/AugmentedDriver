@@ -72,7 +72,6 @@ public class YamlCapabilitiesConverter {
         FIREFOX(DesiredCapabilities.firefox()),
         EDGE(DesiredCapabilities.edge()),
         HTMLUNIT(DesiredCapabilities.htmlUnit()),
-        HTMLUNITWITHJS(DesiredCapabilities.htmlUnitWithJs()),
         INTERNETEXPLORER(DesiredCapabilities.internetExplorer()),
         IPAD(DesiredCapabilities.ipad()),
         IPHONE(DesiredCapabilities.iphone()),

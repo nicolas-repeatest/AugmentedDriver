@@ -22,7 +22,7 @@ task sourcesJar(type: Jar) {
 
 group = "com.salesforceiq.augmenteddriver"
 archivesBaseName = "augmenteddriver"
-version = "1.7.6"
+version = "1.8.0"
 
 // To enable Steps and Arguments on AllureReport
 tasks.withType(JavaExec) { jvmArgs "-javaagent:./allure/aspectjweaver.jar" }
@@ -45,7 +45,7 @@ dependencies {
     
     compile 'com.google.guava:guava:19.0'
     compile 'com.google.inject.extensions:guice-assistedinject:4.0'
-    compile 'org.seleniumhq.selenium:selenium-java:3.4.0'
+    compile 'org.seleniumhq.selenium:selenium-java:3.7.1'
     compile 'org.slf4j:slf4j-api:1.7.24'
     compile 'ch.qos.logback:logback-classic:1.2.1'
     compile 'junit:junit:4.12'

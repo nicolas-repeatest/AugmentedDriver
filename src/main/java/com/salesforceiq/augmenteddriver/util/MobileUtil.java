@@ -2,9 +2,12 @@ package com.salesforceiq.augmenteddriver.util;
 
 import com.google.common.base.Preconditions;
 import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.TouchAction;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebElement;
+
+import java.time.Duration;
 
 /**
  * Common utilities for IOS and Android.
@@ -33,8 +36,12 @@ public class MobileUtil {
         Preconditions.checkNotNull(augmentedFunctions);
         Preconditions.checkNotNull(by);
 
+
+
         WebElement element = augmentedFunctions.findElementPresentAfter(by, waitTimeInSeconds);
-        driver.tap(fingers, element.getLocation().getX() + offsetX, element.getLocation().getY() + offsetY, pressInMilliSeconds);
+        new TouchAction(driver)
+                .longPress(element.getLocation().getX() + offsetX, element.getLocation().getY() + offsetY, Duration.ofMillis(pressInMilliSeconds))
+                .perform();
         return element;
     }
 
@@ -162,7 +169,12 @@ public class MobileUtil {
         int x = elementPresent.getLocation().getX() + elementPresent.getSize().getWidth() / 2;
         int y = elementPresent.getLocation().getY() + elementPresent.getSize().getHeight() /  2;
         int swipe = getVerticalOffset(driver, y, offset);
-        driver.swipe(x, y, x, swipe, durationInMilliSeconds);
+        new TouchAction(driver)
+                .press(x, y)
+                .waitAction(Duration.ofMillis(durationInMilliSeconds))
+                .moveTo(x, swipe)
+                .release()
+                .perform();
     }
 
     /**
@@ -202,7 +214,12 @@ public class MobileUtil {
         int swipe = getVerticalOffset(driver, y, offset);
 
         for(int iteration = 0; iteration < quantity; iteration++) {
-            driver.swipe(x, y, x, swipe, durationInMilliSeconds);
+            new TouchAction(driver)
+                    .press(x, y)
+                    .waitAction(Duration.ofMillis(durationInMilliSeconds))
+                    .moveTo(x, swipe)
+                    .release()
+                    .perform();
             if (augmentedFunctions.isElementVisibleAfter(elementVisible, 3)) {
                 return augmentedFunctions.findElementVisible(elementVisible);
             }
@@ -232,7 +249,12 @@ public class MobileUtil {
         int to = size.getWidth() * 85 / 100;
         int from = size.getWidth() * 15 / 100;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
-        driver.swipe(from, y, to, y, pressInMilliSeconds);
+        new TouchAction(driver)
+                .press(from, y)
+                .waitAction(Duration.ofMillis(pressInMilliSeconds))
+                .moveTo(to, y)
+                .release()
+                .perform();
     }
 
     /**
@@ -256,7 +278,12 @@ public class MobileUtil {
         int from = size.getWidth() * 85 / 100;
         int to = size.getWidth() * 15 / 100;
         int y = element.getLocation().getY() + element.getSize().getHeight() / 2;
-        driver.swipe(from, y, to, y, pressInMilliSeconds);
+        new TouchAction(driver)
+                .press(from, y)
+                .waitAction(Duration.ofMillis(pressInMilliSeconds))
+                .moveTo(to, y)
+                .release()
+                .perform();
     }
 
     /**
